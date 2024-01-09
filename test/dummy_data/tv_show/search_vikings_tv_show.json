@@ -1,0 +1,30 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/lHe8iwM4Cdm6RSEiara4PN8ZcBd.jpg",
+      "id": 44217,
+      "name": "Vikings",
+      "original_language": "en",
+      "original_name": "Vikings",
+      "overview": "The adventures of Ragnar Lothbrok, the greatest hero of his age. The series tells the sagas of Ragnar's band of Viking brothers and his family, as he rises to become King of the Viking tribes. As well as being a fearless warrior, Ragnar embodies the Norse traditions of devotion to the gods. Legend has it that he was a direct descendant of Odin, the god of war and warriors.",
+      "poster_path": "/bQLrHIRNEkE3PdIWQrZHynQZazu.jpg",
+      "media_type": "tv",
+      "genre_ids": [
+        10759,
+        18,
+        10768
+      ],
+      "popularity": 323.222,
+      "first_air_date": "2013-03-03",
+      "vote_average": 8.079,
+      "vote_count": 6130,
+      "origin_country": [
+        "CA"
+      ]
+    }
+  ],
+  "total_pages": 4,
+  "total_results": 62
+}
