@@ -21,6 +21,7 @@ class Movie extends Equatable {
     required this.id,
     required this.overview,
     required this.posterPath,
+    required this.voteAverage,
     required this.title,
   });
 

@@ -36,13 +36,17 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY,
         title TEXT,
         overview TEXT,
-        posterPath TEXT
+        posterPath TEXT,
+        voteAverage REAL,
+        isMovie INTEGER 
       );
     ''');
   }
 
   Future<int> insertWatchlist(MovieTable movie) async {
     final db = await database;
+    print("db.insertWatchlist ${movie.isMovie}");
+    print("db.insertWatchlist ${movie.toJson()}");
     return await db!.insert(_tblWatchlist, movie.toJson());
   }
 
@@ -59,7 +63,22 @@ class DatabaseHelper {
     final db = await database;
     final results = await db!.query(
       _tblWatchlist,
-      where: 'id = ?',
+      where: 'id = ? AND isMovie = 1',
+      whereArgs: [id],
+    );
+
+    if (results.isNotEmpty) {
+      return results.first;
+    } else {
+      return null;
+    }
+  }
+
+  Future<Map<String, dynamic>?> getTvShowById(int id) async {
+    final db = await database;
+    final results = await db!.query(
+      _tblWatchlist,
+      where: 'id = ? AND isMovie = 0',
       whereArgs: [id],
     );
 
@@ -71,6 +90,28 @@ class DatabaseHelper {
   }
 
   Future<List<Map<String, dynamic>>> getWatchlistMovies() async {
+    final db = await database;
+    final List<Map<String, dynamic>> results = await db!.query(
+      _tblWatchlist,
+      where: 'isMovie = ?',
+      whereArgs: [1],
+    );
+
+    return results;
+  }
+
+  Future<List<Map<String, dynamic>>> getWatchlistTvShows() async {
+    final db = await database;
+    final List<Map<String, dynamic>> results = await db!.query(
+        _tblWatchlist,
+        where: 'isMovie = ?',
+        whereArgs: [0],
+    );
+
+    return results;
+  }
+
+  Future<List<Map<String, dynamic>>> getAllWatchlist() async {
     final db = await database;
     final List<Map<String, dynamic>> results = await db!.query(_tblWatchlist);
 

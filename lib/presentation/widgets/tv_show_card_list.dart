@@ -1,14 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/presentation/pages/movie_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class MovieCard extends StatelessWidget {
-  final Movie movie;
+import '../../domain/entities/tv_show/tv_show.dart';
+import '../pages/tv_show_detail_page.dart';
 
-  MovieCard(this.movie);
+class TvShowCard extends StatelessWidget {
+  final TvShow tvShow;
+
+  TvShowCard(this.tvShow);
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +19,8 @@ class MovieCard extends StatelessWidget {
         onTap: () {
           Navigator.pushNamed(
             context,
-            MovieDetailPage.ROUTE_NAME,
-            arguments: movie.id,
+            TvShowDetailPage.ROUTE_NAME,
+            arguments: tvShow.id,
           );
         },
         child: Stack(
@@ -36,28 +37,28 @@ class MovieCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      movie.title ?? '-',
+                      tvShow.name ?? '-',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: kHeading6,
                     ),
                     SizedBox(height: 16),
                     Row(
-                        children: [
-                          RatingBarIndicator(
-                            rating: (movie.voteAverage ?? 0.0) / 2,
-                            itemCount: 5,
-                            itemBuilder: (context, index) => Icon(
-                              Icons.star,
-                              color: kMikadoYellow,
-                            ),
-                            itemSize: 24,
-                          ),
-                          Text('${movie.voteAverage?.toStringAsFixed(1)}')
-                        ]),
+                      children: [
+                        RatingBarIndicator(
+                          rating: (tvShow.voteAverage ?? 0.0) / 2,
+                          itemCount: 5,
+                          itemBuilder: (context, index) => Icon(
+                            Icons.star,
+                            color: kMikadoYellow,
+                        ),
+                      itemSize: 24,
+                    ),
+                        Text('${tvShow.voteAverage?.toStringAsFixed(1)}')
+                    ]),
                     SizedBox(height: 16),
                     Text(
-                      movie.overview ?? '-',
+                      tvShow.overview ?? '-',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -72,7 +73,7 @@ class MovieCard extends StatelessWidget {
               ),
               child: ClipRRect(
                 child: CachedNetworkImage(
-                  imageUrl: '$BASE_IMAGE_URL${movie.posterPath}',
+                  imageUrl: '$BASE_IMAGE_URL${tvShow.posterPath}',
                   width: 80,
                   placeholder: (context, url) => Center(
                     child: CircularProgressIndicator(),
