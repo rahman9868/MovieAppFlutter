@@ -166,3 +166,19 @@ final testEpisodesMap = {
         voteCount: 5)
   ]
 };
+
+final testEpisodesList = [
+  Episode(
+      airDate: "2023-01-10",
+      episodeNumber: 2,
+      id: 1,
+      name: "Episode 1",
+      overview: "Overview",
+      productionCode: "ProductionCode",
+      runtime: 10,
+      seasonNumber: 1,
+      showId: 10,
+      stillPath: "StillPath",
+      voteAverage: 7.2,
+      voteCount: 5)
+];
