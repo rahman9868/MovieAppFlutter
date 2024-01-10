@@ -1,4 +1,6 @@
-class Episode {
+import 'package:ditonton/domain/entities/tv_show/episode.dart';
+
+class EpisodeModel {
   final String? airDate;
   final int? episodeNumber;
   final int id;
@@ -12,7 +14,7 @@ class Episode {
   final double? voteAverage;
   final int? voteCount;
 
-  Episode({
+  EpisodeModel({
     required this.airDate,
     required this.episodeNumber,
     required this.id,
@@ -27,8 +29,8 @@ class Episode {
     required this.voteCount,
   });
 
-  factory Episode.fromJson(Map<String, dynamic> json) {
-    return Episode(
+  factory EpisodeModel.fromJson(Map<String, dynamic> json) {
+    return EpisodeModel(
       airDate: json['air_date'],
       episodeNumber: json['episode_number'],
       id: json['id'],
@@ -43,4 +45,19 @@ class Episode {
       voteCount: json['vote_count'],
     );
   }
+
+  Episode toEntity() => Episode(
+      airDate: airDate,
+      episodeNumber: episodeNumber,
+      id: id,
+      name: name,
+      overview: overview,
+      productionCode: productionCode,
+      runtime: runtime,
+      seasonNumber: seasonNumber,
+      showId: showId,
+      stillPath: stillPath,
+      voteAverage: voteAverage,
+      voteCount: voteCount
+  );
 }

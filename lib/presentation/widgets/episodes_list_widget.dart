@@ -1,6 +1,5 @@
+import 'package:ditonton/domain/entities/tv_show/episode.dart';
 import 'package:flutter/material.dart';
-
-import '../../data/models/tv_show/tv_show_episode_model.dart';
 
 class EpisodesList extends StatelessWidget {
   final List<Episode> episodes;

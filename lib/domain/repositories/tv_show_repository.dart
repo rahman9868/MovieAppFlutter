@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:ditonton/common/failure.dart';
+import '../entities/tv_show/episode.dart';
 
-import '../../data/models/tv_show/tv_show_episode_model.dart';
 import '../entities/tv_show/tv_show.dart';
 import '../entities/tv_show/tv_show_detail.dart';
 

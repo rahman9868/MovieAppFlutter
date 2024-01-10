@@ -1,7 +1,7 @@
-import 'package:ditonton/data/models/tv_show/tv_show_seasons_model.dart';
 import 'package:equatable/equatable.dart';
 
 import '../genre.dart';
+import 'season.dart';
 
 class TvShowDetail extends Equatable {
   final bool adult;

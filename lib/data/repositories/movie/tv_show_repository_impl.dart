@@ -4,8 +4,8 @@ import 'package:dartz/dartz.dart';
 import 'package:ditonton/common/exception.dart';
 import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/data/datasources/tv_show_local_data_source.dart';
-import 'package:ditonton/data/models/tv_show/tv_show_episode_model.dart';
 
+import '../../../domain/entities/tv_show/episode.dart';
 import '../../../domain/entities/tv_show/tv_show.dart';
 import '../../../domain/entities/tv_show/tv_show_detail.dart';
 import '../../../domain/repositories/tv_show_repository.dart';
@@ -135,7 +135,7 @@ class TvShowRepositoryImpl implements TvShowRepository {
       int id, int seasonNumber) async {
     try {
       final result = await remoteDataSource.getEpisodes(id, seasonNumber);
-      return Right(result);
+      return Right(result.map((data) => data.toEntity()).toList());
     } on ServerException {
       return Left(ServerFailure('ServerException'));
     } on SocketException {

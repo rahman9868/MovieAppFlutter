@@ -211,7 +211,7 @@ void main() {
         posterPath: "/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg",
         status: "Ended",
         seasons: [
-          Season(
+          SeasonModel(
               airDate: "2019-05-19",
               episodeCount: 1,
               id: 1,

@@ -4,17 +4,17 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i7;
-import 'dart:convert' as _i25;
-import 'dart:typed_data' as _i26;
+import 'dart:convert' as _i26;
+import 'dart:typed_data' as _i27;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:ditonton/common/failure.dart' as _i8;
-import 'package:ditonton/data/datasources/db/database_helper.dart' as _i23;
+import 'package:ditonton/data/datasources/db/database_helper.dart' as _i24;
 import 'package:ditonton/data/datasources/movie_local_data_source.dart' as _i13;
 import 'package:ditonton/data/datasources/movie_remote_data_source.dart'
     as _i11;
 import 'package:ditonton/data/datasources/tv_show_local_data_source.dart'
-    as _i22;
+    as _i23;
 import 'package:ditonton/data/datasources/tv_show_remote_data_source.dart'
     as _i20;
 import 'package:ditonton/data/models/movie/movie_detail_model.dart' as _i3;
@@ -22,10 +22,11 @@ import 'package:ditonton/data/models/movie/movie_model.dart' as _i12;
 import 'package:ditonton/data/models/movie/movie_table.dart' as _i14;
 import 'package:ditonton/data/models/tv_show/tv_show_detail_model.dart' as _i4;
 import 'package:ditonton/data/models/tv_show/tv_show_episode_model.dart'
-    as _i19;
+    as _i22;
 import 'package:ditonton/data/models/tv_show/tv_show_model.dart' as _i21;
 import 'package:ditonton/domain/entities/movie.dart' as _i9;
 import 'package:ditonton/domain/entities/movie_detail.dart' as _i10;
+import 'package:ditonton/domain/entities/tv_show/episode.dart' as _i19;
 import 'package:ditonton/domain/entities/tv_show/tv_show.dart' as _i17;
 import 'package:ditonton/domain/entities/tv_show/tv_show_detail.dart' as _i18;
 import 'package:ditonton/domain/repositories/movie_repository.dart' as _i6;
@@ -33,7 +34,7 @@ import 'package:ditonton/domain/repositories/tv_show_repository.dart' as _i16;
 import 'package:http/http.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i15;
-import 'package:sqflite/sqflite.dart' as _i24;
+import 'package:sqflite/sqflite.dart' as _i25;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -709,7 +710,7 @@ class MockTvShowRemoteDataSource extends _i1.Mock
       ) as _i7.Future<List<_i21.TvShowModel>>);
 
   @override
-  _i7.Future<List<_i19.Episode>> getEpisodes(
+  _i7.Future<List<_i22.EpisodeModel>> getEpisodes(
     int? id,
     int? seasonNumber,
   ) =>
@@ -721,15 +722,16 @@ class MockTvShowRemoteDataSource extends _i1.Mock
             seasonNumber,
           ],
         ),
-        returnValue: _i7.Future<List<_i19.Episode>>.value(<_i19.Episode>[]),
-      ) as _i7.Future<List<_i19.Episode>>);
+        returnValue:
+            _i7.Future<List<_i22.EpisodeModel>>.value(<_i22.EpisodeModel>[]),
+      ) as _i7.Future<List<_i22.EpisodeModel>>);
 }
 
 /// A class which mocks [TvShowLocalDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockTvShowLocalDataSource extends _i1.Mock
-    implements _i22.TvShowLocalDataSource {
+    implements _i23.TvShowLocalDataSource {
   MockTvShowLocalDataSource() {
     _i1.throwOnMissingStub(this);
   }
@@ -790,16 +792,16 @@ class MockTvShowLocalDataSource extends _i1.Mock
 /// A class which mocks [DatabaseHelper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDatabaseHelper extends _i1.Mock implements _i23.DatabaseHelper {
+class MockDatabaseHelper extends _i1.Mock implements _i24.DatabaseHelper {
   MockDatabaseHelper() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i7.Future<_i24.Database?> get database => (super.noSuchMethod(
+  _i7.Future<_i25.Database?> get database => (super.noSuchMethod(
         Invocation.getter(#database),
-        returnValue: _i7.Future<_i24.Database?>.value(),
-      ) as _i7.Future<_i24.Database?>);
+        returnValue: _i7.Future<_i25.Database?>.value(),
+      ) as _i7.Future<_i25.Database?>);
 
   @override
   _i7.Future<int> insertWatchlist(_i14.MovieTable? movie) =>
@@ -930,7 +932,7 @@ class MockHttpClient extends _i1.Mock implements _i5.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i25.Encoding? encoding,
+    _i26.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -961,7 +963,7 @@ class MockHttpClient extends _i1.Mock implements _i5.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i25.Encoding? encoding,
+    _i26.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -992,7 +994,7 @@ class MockHttpClient extends _i1.Mock implements _i5.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i25.Encoding? encoding,
+    _i26.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1023,7 +1025,7 @@ class MockHttpClient extends _i1.Mock implements _i5.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i25.Encoding? encoding,
+    _i26.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1071,7 +1073,7 @@ class MockHttpClient extends _i1.Mock implements _i5.Client {
       ) as _i7.Future<String>);
 
   @override
-  _i7.Future<_i26.Uint8List> readBytes(
+  _i7.Future<_i27.Uint8List> readBytes(
     Uri? url, {
     Map<String, String>? headers,
   }) =>
@@ -1081,8 +1083,8 @@ class MockHttpClient extends _i1.Mock implements _i5.Client {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i7.Future<_i26.Uint8List>.value(_i26.Uint8List(0)),
-      ) as _i7.Future<_i26.Uint8List>);
+        returnValue: _i7.Future<_i27.Uint8List>.value(_i27.Uint8List(0)),
+      ) as _i7.Future<_i27.Uint8List>);
 
   @override
   _i7.Future<_i5.StreamedResponse> send(_i5.BaseRequest? request) =>

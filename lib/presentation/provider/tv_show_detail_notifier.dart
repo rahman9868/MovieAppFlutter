@@ -6,7 +6,7 @@ import 'package:ditonton/domain/usecases/save_watchlist_tv_show.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../data/models/tv_show/tv_show_episode_model.dart';
+import '../../domain/entities/tv_show/episode.dart';
 import '../../domain/entities/tv_show/tv_show.dart';
 import '../../domain/entities/tv_show/tv_show_detail.dart';
 import '../../domain/usecases/get_tv_show_detail.dart';

@@ -25,7 +25,7 @@ class TvShowDetailResponse extends Equatable {
   final double popularity;
   final String posterPath;
   final String status;
-  final List<Season> seasons;
+  final List<SeasonModel> seasons;
   final String tagline;
   final String type;
   final double voteAverage;
@@ -83,8 +83,8 @@ class TvShowDetailResponse extends Equatable {
       popularity: json['popularity'],
       posterPath: json['poster_path'],
       status: json['status'],
-      seasons: List<Season>.from(
-        json['seasons'].map((season) => Season.fromJson(season)),
+      seasons: List<SeasonModel>.from(
+        json['seasons'].map((season) => SeasonModel.fromJson(season)),
       ),
       tagline: json['tagline'],
       type: json['type'],
@@ -115,7 +115,7 @@ class TvShowDetailResponse extends Equatable {
       popularity: popularity,
       posterPath: posterPath,
       status: status,
-      seasons: seasons,
+      seasons: this.seasons.map((season) => season.toEntity()).toList(),
       tagline: tagline,
       type: type,
       voteAverage: voteAverage,

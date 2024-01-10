@@ -7,8 +7,7 @@ import 'dart:async' as _i14;
 import 'dart:ui' as _i15;
 
 import 'package:ditonton/common/state_enum.dart' as _i10;
-import 'package:ditonton/data/models/tv_show/tv_show_episode_model.dart'
-    as _i13;
+import 'package:ditonton/domain/entities/tv_show/episode.dart' as _i13;
 import 'package:ditonton/domain/entities/tv_show/tv_show.dart' as _i11;
 import 'package:ditonton/domain/entities/tv_show/tv_show_detail.dart' as _i8;
 import 'package:ditonton/domain/usecases/get_tv_show_detail.dart' as _i2;

@@ -1,4 +1,6 @@
-class Season {
+import 'package:ditonton/domain/entities/tv_show/season.dart';
+
+class SeasonModel {
   final String? airDate;
   final int episodeCount;
   final int id;
@@ -8,7 +10,7 @@ class Season {
   final int seasonNumber;
   final double? voteAverage;
 
-  Season({
+  SeasonModel({
     required this.airDate,
     required this.episodeCount,
     required this.id,
@@ -19,8 +21,8 @@ class Season {
     required this.voteAverage,
   });
 
-  factory Season.fromJson(Map<String, dynamic> json) {
-    return Season(
+  factory SeasonModel.fromJson(Map<String, dynamic> json) {
+    return SeasonModel(
       airDate: json['air_date'],
       episodeCount: json['episode_count'],
       id: json['id'],
@@ -29,6 +31,19 @@ class Season {
       posterPath: json['poster_path'],
       seasonNumber: json['season_number'],
       voteAverage: json['vote_average'].toDouble(),
+    );
+  }
+
+  Season toEntity() {
+    return Season(
+        airDate: this.airDate,
+        episodeCount: this.episodeCount,
+        id: this.id,
+        name: this.name,
+        overview: this.overview,
+        posterPath: this.posterPath,
+        seasonNumber: this.seasonNumber,
+        voteAverage: this.voteAverage
     );
   }
 }

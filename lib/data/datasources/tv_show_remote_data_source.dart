@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:ditonton/common/exception.dart';
-import 'package:ditonton/data/models/tv_show/tv_show_epidsodes_response.dart';
-import 'package:ditonton/data/models/tv_show/tv_show_episode_model.dart';
+import '../models/tv_show/tv_show_epidsodes_response.dart';
+import '../models/tv_show/tv_show_episode_model.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/tv_show/tv_show_detail_model.dart';
@@ -22,7 +22,7 @@ abstract class TvShowRemoteDataSource {
 
   Future<List<TvShowModel>> searchTvShows(String query);
 
-  Future<List<Episode>> getEpisodes(int id, int seasonNumber);
+  Future<List<EpisodeModel>> getEpisodes(int id, int seasonNumber);
 }
 
 class TvShowRemoteDataSourceImpl implements TvShowRemoteDataSource {
@@ -105,7 +105,7 @@ class TvShowRemoteDataSourceImpl implements TvShowRemoteDataSource {
   }
 
   @override
-  Future<List<Episode>> getEpisodes(int id, int seasonNumber) async {
+  Future<List<EpisodeModel>> getEpisodes(int id, int seasonNumber) async {
     final response = await client
         .get(Uri.parse('$BASE_URL/tv/$id/season/$seasonNumber?$API_KEY'));
 
