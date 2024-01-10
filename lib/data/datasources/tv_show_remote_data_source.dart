@@ -113,8 +113,6 @@ class TvShowRemoteDataSourceImpl implements TvShowRemoteDataSource {
       return TvShowEpisodesResponse.fromJson(json.decode(response.body))
           .episodeList;
     } else {
-      print(
-          "Response error id $id seasonNumber $seasonNumber ${response.body}");
       throw ServerException();
     }
   }

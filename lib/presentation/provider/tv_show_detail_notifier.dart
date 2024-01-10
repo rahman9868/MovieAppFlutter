@@ -110,11 +110,9 @@ class TvShowDetailNotifier extends ChangeNotifier {
           (failure) {
             _episodeState = RequestState.Error;
             _message = failure.message;
-            print("failure ${failure.message}");
           },
           (episodes) {
             _episodesMap[seasonNumber] = episodes;
-            print("Episodes for season $seasonNumber: $episodes");
           },
         );
       }

@@ -43,7 +43,6 @@ class _SeasonsListState extends State<SeasonsList> {
                         key: (season) => season.seasonNumber,
                         value: (_) => false);
                   }
-                  print("isExpandedList assign ${isExpandedMap.values}");
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
