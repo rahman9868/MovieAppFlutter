@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/tv_show/tv_show.dart';
@@ -90,18 +89,18 @@ class TvShowModel extends Equatable {
 
   @override
   List<Object?> get props => [
-    backdropPath,
-    firstAirDate,
-    genreIds,
-    id,
-    name,
-    originCountry,
-    originalLanguage,
-    originalName,
-    overview,
-    popularity,
-    posterPath,
-    voteAverage,
-    voteCount,
-  ];
+        backdropPath,
+        firstAirDate,
+        genreIds,
+        id,
+        name,
+        originCountry,
+        originalLanguage,
+        originalName,
+        overview,
+        popularity,
+        posterPath,
+        voteAverage,
+        voteCount,
+      ];
 }

@@ -1,8 +1,4 @@
-import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/domain/usecases/get_now_playing_movies.dart';
 import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/domain/usecases/get_popular_movies.dart';
-import 'package:ditonton/domain/usecases/get_top_rated_movies.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/tv_show/tv_show.dart';
@@ -12,24 +8,31 @@ import '../../domain/usecases/get_top_rated_tv_shows.dart';
 
 class TvShowListNotifier extends ChangeNotifier {
   var _nowPlayingTvShows = <TvShow>[];
+
   List<TvShow> get nowPlayingTvShows => _nowPlayingTvShows;
 
   RequestState _nowPlayingState = RequestState.Empty;
+
   RequestState get nowPlayingState => _nowPlayingState;
 
   var _popularTvShows = <TvShow>[];
+
   List<TvShow> get popularTvShows => _popularTvShows;
 
   RequestState _popularTvShowsState = RequestState.Empty;
+
   RequestState get popularTvShowsState => _popularTvShowsState;
 
   var _topRatedTvShows = <TvShow>[];
+
   List<TvShow> get topRatedTvShows => _topRatedTvShows;
 
   RequestState _topRatedTvShowsState = RequestState.Empty;
+
   RequestState get topRatedTvShowsState => _topRatedTvShowsState;
 
   String _message = '';
+
   String get message => _message;
 
   TvShowListNotifier({
@@ -53,9 +56,9 @@ class TvShowListNotifier extends ChangeNotifier {
         _message = failure.message;
         notifyListeners();
       },
-      (moviesData) {
+      (tvShowsData) {
         _nowPlayingState = RequestState.Loaded;
-        _nowPlayingTvShows = moviesData;
+        _nowPlayingTvShows = tvShowsData;
         notifyListeners();
       },
     );
@@ -72,9 +75,9 @@ class TvShowListNotifier extends ChangeNotifier {
         _message = failure.message;
         notifyListeners();
       },
-      (moviesData) {
+      (tvShowsData) {
         _popularTvShowsState = RequestState.Loaded;
-        _popularTvShows = moviesData;
+        _popularTvShows = tvShowsData;
         notifyListeners();
       },
     );
@@ -91,9 +94,9 @@ class TvShowListNotifier extends ChangeNotifier {
         _message = failure.message;
         notifyListeners();
       },
-      (moviesData) {
+      (tvShowsData) {
         _topRatedTvShowsState = RequestState.Loaded;
-        _topRatedTvShows = moviesData;
+        _topRatedTvShows = tvShowsData;
         notifyListeners();
       },
     );

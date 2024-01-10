@@ -1,6 +1,4 @@
 import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/domain/usecases/get_top_rated_movies.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../domain/entities/tv_show/tv_show.dart';
@@ -12,12 +10,15 @@ class TopRatedTvShowsNotifier extends ChangeNotifier {
   TopRatedTvShowsNotifier({required this.getTopRatedTvShows});
 
   RequestState _state = RequestState.Empty;
+
   RequestState get state => _state;
 
-  List<TvShow> _movies = [];
-  List<TvShow> get movies => _movies;
+  List<TvShow> _tvShow = [];
+
+  List<TvShow> get tvShow => _tvShow;
 
   String _message = '';
+
   String get message => _message;
 
   Future<void> fetchTopRatedTvShows() async {
@@ -32,8 +33,8 @@ class TopRatedTvShowsNotifier extends ChangeNotifier {
         _state = RequestState.Error;
         notifyListeners();
       },
-      (moviesData) {
-        _movies = moviesData;
+      (tvShowsData) {
+        _tvShow = tvShowsData;
         _state = RequestState.Loaded;
         notifyListeners();
       },

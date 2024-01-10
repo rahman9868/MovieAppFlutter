@@ -1,18 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/presentation/pages/about_page.dart';
-import 'package:ditonton/presentation/pages/movie_detail_page.dart';
-import 'package:ditonton/presentation/pages/now_playing_tv_shows_page.dart';
-import 'package:ditonton/presentation/pages/popular_movies_page.dart';
-import 'package:ditonton/presentation/pages/popular_tv_shows_page.dart';
-import 'package:ditonton/presentation/pages/search_page.dart';
-import 'package:ditonton/presentation/pages/search_page_tv_show.dart';
-import 'package:ditonton/presentation/pages/top_rated_movies_page.dart';
-import 'package:ditonton/presentation/pages/tv_show_detail_page.dart';
-import 'package:ditonton/presentation/pages/watchlist_movies_page.dart';
-import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
 import 'package:ditonton/common/state_enum.dart';
+import 'package:ditonton/presentation/pages/now_playing_tv_shows_page.dart';
+import 'package:ditonton/presentation/pages/popular_tv_shows_page.dart';
+import 'package:ditonton/presentation/pages/search_page_tv_show.dart';
+import 'package:ditonton/presentation/pages/tv_show_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -59,9 +51,9 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildSubHeading(
-                  title: 'Now Playing',
-                  onTap: () =>
-                Navigator.pushNamed(context, NowPlayingTvShowsPage.ROUTE_NAME),
+                title: 'Now Playing',
+                onTap: () => Navigator.pushNamed(
+                    context, NowPlayingTvShowsPage.ROUTE_NAME),
               ),
               Consumer<TvShowListNotifier>(builder: (context, data, child) {
                 final state = data.nowPlayingState;
@@ -94,8 +86,8 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
               }),
               _buildSubHeading(
                 title: 'Top Rated',
-                onTap: () =>
-                    Navigator.pushNamed(context, TopRatedTvShowsPage.ROUTE_NAME),
+                onTap: () => Navigator.pushNamed(
+                    context, TopRatedTvShowsPage.ROUTE_NAME),
               ),
               Consumer<TvShowListNotifier>(builder: (context, data, child) {
                 final state = data.topRatedTvShowsState;
@@ -139,9 +131,9 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
 }
 
 class TvShowList extends StatelessWidget {
-  final List<TvShow> movies;
+  final List<TvShow> tvShows;
 
-  TvShowList(this.movies);
+  TvShowList(this.tvShows);
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +142,7 @@ class TvShowList extends StatelessWidget {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          final movie = movies[index];
+          final tvShow = tvShows[index];
           return Container(
             padding: const EdgeInsets.all(8),
             child: InkWell(
@@ -158,13 +150,13 @@ class TvShowList extends StatelessWidget {
                 Navigator.pushNamed(
                   context,
                   TvShowDetailPage.ROUTE_NAME,
-                  arguments: movie.id,
+                  arguments: tvShow.id,
                 );
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(16)),
                 child: CachedNetworkImage(
-                  imageUrl: '$BASE_IMAGE_URL${movie.posterPath}',
+                  imageUrl: '$BASE_IMAGE_URL${tvShow.posterPath}',
                   placeholder: (context, url) => Center(
                     child: CircularProgressIndicator(),
                   ),
@@ -174,7 +166,7 @@ class TvShowList extends StatelessWidget {
             ),
           );
         },
-        itemCount: movies.length,
+        itemCount: tvShows.length,
       ),
     );
   }

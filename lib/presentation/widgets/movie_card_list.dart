@@ -42,19 +42,18 @@ class MovieCard extends StatelessWidget {
                       style: kHeading6,
                     ),
                     SizedBox(height: 16),
-                    Row(
-                        children: [
-                          RatingBarIndicator(
-                            rating: (movie.voteAverage ?? 0.0) / 2,
-                            itemCount: 5,
-                            itemBuilder: (context, index) => Icon(
-                              Icons.star,
-                              color: kMikadoYellow,
-                            ),
-                            itemSize: 24,
-                          ),
-                          Text('${movie.voteAverage?.toStringAsFixed(1)}')
-                        ]),
+                    Row(children: [
+                      RatingBarIndicator(
+                        rating: (movie.voteAverage ?? 0.0) / 2,
+                        itemCount: 5,
+                        itemBuilder: (context, index) => Icon(
+                          Icons.star,
+                          color: kMikadoYellow,
+                        ),
+                        itemSize: 24,
+                      ),
+                      Text('${movie.voteAverage?.toStringAsFixed(1)}')
+                    ]),
                     SizedBox(height: 16),
                     Text(
                       movie.overview ?? '-',

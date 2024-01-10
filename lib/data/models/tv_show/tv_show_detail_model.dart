@@ -1,5 +1,5 @@
-
 import 'package:ditonton/data/models/genre_model.dart';
+import 'package:ditonton/data/models/tv_show/tv_show_seasons_model.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/tv_show/tv_show_detail.dart';
@@ -25,6 +25,7 @@ class TvShowDetailResponse extends Equatable {
   final double popularity;
   final String posterPath;
   final String status;
+  final List<Season> seasons;
   final String tagline;
   final String type;
   final double voteAverage;
@@ -51,6 +52,7 @@ class TvShowDetailResponse extends Equatable {
     required this.popularity,
     required this.posterPath,
     required this.status,
+    required this.seasons,
     required this.tagline,
     required this.type,
     required this.voteAverage,
@@ -81,6 +83,9 @@ class TvShowDetailResponse extends Equatable {
       popularity: json['popularity'],
       posterPath: json['poster_path'],
       status: json['status'],
+      seasons: List<Season>.from(
+        json['seasons'].map((season) => Season.fromJson(season)),
+      ),
       tagline: json['tagline'],
       type: json['type'],
       voteAverage: json['vote_average'],
@@ -110,6 +115,7 @@ class TvShowDetailResponse extends Equatable {
       popularity: popularity,
       posterPath: posterPath,
       status: status,
+      seasons: seasons,
       tagline: tagline,
       type: type,
       voteAverage: voteAverage,
@@ -119,30 +125,29 @@ class TvShowDetailResponse extends Equatable {
 
   @override
   List<Object?> get props => [
-    adult,
-    backdropPath,
-    episodeRunTime,
-    firstAirDate,
-    genres,
-    homepage,
-    id,
-    inProduction,
-    languages,
-    lastAirDate,
-    name,
-    numberOfEpisodes,
-    numberOfSeasons,
-    originCountry,
-    originalLanguage,
-    originalName,
-    overview,
-    popularity,
-    posterPath,
-    status,
-    tagline,
-    type,
-    voteAverage,
-    voteCount,
-  ];
-
+        adult,
+        backdropPath,
+        episodeRunTime,
+        firstAirDate,
+        genres,
+        homepage,
+        id,
+        inProduction,
+        languages,
+        lastAirDate,
+        name,
+        numberOfEpisodes,
+        numberOfSeasons,
+        originCountry,
+        originalLanguage,
+        originalName,
+        overview,
+        popularity,
+        posterPath,
+        status,
+        tagline,
+        type,
+        voteAverage,
+        voteCount,
+      ];
 }

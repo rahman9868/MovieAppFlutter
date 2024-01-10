@@ -5,6 +5,7 @@ import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
   static DatabaseHelper? _databaseHelper;
+
   DatabaseHelper._instance() {
     _databaseHelper = this;
   }
@@ -45,8 +46,6 @@ class DatabaseHelper {
 
   Future<int> insertWatchlist(MovieTable movie) async {
     final db = await database;
-    print("db.insertWatchlist ${movie.isMovie}");
-    print("db.insertWatchlist ${movie.toJson()}");
     return await db!.insert(_tblWatchlist, movie.toJson());
   }
 
@@ -103,9 +102,9 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> getWatchlistTvShows() async {
     final db = await database;
     final List<Map<String, dynamic>> results = await db!.query(
-        _tblWatchlist,
-        where: 'isMovie = ?',
-        whereArgs: [0],
+      _tblWatchlist,
+      where: 'isMovie = ?',
+      whereArgs: [0],
     );
 
     return results;

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/now_playing_tv_show_notifier.dart';
-import '../provider/top_rated_tv_show_notifier.dart';
 import '../widgets/tv_show_card_list.dart';
 
 class NowPlayingTvShowsPage extends StatefulWidget {
@@ -39,10 +38,10 @@ class _NowPlayingTvShowsPageState extends State<NowPlayingTvShowsPage> {
             } else if (data.state == RequestState.Loaded) {
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final movie = data.movies[index];
+                  final movie = data.tvShow[index];
                   return TvShowCard(movie);
                 },
-                itemCount: data.movies.length,
+                itemCount: data.tvShow.length,
               );
             } else {
               return Center(

@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:ditonton/common/exception.dart';
 import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/data/datasources/tv_show_local_data_source.dart';
+import 'package:ditonton/data/models/tv_show/tv_show_episode_model.dart';
 
 import '../../../domain/entities/tv_show/tv_show.dart';
 import '../../../domain/entities/tv_show/tv_show_detail.dart';
@@ -93,10 +94,10 @@ class TvShowRepositoryImpl implements TvShowRepository {
   }
 
   @override
-  Future<Either<Failure, String>> saveWatchlist(TvShowDetail movie) async {
+  Future<Either<Failure, String>> saveWatchlist(TvShowDetail tvShow) async {
     try {
-      final result =
-          await localDataSource.insertWatchlist(TvShowTable.fromEntity(movie).toMovieTable());
+      final result = await localDataSource
+          .insertWatchlist(TvShowTable.fromEntity(tvShow).toMovieTable());
       return Right(result);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
@@ -106,10 +107,11 @@ class TvShowRepositoryImpl implements TvShowRepository {
   }
 
   @override
-  Future<Either<Failure, String>> removeWatchlist(TvShowDetail tvShowDetail) async {
+  Future<Either<Failure, String>> removeWatchlist(
+      TvShowDetail tvShowDetail) async {
     try {
-      final result =
-          await localDataSource.removeWatchlist(TvShowTable.fromEntity(tvShowDetail).toMovieTable());
+      final result = await localDataSource
+          .removeWatchlist(TvShowTable.fromEntity(tvShowDetail).toMovieTable());
       return Right(result);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
@@ -119,7 +121,6 @@ class TvShowRepositoryImpl implements TvShowRepository {
   @override
   Future<bool> isAddedToWatchlist(int id) async {
     final result = await localDataSource.getTvShowById(id);
-    print("isAddedToWatchlist $result");
     return result != null;
   }
 
@@ -129,4 +130,16 @@ class TvShowRepositoryImpl implements TvShowRepository {
     return Right(result.map((data) => data.toTvShowEntity()).toList());
   }
 
+  @override
+  Future<Either<Failure, List<Episode>>> getTvShowEpisodes(
+      int id, int seasonNumber) async {
+    try {
+      final result = await remoteDataSource.getEpisodes(id, seasonNumber);
+      return Right(result);
+    } on ServerException {
+      return Left(ServerFailure('ServerException'));
+    } on SocketException {
+      return Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
 }

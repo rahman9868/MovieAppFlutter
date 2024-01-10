@@ -1,6 +1,4 @@
 import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/presentation/provider/popular_movies_notifier.dart';
-import 'package:ditonton/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,10 +38,10 @@ class _PopularTvShowsPageState extends State<PopularTvShowsPage> {
             } else if (data.state == RequestState.Loaded) {
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final movie = data.movies[index];
-                  return TvShowCard(movie);
+                  final tvShow = data.tvShow[index];
+                  return TvShowCard(tvShow);
                 },
-                itemCount: data.movies.length,
+                itemCount: data.tvShow.length,
               );
             } else {
               return Center(

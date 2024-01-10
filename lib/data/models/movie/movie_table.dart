@@ -23,31 +23,28 @@ class MovieTable extends Equatable {
   });
 
   factory MovieTable.fromEntity(MovieDetail movie) => MovieTable(
-        id: movie.id,
-        title: movie.title,
-        posterPath: movie.posterPath,
-        overview: movie.overview,
-        voteAverage: movie.voteAverage,
-        isMovie: 1
-      );
+      id: movie.id,
+      title: movie.title,
+      posterPath: movie.posterPath,
+      overview: movie.overview,
+      voteAverage: movie.voteAverage,
+      isMovie: 1);
 
   factory MovieTable.fromTvShow(TvShowDetail tvShow) => MovieTable(
-        id: tvShow.id,
-        title: tvShow.name,
-        posterPath: tvShow.posterPath,
-        overview: tvShow.overview,
-        voteAverage: tvShow.voteAverage,
-        isMovie: 0
-      );
+      id: tvShow.id,
+      title: tvShow.name,
+      posterPath: tvShow.posterPath,
+      overview: tvShow.overview,
+      voteAverage: tvShow.voteAverage,
+      isMovie: 0);
 
   factory MovieTable.fromMap(Map<String, dynamic> map) => MovieTable(
-        id: map['id'],
-        title: map['title'],
-        posterPath: map['posterPath'],
-        overview: map['overview'],
-        voteAverage: map['voteAverage'],
-        isMovie: 1
-      );
+      id: map['id'],
+      title: map['title'],
+      posterPath: map['posterPath'],
+      overview: map['overview'],
+      voteAverage: map['voteAverage'],
+      isMovie: 1);
 
   Map<String, dynamic> toJson() => {
         'id': id,

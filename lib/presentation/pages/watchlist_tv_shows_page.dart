@@ -1,7 +1,5 @@
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/common/utils.dart';
-import 'package:ditonton/presentation/provider/watchlist_movie_notifier.dart';
-import 'package:ditonton/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -53,8 +51,8 @@ class _WatchlistTvShowsPageState extends State<WatchlistTvShowsPage>
             } else if (data.watchlistState == RequestState.Loaded) {
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final movie = data.watchlistTvShows[index];
-                  return TvShowCard(movie);
+                  final tvShow = data.watchlistTvShows[index];
+                  return TvShowCard(tvShow);
                 },
                 itemCount: data.watchlistTvShows.length,
               );

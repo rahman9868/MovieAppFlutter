@@ -38,10 +38,10 @@ class _TopRatedTvShowsPageState extends State<TopRatedTvShowsPage> {
             } else if (data.state == RequestState.Loaded) {
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final movie = data.movies[index];
-                  return TvShowCard(movie);
+                  final tvShow = data.tvShow[index];
+                  return TvShowCard(tvShow);
                 },
-                itemCount: data.movies.length,
+                itemCount: data.tvShow.length,
               );
             } else {
               return Center(

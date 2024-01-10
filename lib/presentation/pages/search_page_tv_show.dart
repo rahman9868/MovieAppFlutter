@@ -1,7 +1,5 @@
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/presentation/provider/movie_search_notifier.dart';
-import 'package:ditonton/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -51,8 +49,8 @@ class SearchPageTvShow extends StatelessWidget {
                     child: ListView.builder(
                       padding: const EdgeInsets.all(8),
                       itemBuilder: (context, index) {
-                        final movie = data.searchResult[index];
-                        return TvShowCard(movie);
+                        final tvShow = data.searchResult[index];
+                        return TvShowCard(tvShow);
                       },
                       itemCount: result.length,
                     ),

@@ -1,17 +1,12 @@
-import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/domain/entities/movie_detail.dart';
-import 'package:ditonton/domain/usecases/get_movie_detail.dart';
-import 'package:ditonton/domain/usecases/get_movie_recommendations.dart';
 import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/domain/usecases/get_watchlist_status.dart';
+import 'package:ditonton/domain/usecases/get_tv_show_episodes.dart';
 import 'package:ditonton/domain/usecases/get_watchlist_tv_show_status.dart';
-import 'package:ditonton/domain/usecases/remove_watchlist.dart';
 import 'package:ditonton/domain/usecases/remove_watchlist_tv_show.dart';
-import 'package:ditonton/domain/usecases/save_watchlist.dart';
 import 'package:ditonton/domain/usecases/save_watchlist_tv_show.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../data/models/tv_show/tv_show_episode_model.dart';
 import '../../domain/entities/tv_show/tv_show.dart';
 import '../../domain/entities/tv_show/tv_show_detail.dart';
 import '../../domain/usecases/get_tv_show_detail.dart';
@@ -22,6 +17,7 @@ class TvShowDetailNotifier extends ChangeNotifier {
   static const watchlistRemoveSuccessMessage = 'Removed from Watchlist';
 
   final GetTvShowDetail getTvShowDetail;
+  final GetTvShowEpisodes getTvShowEpisodes;
   final GetTvShowRecommendations getTvShowRecommendations;
   final GetWatchListStatusTvShow getWatchListStatus;
   final SaveWatchlistTvShow saveWatchlist;
@@ -29,81 +25,114 @@ class TvShowDetailNotifier extends ChangeNotifier {
 
   TvShowDetailNotifier({
     required this.getTvShowDetail,
+    required this.getTvShowEpisodes,
     required this.getTvShowRecommendations,
     required this.getWatchListStatus,
     required this.saveWatchlist,
     required this.removeWatchlist,
   });
 
-  late TvShowDetail _movie;
-  TvShowDetail get movie => _movie;
+  late TvShowDetail _tvShow;
 
-  RequestState _movieState = RequestState.Empty;
-  RequestState get movieState => _movieState;
+  TvShowDetail get tvShow => _tvShow;
 
-  List<TvShow> _movieRecommendations = [];
-  List<TvShow> get movieRecommendations => _movieRecommendations;
+  RequestState _tvShowState = RequestState.Empty;
+
+  RequestState get tvShowState => _tvShowState;
+
+  List<TvShow> _tvShowRecommendations = [];
+
+  List<TvShow> get tvShowRecommendations => _tvShowRecommendations;
 
   RequestState _recommendationState = RequestState.Empty;
+
   RequestState get recommendationState => _recommendationState;
 
   String _message = '';
+
   String get message => _message;
 
   bool _isAddedtoWatchlist = false;
+
   bool get isAddedToWatchlist => _isAddedtoWatchlist;
 
+  RequestState _episodeState = RequestState.Empty;
+
+  RequestState get episodeState => _episodeState;
+
+  Map<int, List<Episode>> _episodesMap = {};
+
+  Map<int, List<Episode>> get episodesMap => _episodesMap;
+
   Future<void> fetchTvShowDetail(int id) async {
-    _movieState = RequestState.Loading;
+    _tvShowState = RequestState.Loading;
     notifyListeners();
     final detailResult = await getTvShowDetail.execute(id);
     final recommendationResult = await getTvShowRecommendations.execute(id);
     detailResult.fold(
       (failure) {
-        _movieState = RequestState.Error;
+        _tvShowState = RequestState.Error;
         _message = failure.message;
         notifyListeners();
       },
-      (movie) {
+      (tvShow) {
         _recommendationState = RequestState.Loading;
-        _movie = movie;
+        _tvShow = tvShow;
         notifyListeners();
         recommendationResult.fold(
           (failure) {
             _recommendationState = RequestState.Error;
             _message = failure.message;
           },
-          (movies) {
+          (tvShows) {
             _recommendationState = RequestState.Loaded;
-            _movieRecommendations = movies;
+            _tvShowRecommendations = tvShows;
           },
         );
-        _movieState = RequestState.Loaded;
+        _tvShowState = RequestState.Loaded;
         notifyListeners();
       },
     );
   }
 
-  String _watchlistMessage = '';
-  String get watchlistMessage => _watchlistMessage;
+  Future<void> fetchEpisodes(int tvShowId) async {
+    try {
+      _episodeState = RequestState.Loading;
+      notifyListeners();
 
-  Future<void> addWatchlist(TvShowDetail movie) async {
-    final result = await saveWatchlist.execute(movie);
+      for (int seasonNumber
+          in tvShow.seasons.map((season) => season.seasonNumber)) {
+        if (_episodesMap[seasonNumber]?.isNotEmpty == true) continue;
 
-    await result.fold(
-      (failure) async {
-        _watchlistMessage = failure.message;
-      },
-      (successMessage) async {
-        _watchlistMessage = successMessage;
-      },
-    );
+        final episodesResult =
+            await getTvShowEpisodes.execute(tvShowId, seasonNumber);
+        episodesResult.fold(
+          (failure) {
+            _episodeState = RequestState.Error;
+            _message = failure.message;
+            print("failure ${failure.message}");
+          },
+          (episodes) {
+            _episodesMap[seasonNumber] = episodes;
+            print("Episodes for season $seasonNumber: $episodes");
+          },
+        );
+      }
 
-    await loadWatchlistStatus(movie.id);
+      _episodeState = RequestState.Loaded;
+      notifyListeners();
+    } catch (e) {
+      _episodeState = RequestState.Error;
+    }
+    notifyListeners();
   }
 
-  Future<void> removeFromWatchlist(TvShowDetail movie) async {
-    final result = await removeWatchlist.execute(movie);
+  String _watchlistMessage = '';
+
+  String get watchlistMessage => _watchlistMessage;
+
+  Future<void> addWatchlist(TvShowDetail tvShow) async {
+    final result = await saveWatchlist.execute(tvShow);
 
     await result.fold(
       (failure) async {
@@ -114,7 +143,22 @@ class TvShowDetailNotifier extends ChangeNotifier {
       },
     );
 
-    await loadWatchlistStatus(movie.id);
+    await loadWatchlistStatus(tvShow.id);
+  }
+
+  Future<void> removeFromWatchlist(TvShowDetail tvShow) async {
+    final result = await removeWatchlist.execute(tvShow);
+
+    await result.fold(
+      (failure) async {
+        _watchlistMessage = failure.message;
+      },
+      (successMessage) async {
+        _watchlistMessage = successMessage;
+      },
+    );
+
+    await loadWatchlistStatus(tvShow.id);
   }
 
   Future<void> loadWatchlistStatus(int id) async {
