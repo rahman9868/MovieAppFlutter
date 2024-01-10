@@ -5,6 +5,7 @@ import 'package:ditonton/domain/usecases/get_movie_detail.dart';
 import 'package:ditonton/domain/usecases/get_movie_recommendations.dart';
 import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/domain/usecases/get_tv_show_detail.dart';
+import 'package:ditonton/domain/usecases/get_tv_show_episodes.dart';
 import 'package:ditonton/domain/usecases/get_tv_show_recommendations.dart';
 import 'package:ditonton/domain/usecases/get_watchlist_status.dart';
 import 'package:ditonton/domain/usecases/get_watchlist_tv_show_status.dart';
@@ -25,6 +26,7 @@ import 'tv_show_detail_notifier_test.mocks.dart';
 
 @GenerateMocks([
   GetTvShowDetail,
+  GetTvShowEpisodes,
   GetTvShowRecommendations,
   GetWatchListStatusTvShow,
   SaveWatchlistTvShow,
@@ -33,6 +35,7 @@ import 'tv_show_detail_notifier_test.mocks.dart';
 void main() {
   late TvShowDetailNotifier provider;
   late MockGetTvShowDetail mockGetTvShowDetail;
+  late MockGetTvShowEpisodes mockGetTvShowEpisodes;
   late MockGetTvShowRecommendations mockGetTvShowRecommendations;
   late MockGetWatchListStatusTvShow mockGetWatchlistStatus;
   late MockSaveWatchlistTvShow mockSaveWatchlist;
@@ -42,12 +45,14 @@ void main() {
   setUp(() {
     listenerCallCount = 0;
     mockGetTvShowDetail = MockGetTvShowDetail();
+    mockGetTvShowEpisodes = MockGetTvShowEpisodes();
     mockGetTvShowRecommendations = MockGetTvShowRecommendations();
     mockGetWatchlistStatus = MockGetWatchListStatusTvShow();
     mockSaveWatchlist = MockSaveWatchlistTvShow();
     mockRemoveWatchlist = MockRemoveWatchlistTvShow();
     provider = TvShowDetailNotifier(
       getTvShowDetail: mockGetTvShowDetail,
+      getTvShowEpisodes: mockGetTvShowEpisodes,
       getTvShowRecommendations: mockGetTvShowRecommendations,
       getWatchListStatus: mockGetWatchlistStatus,
       saveWatchlist: mockSaveWatchlist,
@@ -100,7 +105,7 @@ void main() {
       // act
       provider.fetchTvShowDetail(tId);
       // assert
-      expect(provider.movieState, RequestState.Loading);
+      expect(provider.tvShowState, RequestState.Loading);
       expect(listenerCallCount, 1);
     });
 
@@ -110,8 +115,8 @@ void main() {
       // act
       await provider.fetchTvShowDetail(tId);
       // assert
-      expect(provider.movieState, RequestState.Loaded);
-      expect(provider.movie, testTvShowDetail);
+      expect(provider.tvShowState, RequestState.Loaded);
+      expect(provider.tvShow, testTvShowDetail);
       expect(listenerCallCount, 3);
     });
 
@@ -122,8 +127,8 @@ void main() {
       // act
       await provider.fetchTvShowDetail(tId);
       // assert
-      expect(provider.movieState, RequestState.Loaded);
-      expect(provider.movieRecommendations, tTvShows);
+      expect(provider.tvShowState, RequestState.Loaded);
+      expect(provider.tvShowRecommendations, tTvShows);
     });
   });
 
@@ -135,7 +140,7 @@ void main() {
       await provider.fetchTvShowDetail(tId);
       // assert
       verify(mockGetTvShowRecommendations.execute(tId));
-      expect(provider.movieRecommendations, tTvShows);
+      expect(provider.tvShowRecommendations, tTvShows);
     });
 
     test('should update recommendation state when data is gotten successfully',
@@ -146,7 +151,7 @@ void main() {
       await provider.fetchTvShowDetail(tId);
       // assert
       expect(provider.recommendationState, RequestState.Loaded);
-      expect(provider.movieRecommendations, tTvShows);
+      expect(provider.tvShowRecommendations, tTvShows);
     });
 
     test('should update error message when request in successful', () async {
@@ -236,7 +241,7 @@ void main() {
       // act
       await provider.fetchTvShowDetail(tId);
       // assert
-      expect(provider.movieState, RequestState.Error);
+      expect(provider.tvShowState, RequestState.Error);
       expect(provider.message, 'Server Failure');
       expect(listenerCallCount, 2);
     });
