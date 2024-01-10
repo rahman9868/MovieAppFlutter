@@ -177,6 +177,21 @@ class MockTvShowDetailNotifier extends _i1.Mock
       ) as _i7.RemoveWatchlistTvShow);
 
   @override
+  Map<int, bool> get isExpandedMap => (super.noSuchMethod(
+        Invocation.getter(#isExpandedMap),
+        returnValue: <int, bool>{},
+      ) as Map<int, bool>);
+
+  @override
+  set isExpandedMap(Map<int, bool>? _isExpandedMap) => super.noSuchMethod(
+        Invocation.setter(
+          #isExpandedMap,
+          _isExpandedMap,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   _i8.TvShowDetail get tvShow => (super.noSuchMethod(
         Invocation.getter(#tvShow),
         returnValue: _FakeTvShowDetail_6(
@@ -296,6 +311,24 @@ class MockTvShowDetailNotifier extends _i1.Mock
         returnValue: _i14.Future<void>.value(),
         returnValueForMissingStub: _i14.Future<void>.value(),
       ) as _i14.Future<void>);
+
+  @override
+  void initializeIsExpandedMap() => super.noSuchMethod(
+        Invocation.method(
+          #initializeIsExpandedMap,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void toggleSeasonExpansion(int? seasonNumber) => super.noSuchMethod(
+        Invocation.method(
+          #toggleSeasonExpansion,
+          [seasonNumber],
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(

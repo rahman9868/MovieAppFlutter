@@ -164,4 +164,18 @@ class TvShowDetailNotifier extends ChangeNotifier {
     _isAddedtoWatchlist = result;
     notifyListeners();
   }
+
+
+  Map<int, bool> isExpandedMap = {};
+
+  void initializeIsExpandedMap() {
+      isExpandedMap = Map.fromIterable(tvShow.seasons,
+          key: (season) => season.seasonNumber,
+          value: (_) => false);
+    }
+
+  void toggleSeasonExpansion(int seasonNumber) {
+    isExpandedMap[seasonNumber] = !isExpandedMap[seasonNumber]!;
+    notifyListeners();
+  }
 }

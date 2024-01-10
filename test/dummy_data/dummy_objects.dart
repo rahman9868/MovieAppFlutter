@@ -2,6 +2,7 @@ import 'package:ditonton/data/models/movie/movie_table.dart';
 import 'package:ditonton/domain/entities/genre.dart';
 import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/entities/movie_detail.dart';
+import 'package:ditonton/domain/entities/tv_show/episode.dart';
 import 'package:ditonton/domain/entities/tv_show/season.dart';
 import 'package:ditonton/domain/entities/tv_show/tv_show.dart';
 import 'package:ditonton/domain/entities/tv_show/tv_show_detail.dart';
@@ -109,7 +110,7 @@ final testTvShowDetail = TvShowDetail(
           airDate: "2019-05-19",
           episodeCount: 1,
           id: 1,
-          name: "Name",
+          name: "Season 1",
           overview: "overview",
           posterPath: "posterPath",
           seasonNumber: 1,
@@ -146,4 +147,22 @@ final testTvShowMap = {
   'title': 'Game of Thrones',
   'voteAverage': 8.438,
   'isMovie': 0
+};
+
+final testEpisodesMap = {
+  1: [
+    Episode(
+        airDate: "2023-01-10",
+        episodeNumber: 2,
+        id: 1,
+        name: "Episode 1",
+        overview: "Overview",
+        productionCode: "ProductionCode",
+        runtime: 10,
+        seasonNumber: 1,
+        showId: 10,
+        stillPath: "StillPath",
+        voteAverage: 7.2,
+        voteCount: 5)
+  ]
 };

@@ -11,7 +11,6 @@ class SeasonsList extends StatefulWidget {
 }
 
 class _SeasonsListState extends State<SeasonsList> {
-  Map<int, bool> isExpandedMap = {};
 
   @override
   void initState() {
@@ -38,15 +37,13 @@ class _SeasonsListState extends State<SeasonsList> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: List.generate(movie.seasons.length, (index) {
                   final season = movie.seasons[index];
-                  if (isExpandedMap.isEmpty) {
-                    isExpandedMap = Map.fromIterable(movie.seasons,
-                        key: (season) => season.seasonNumber,
-                        value: (_) => false);
+                  if (provider.isExpandedMap.isEmpty) {
+                    provider.initializeIsExpandedMap();
                   }
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      InkWell(
+                      GestureDetector(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -55,7 +52,7 @@ class _SeasonsListState extends State<SeasonsList> {
                             ),
                             IconButton(
                               icon: Icon(
-                                isExpandedMap[season.seasonNumber] == true
+                                provider.isExpandedMap[season.seasonNumber] == true
                                     ? Icons.keyboard_arrow_up
                                     : Icons.keyboard_arrow_down,
                               ),
@@ -64,10 +61,7 @@ class _SeasonsListState extends State<SeasonsList> {
                           ],
                         ),
                         onTap: () {
-                          setState(() {
-                            isExpandedMap[season.seasonNumber] =
-                                !isExpandedMap[season.seasonNumber]!;
-                          });
+                            provider.toggleSeasonExpansion(season.seasonNumber);
                         },
                       ),
                       Builder(
@@ -75,7 +69,7 @@ class _SeasonsListState extends State<SeasonsList> {
                           return Container();
                         },
                       ),
-                      if (isExpandedMap[season.seasonNumber] == true)
+                      if (provider.isExpandedMap[season.seasonNumber] == true)
                         EpisodesList(
                             provider.episodesMap[season.seasonNumber] ?? [])
                       else
