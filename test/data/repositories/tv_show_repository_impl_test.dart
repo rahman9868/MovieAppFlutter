@@ -6,6 +6,7 @@ import 'package:ditonton/data/models/movie/movie_detail_model.dart';
 import 'package:ditonton/data/models/movie/movie_model.dart';
 import 'package:ditonton/data/models/tv_show/tv_show_detail_model.dart';
 import 'package:ditonton/data/models/tv_show/tv_show_model.dart';
+import 'package:ditonton/data/models/tv_show/tv_show_seasons_model.dart';
 import 'package:ditonton/data/repositories/movie/movie_repository_impl.dart';
 import 'package:ditonton/common/exception.dart';
 import 'package:ditonton/common/failure.dart';
@@ -221,6 +222,16 @@ void main() {
         popularity: 346.098,
         posterPath: "/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg",
         status: "Ended",
+        seasons: [Season(
+            airDate: "2019-05-19",
+            episodeCount: 1,
+            id: 1,
+            name: "Name",
+            overview: "overview",
+            posterPath: "posterPath",
+            seasonNumber: 1,
+            voteAverage: 5.0
+        )],
         tagline: "Winter Is Coming",
         type: "Scripted",
         voteAverage: 8.438,

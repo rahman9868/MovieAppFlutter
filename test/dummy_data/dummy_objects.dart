@@ -1,4 +1,5 @@
 import 'package:ditonton/data/models/movie/movie_table.dart';
+import 'package:ditonton/data/models/tv_show/tv_show_seasons_model.dart';
 import 'package:ditonton/data/models/tv_show/tv_show_table.dart';
 import 'package:ditonton/domain/entities/genre.dart';
 import 'package:ditonton/domain/entities/movie.dart';
@@ -52,7 +53,7 @@ final testMovieTable = MovieTable(
   id: 1,
   title: 'title',
   posterPath: 'posterPath',
-  voteAverage: 8,
+  voteAverage: 7.2,
   overview: 'overview',
   isMovie: 1
 );
@@ -112,6 +113,16 @@ final testTvShowDetail = TvShowDetail(
     popularity: 346.098,
     posterPath: "/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg",
     status: "Ended",
+    seasons: [Season(
+        airDate: "2019-05-19",
+        episodeCount: 1,
+        id: 1,
+        name: "Name",
+        overview: "overview",
+        posterPath: "posterPath",
+        seasonNumber: 1,
+        voteAverage: 5.0
+    )],
     tagline: "Winter Is Coming",
     type: "Scripted",
     voteAverage: 8.438,
