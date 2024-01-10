@@ -137,7 +137,7 @@ class TvShowRepositoryImpl implements TvShowRepository {
       final result = await remoteDataSource.getEpisodes(id, seasonNumber);
       return Right(result.map((data) => data.toEntity()).toList());
     } on ServerException {
-      return Left(ServerFailure('ServerException'));
+      return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
     }
