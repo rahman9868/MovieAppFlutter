@@ -73,7 +73,7 @@ class _SeasonsListState extends State<SeasonsList> {
                       ),
                       Builder(
                         builder: (context) {
-                          return Container(); // Builder requires a widget to be returned
+                          return Container();
                         },
                       ),
                       if (isExpandedMap[season.seasonNumber] == true)

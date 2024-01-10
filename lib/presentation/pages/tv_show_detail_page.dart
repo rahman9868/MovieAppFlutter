@@ -57,18 +57,16 @@ class _TvShowDetailPageState extends State<TvShowDetailPage>
             TabBar(
               controller: _tabController,
               tabs: [
-                Tab(text: 'Details'), // Replace with the appropriate tab label
-                Tab(text: 'Episodes'), // Replace with the appropriate tab label
+                Tab(text: 'Details'),
+                Tab(text: 'Episodes'),
               ],
             ),
             Expanded(
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  // Details Tab
                   _buildDetails(),
 
-                  // Episodes Tab
                   _buildEpisodes(),
                 ],
               ),
@@ -302,9 +300,7 @@ class DetailContent extends StatelessWidget {
                 ),
               );
             },
-            // initialChildSize: 0.5,
             minChildSize: 0.25,
-            // maxChildSize: 1.0,
           ),
         ),
         Padding(

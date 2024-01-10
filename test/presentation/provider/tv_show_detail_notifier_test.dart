@@ -1,27 +1,19 @@
 import 'package:dartz/dartz.dart';
-import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/domain/entities/tv_show/tv_show.dart';
-import 'package:ditonton/domain/usecases/get_movie_detail.dart';
-import 'package:ditonton/domain/usecases/get_movie_recommendations.dart';
 import 'package:ditonton/common/failure.dart';
+import 'package:ditonton/common/state_enum.dart';
+import 'package:ditonton/domain/entities/tv_show/tv_show.dart';
 import 'package:ditonton/domain/usecases/get_tv_show_detail.dart';
 import 'package:ditonton/domain/usecases/get_tv_show_episodes.dart';
 import 'package:ditonton/domain/usecases/get_tv_show_recommendations.dart';
-import 'package:ditonton/domain/usecases/get_watchlist_status.dart';
 import 'package:ditonton/domain/usecases/get_watchlist_tv_show_status.dart';
-import 'package:ditonton/domain/usecases/remove_watchlist.dart';
 import 'package:ditonton/domain/usecases/remove_watchlist_tv_show.dart';
-import 'package:ditonton/domain/usecases/save_watchlist.dart';
 import 'package:ditonton/domain/usecases/save_watchlist_tv_show.dart';
-import 'package:ditonton/presentation/provider/movie_detail_notifier.dart';
-import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/presentation/provider/tv_show_detail_notifier.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../dummy_data/dummy_objects.dart';
-import 'movie_detail_notifier_test.mocks.dart';
 import 'tv_show_detail_notifier_test.mocks.dart';
 
 @GenerateMocks([
@@ -73,7 +65,8 @@ void main() {
     originCountry: ["US"],
     originalLanguage: "en",
     originalName: "Game of Thrones",
-    overview: "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+    overview:
+        "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
     popularity: 346.098,
     posterPath: "/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg",
     voteAverage: 8.438,

@@ -13,10 +13,6 @@ class TvShowEpisodesResponse extends Equatable {
             .where((element) => element.episodeNumber != null)),
       );
 
-  /*Map<String, dynamic> toJson() => {
-    "results": List<dynamic>.from(episodeList.map((x) => x.toJson())),
-  };*/
-
   @override
   List<Object> get props => [episodeList];
 }

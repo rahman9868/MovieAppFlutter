@@ -1,6 +1,4 @@
-import 'package:ditonton/data/models/movie/movie_model.dart';
 import 'package:ditonton/data/models/tv_show/tv_show_model.dart';
-import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/entities/tv_show/tv_show.dart';
 import 'package:flutter_test/flutter_test.dart';
 

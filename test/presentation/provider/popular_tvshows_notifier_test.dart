@@ -1,17 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/entities/tv_show/tv_show.dart';
-import 'package:ditonton/domain/usecases/get_popular_movies.dart';
 import 'package:ditonton/domain/usecases/get_popular_tv_shows.dart';
-import 'package:ditonton/presentation/provider/popular_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/popular_tv_shows_notifier.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import 'popular_movies_notifier_test.mocks.dart';
 import 'popular_tvshows_notifier_test.mocks.dart';
 
 @GenerateMocks([GetPopularTvShows])
@@ -39,7 +35,7 @@ void main() {
     originalLanguage: "tl",
     originalName: "Dirty Linen",
     overview:
-    "To exact vengeance, a young woman infiltrates the household of an influential family as a housemaid to expose their dirty secrets. However, love will get in the way of her revenge plot.",
+        "To exact vengeance, a young woman infiltrates the household of an influential family as a housemaid to expose their dirty secrets. However, love will get in the way of her revenge plot.",
     popularity: 2797.914,
     posterPath: "/aoAZgnmMzY9vVy9VWnO3U5PZENh.jpg",
     voteAverage: 8.0,

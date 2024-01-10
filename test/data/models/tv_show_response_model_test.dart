@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:ditonton/data/models/movie/movie_model.dart';
-import 'package:ditonton/data/models/movie/movie_response.dart';
 import 'package:ditonton/data/models/tv_show/tv_show_model.dart';
 import 'package:ditonton/data/models/tv_show/tv_show_response.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -50,15 +48,10 @@ void main() {
           {
             "backdrop_path": "/path.jpg",
             "first_air_date": "2023-01-23",
-            "genre_ids": [
-              1,
-              2
-            ],
+            "genre_ids": [1, 2],
             "id": 1,
             "name": "Name",
-            "origin_country": [
-              "ID"
-            ],
+            "origin_country": ["ID"],
             "original_language": "id",
             "original_name": "Original Name",
             "overview": "Overview",
