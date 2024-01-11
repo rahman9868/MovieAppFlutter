@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2024-01-10 10:26:00</td>
+            <td class="headerValue">2024-01-11 08:12:26</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -66,8 +66,8 @@
 <span id="L4"><span class="lineNum">       4</span>              : import 'package:ditonton/common/exception.dart';</span>
 <span id="L5"><span class="lineNum">       5</span>              : import 'package:ditonton/common/failure.dart';</span>
 <span id="L6"><span class="lineNum">       6</span>              : import 'package:ditonton/data/datasources/tv_show_local_data_source.dart';</span>
-<span id="L7"><span class="lineNum">       7</span>              : import 'package:ditonton/data/models/tv_show/tv_show_episode_model.dart';</span>
-<span id="L8"><span class="lineNum">       8</span>              : </span>
+<span id="L7"><span class="lineNum">       7</span>              : </span>
+<span id="L8"><span class="lineNum">       8</span>              : import '../../../domain/entities/tv_show/episode.dart';</span>
 <span id="L9"><span class="lineNum">       9</span>              : import '../../../domain/entities/tv_show/tv_show.dart';</span>
 <span id="L10"><span class="lineNum">      10</span>              : import '../../../domain/entities/tv_show/tv_show_detail.dart';</span>
 <span id="L11"><span class="lineNum">      11</span>              : import '../../../domain/repositories/tv_show_repository.dart';</span>
@@ -197,9 +197,9 @@
 <span id="L135"><span class="lineNum">     135</span>              :       int id, int seasonNumber) async {</span>
 <span id="L136"><span class="lineNum">     136</span>              :     try {</span>
 <span id="L137"><span class="lineNum">     137</span> <span class="tlaUNC">           0 :       final result = await remoteDataSource.getEpisodes(id, seasonNumber);</span></span>
-<span id="L138"><span class="lineNum">     138</span> <span class="tlaUNC">           0 :       return Right(result);</span></span>
+<span id="L138"><span class="lineNum">     138</span> <span class="tlaUNC">           0 :       return Right(result.map((data) =&gt; data.toEntity()).toList());</span></span>
 <span id="L139"><span class="lineNum">     139</span> <span class="tlaUNC">           0 :     } on ServerException {</span></span>
-<span id="L140"><span class="lineNum">     140</span> <span class="tlaUNC">           0 :       return Left(ServerFailure('ServerException'));</span></span>
+<span id="L140"><span class="lineNum">     140</span> <span class="tlaUNC">           0 :       return Left(ServerFailure(''));</span></span>
 <span id="L141"><span class="lineNum">     141</span> <span class="tlaUNC">           0 :     } on SocketException {</span></span>
 <span id="L142"><span class="lineNum">     142</span> <span class="tlaUNC">           0 :       return Left(ConnectionFailure('Failed to connect to the network'));</span></span>
 <span id="L143"><span class="lineNum">     143</span>              :     }</span>
