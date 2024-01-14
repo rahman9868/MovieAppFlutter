@@ -1,8 +1,15 @@
+import 'package:equatable/equatable.dart';
+
 import '../../../../domain/entities/tv_show/episode.dart';
 import '../../../../domain/entities/tv_show/tv_show.dart';
 import '../../../../domain/entities/tv_show/tv_show_detail.dart';
 
-abstract class TvShowDetailState {}
+abstract class TvShowDetailState extends Equatable {
+  const TvShowDetailState();
+
+  @override
+  List<Object> get props => [];
+}
 
 class TvShowDetailInitialState extends TvShowDetailState {}
 
