@@ -1,13 +1,13 @@
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/common/utils.dart';
-import 'package:ditonton/presentation/bloc/movie/list/watchlist_movies_bloc.dart';
 import 'package:ditonton/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../bloc/movie/list/movie_list_event.dart';
-import '../bloc/movie/list/movie_list_state.dart';
+import '../bloc/movie/watchlist/watchlist_movies_bloc.dart';
+import '../bloc/movie/watchlist/watchlist_movies_event.dart';
+import '../bloc/movie/watchlist/watchlist_movies_state.dart';
 
 class WatchlistMoviesPage extends StatefulWidget {
   static const ROUTE_NAME = '/watchlist-movie';
@@ -44,13 +44,13 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: BlocBuilder<WatchlistMoviesBloc, MovieListState>(
+        child: BlocBuilder<WatchlistMoviesBloc, WatchlistMoviesState>(
           builder: (context, state) {
-            if (state is MovieListLoadingState) {
+            if (state is WatchlistMoviesLoadingState) {
               return Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (state is MovieListLoadedState) {
+            } else if (state is WatchlistMoviesLoadedState) {
               final movies = state.movies;
               return ListView.builder(
                 itemBuilder: (context, index) {
@@ -59,7 +59,7 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
                 },
                 itemCount: movies.length,
               );
-            } else if (state is MovieListErrorState) {
+            } else if (state is WatchlistMoviesErrorState) {
               return Expanded(
                 child: Center(
                   child: Text(state.message),

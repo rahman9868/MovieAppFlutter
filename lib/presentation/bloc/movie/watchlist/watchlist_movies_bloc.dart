@@ -39,28 +39,33 @@ class WatchlistMoviesBloc extends Bloc<WatchlistMoviesEvent, WatchlistMoviesStat
     on<WatchlistMoviesStatus>((event, emit) async {
 
       final results = await getWatchListStatus.execute(event.id);
-      emit(MovieIsWatchList(results));
+      const isUpdate = true;
+      const message = '';
+      emit(WatchListMovieResponse(results, isUpdate,message));
 
     });
 
     on<WatchlistMoviesAdd>((event, emit) async {
       final movie = event.movieDetail;
-
+      const isWatchlist = true;
+      const isUpdate = true;
       final result = await saveWatchlist.execute(movie);
       result.fold((failure) {
         emit(WatchlistMoviesErrorState(failure.message));
       }, (success) {
-        emit(WatchListMovieResponse(success));
+        emit(WatchListMovieResponse(isWatchlist, isUpdate,success));
       });
     });
 
     on<WatchlistMoviesRemove>((event, emit) async {
       final movie = event.movieDetail;
+      const isWatchlist = false;
+      const isUpdate = true;
       final result = await removeWatchlist.execute(movie);
       result.fold((failure) {
         emit(WatchlistMoviesErrorState(failure.message));
       }, (success) {
-        emit(WatchListMovieResponse(success));
+        emit(WatchListMovieResponse(isWatchlist, isUpdate,success));
       });
     });
 

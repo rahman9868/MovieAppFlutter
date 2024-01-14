@@ -42,6 +42,13 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isMovieAddedToWatchList =
+    context.select<WatchlistMoviesBloc, bool>((bloc) {
+      if (bloc.state is MovieIsWatchList) {
+        return (bloc.state as MovieIsWatchList).isWatchlist;
+      }
+      return false;
+    });
     return Scaffold(
           body: BlocBuilder<MovieDetailBloc, MovieDetailState>(
             builder: (context, state) {
@@ -54,6 +61,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                 return SafeArea(
                   child: DetailContent(
                     movie,
+                      isMovieAddedToWatchList,
                   ),
                 );
               } else if (state is MovieDetailErrorState) {
@@ -73,8 +81,9 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
 
 class DetailContent extends StatefulWidget {
   final MovieDetail movie;
+  bool isAddedWatchlist;
 
-  DetailContent(this.movie);
+  DetailContent(this.movie, this.isAddedWatchlist);
 
   @override
   State<DetailContent> createState() => _DetailContentState();
@@ -125,20 +134,23 @@ class _DetailContentState extends State<DetailContent> {
                                   builder: (context, state) {
                                     return ElevatedButton(
                                       onPressed: () async {
-                                        if (state is MovieIsWatchList){
-                                          context
-                                              .read<WatchlistMoviesBloc>()
-                                              .add(WatchlistMoviesAdd(widget.movie));
+                                        if (state is WatchListMovieResponse){
+                                          if (state.isWatchlist){
+                                            context
+                                                .read<WatchlistMoviesBloc>()
+                                                .add(WatchlistMoviesRemove(widget.movie));
+                                          } else {
+                                            context
+                                                .read<WatchlistMoviesBloc>()
+                                                .add(WatchlistMoviesAdd(widget.movie));
+                                          }
                                         } else {
-                                          context
-                                              .read<WatchlistMoviesBloc>()
-                                              .add(WatchlistMoviesRemove(widget.movie));
                                         }
                                       },
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          if (state is MovieIsWatchList)
+                                          if (state is WatchListMovieResponse)
                                             if(state.isWatchlist)
                                               Icon(Icons.check)
                                             else

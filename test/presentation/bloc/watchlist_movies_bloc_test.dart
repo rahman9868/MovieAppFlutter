@@ -82,7 +82,7 @@ void main() {
       },
       act: (bloc) => bloc.add(WatchlistMoviesStatus(movie.id)),
       expect: () => [
-        MovieIsWatchList(true),
+        WatchListMovieResponse(true, false, ''),
       ],
     );
 
@@ -106,7 +106,7 @@ void main() {
       },
       act: (bloc) => bloc.add(WatchlistMoviesAdd(testMovieDetail)),
       expect: () => [
-        WatchListMovieResponse('Success'),
+        WatchListMovieResponse(true, true, 'Success'),
       ],
     );
 
@@ -130,7 +130,7 @@ void main() {
       },
       act: (bloc) => bloc.add(WatchlistMoviesRemove(testMovieDetail)),
       expect: () => [
-        WatchListMovieResponse('Success'),
+        WatchListMovieResponse(false, true, 'Success'),
       ],
     );
   });

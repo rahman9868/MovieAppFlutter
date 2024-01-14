@@ -42,9 +42,11 @@ class MovieIsWatchList extends WatchlistMoviesState {
 }
 
 class WatchListMovieResponse extends WatchlistMoviesState {
+  final bool isWatchlist;
+  final bool isUpdate;
   final String message;
 
-  WatchListMovieResponse(this.message);
+  WatchListMovieResponse(this.isWatchlist, this.isUpdate,this.message);
 
   @override
   List<Object> get props => [message];
