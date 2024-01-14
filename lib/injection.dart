@@ -32,7 +32,7 @@ import 'package:ditonton/presentation/bloc/tv_show/detail/tv_show_detail_bloc.da
 import 'package:ditonton/presentation/bloc/tv_show/list/now_playing_tv_shows_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/list/popular_tv_shows_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/list/top_rated_tv_shows_bloc.dart';
-import 'package:ditonton/presentation/bloc/tv_show/list/watchlist_tvShows_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_show/recommendations/tv_show_recommendations_list_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/search/search_tv_show_bloc.dart';
 import 'package:ditonton/presentation/provider/movie_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
@@ -57,6 +57,7 @@ import 'domain/usecases/get_tv_show_detail.dart';
 import 'domain/usecases/get_tv_show_episodes.dart';
 import 'domain/usecases/get_tv_show_recommendations.dart';
 import 'domain/usecases/search_tv_shows.dart';
+import 'presentation/bloc/tv_show/watchlist/watchlist_tv_shows_bloc.dart';
 
 final locator = GetIt.instance;
 
@@ -203,15 +204,19 @@ void init() {
   locator.registerFactory(
         () => WatchlistTvShowsBloc(
       locator(),
+          locator(),
+          locator(),
+          locator(),
     ),
   );
   locator.registerFactory(
         () => TvShowDetailBloc(
         locator(),
-        locator(),
-        locator(),
-        locator(),
-        locator(),
+        locator()
+    ),
+  );
+  locator.registerFactory(
+        () => TvShowRecommendationListBloc(
         locator()
     ),
   );

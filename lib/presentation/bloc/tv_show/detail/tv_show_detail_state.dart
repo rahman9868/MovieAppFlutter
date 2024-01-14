@@ -21,21 +21,11 @@ class UpdateWatchlistLoadingState extends TvShowDetailState {}
 
 class TvShowDetailLoadedState extends TvShowDetailState {
   final TvShowDetail tvShow;
-  final List<TvShow> tvShowRecommendations;
-  final bool isAddedToWatchlist;
   final Map<int, List<Episode>> episodeMap;
-  final bool isUpdateWatchlist;
-  final bool isSuccessUpdateWatchlist;
-  final String message;
 
   TvShowDetailLoadedState(
       this.tvShow,
-      this.tvShowRecommendations,
-      this.isAddedToWatchlist,
-      this.episodeMap,
-      this.isUpdateWatchlist,
-      this.isSuccessUpdateWatchlist,
-      this.message);
+      this.episodeMap);
 }
 
 class TvShowRecommendationsLoadedState extends TvShowDetailState {

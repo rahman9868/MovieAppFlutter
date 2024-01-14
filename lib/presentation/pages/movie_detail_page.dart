@@ -42,13 +42,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isMovieAddedToWatchList =
-    context.select<WatchlistMoviesBloc, bool>((bloc) {
-      if (bloc.state is MovieIsWatchList) {
-        return (bloc.state as MovieIsWatchList).isWatchlist;
-      }
-      return false;
-    });
     return Scaffold(
           body: BlocBuilder<MovieDetailBloc, MovieDetailState>(
             builder: (context, state) {
@@ -61,7 +54,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                 return SafeArea(
                   child: DetailContent(
                     movie,
-                      isMovieAddedToWatchList,
                   ),
                 );
               } else if (state is MovieDetailErrorState) {
@@ -81,9 +73,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
 
 class DetailContent extends StatefulWidget {
   final MovieDetail movie;
-  bool isAddedWatchlist;
 
-  DetailContent(this.movie, this.isAddedWatchlist);
+  DetailContent(this.movie);
 
   @override
   State<DetailContent> createState() => _DetailContentState();

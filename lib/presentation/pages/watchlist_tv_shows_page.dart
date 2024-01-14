@@ -1,10 +1,10 @@
 import 'package:ditonton/common/utils.dart';
+import 'package:ditonton/presentation/bloc/tv_show/watchlist/watchlist_tv_shows_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_show/watchlist/watchlist_tv_shows_event.dart';
+import 'package:ditonton/presentation/bloc/tv_show/watchlist/watchlist_tv_shows_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/tv_show/list/tv_show_list_event.dart';
-import '../bloc/tv_show/list/tv_show_list_state.dart';
-import '../bloc/tv_show/list/watchlist_tvShows_bloc.dart';
 import '../widgets/tv_show_card_list.dart';
 
 class WatchlistTvShowsPage extends StatefulWidget {
@@ -42,13 +42,13 @@ class _WatchlistTvShowsPageState extends State<WatchlistTvShowsPage>
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: BlocBuilder<WatchlistTvShowsBloc, TvShowListState>(
+        child: BlocBuilder<WatchlistTvShowsBloc, WatchlistTvShowsState>(
           builder: (context, state) {
-            if (state is TvShowListLoadingState) {
+            if (state is WatchlistTvShowsLoadingState) {
               return Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (state is TvShowListLoadedState) {
+            } else if (state is WatchlistTvShowsLoadedState) {
               final tvShows = state.tvShows;
               return ListView.builder(
                 itemBuilder: (context, index) {
@@ -57,7 +57,7 @@ class _WatchlistTvShowsPageState extends State<WatchlistTvShowsPage>
                 },
                 itemCount: tvShows.length,
               );
-            } else if (state is TvShowListErrorState) {
+            } else if (state is WatchlistTvShowsErrorState) {
               return Expanded(
                 child: Center(
                   child: Text(state.message),

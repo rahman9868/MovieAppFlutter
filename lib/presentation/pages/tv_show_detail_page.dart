@@ -2,6 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/genre.dart';
+import 'package:ditonton/presentation/bloc/tv_show/recommendations/tv_show_recommendations_list_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_show/recommendations/tv_show_recommendations_list_event.dart';
+import 'package:ditonton/presentation/bloc/tv_show/recommendations/tv_show_recommendations_list_state.dart';
+import 'package:ditonton/presentation/bloc/tv_show/watchlist/watchlist_tv_shows_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_show/watchlist/watchlist_tv_shows_event.dart';
+import 'package:ditonton/presentation/bloc/tv_show/watchlist/watchlist_tv_shows_state.dart';
 import 'package:ditonton/presentation/widgets/seasons_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,6 +44,8 @@ class _TvShowDetailPageState extends State<TvShowDetailPage>
     Future.microtask(() {
 
       context.read<TvShowDetailBloc>().add(FetchTvShowDetailEvent(widget.id));
+      context.read<TvShowRecommendationListBloc>().add(FetchTvShowRecommendationsEvent(widget.id));
+      context.read<WatchlistTvShowsBloc>().add(WatchlistTvShowsStatus(widget.id));
     });
   }
 
@@ -79,13 +87,9 @@ class _TvShowDetailPageState extends State<TvShowDetailPage>
           );
         } else if (state is TvShowDetailLoadedState) {
           final tvShow = state.tvShow;
-          final tvShowsRecommendation = state.tvShowRecommendations;
-          final isAddedToWatchlist = state.isAddedToWatchlist;
           return SafeArea(
             child: DetailContent(
-              tvShow,
-              tvShowsRecommendation,
-              isAddedToWatchlist,
+              tvShow
             ),
           );
         } else if (state is TvShowDetailErrorState) {
@@ -106,20 +110,24 @@ class _TvShowDetailPageState extends State<TvShowDetailPage>
   }
 }
 
-class DetailContent extends StatelessWidget {
+
+class DetailContent extends StatefulWidget {
   final TvShowDetail tvShow;
-  final List<TvShow> recommendations;
-  final bool isAddedWatchlist;
 
-  DetailContent(this.tvShow, this.recommendations, this.isAddedWatchlist);
+  DetailContent(this.tvShow);
 
+  @override
+  State<DetailContent> createState() => _DetailContentState();
+}
+
+class _DetailContentState extends State<DetailContent> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Stack(
       children: [
         CachedNetworkImage(
-          imageUrl: 'https://image.tmdb.org/t/p/w500${tvShow.posterPath}',
+          imageUrl: 'https://image.tmdb.org/t/p/w500${widget.tvShow.posterPath}',
           width: screenWidth,
           placeholder: (context, url) => Center(
             child: CircularProgressIndicator(),
@@ -150,49 +158,55 @@ class DetailContent extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              tvShow.name,
+                              widget.tvShow.name,
                               style: kHeading5,
                             ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                if (!isAddedWatchlist) {
-                                  context
-                                      .read<TvShowDetailBloc>()
-                                      .add(AddWatchlistEvent(tvShow));
-                                } else {
-                                  context
-                                      .read<TvShowDetailBloc>()
-                                      .add(RemoveFromWatchlistEvent(tvShow));
-                                }
-                              },
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  isAddedWatchlist
-                                      ? Icon(Icons.check)
-                                      : Icon(Icons.add),
-                                  Text('Watchlist'),
-                                ],
-                              ),
-                            ),
-                            BlocListener<TvShowDetailBloc, TvShowDetailState>(
+                            BlocBuilder<WatchlistTvShowsBloc, WatchlistTvShowsState>(
+                                builder: (context, state) {
+                                  return ElevatedButton(
+                                    onPressed: () async {
+                                      if (state is WatchListTvShowResponse){
+                                        if (state.isWatchlist){
+                                          context
+                                              .read<WatchlistTvShowsBloc>()
+                                              .add(WatchlistTvShowsRemove(widget.tvShow));
+                                        } else {
+                                          context
+                                              .read<WatchlistTvShowsBloc>()
+                                              .add(WatchlistTvShowsAdd(widget.tvShow));
+                                        }
+                                      } else {
+                                      }
+                                    },
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        if (state is WatchListTvShowResponse)
+                                          if(state.isWatchlist)
+                                            Icon(Icons.check)
+                                          else
+                                            Icon(Icons.add),
+                                        Text('Watchlist'),
+                                      ],
+                                    ),
+                                  );
+                                }),
+                            BlocListener<WatchlistTvShowsBloc, WatchlistTvShowsState>(
                               listener: (context, state) {
-                                if (state is TvShowDetailLoadedState) {
+                                if (state is WatchListTvShowResponse) {
                                   final message = state.message;
-                                  if(state.isUpdateWatchlist){
-                                    if(state.isSuccessUpdateWatchlist){
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(content: Text(message)));
-                                    }else {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return AlertDialog(
-                                              content: Text(message),
-                                            );
-                                          });
-                                    }
-                                  }
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text(message)));
+                                }
+                                else if (state is WatchlistTvShowsErrorState){
+                                  final message = state.message;
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          content: Text(message),
+                                        );
+                                      });
                                 }
                               },
                               child: Container(
@@ -200,13 +214,13 @@ class DetailContent extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              _showGenres(tvShow.genres),
+                              _showGenres(widget.tvShow.genres),
                             ),
-                            Text("${tvShow.numberOfEpisodes} Episodes"),
+                            Text("${widget.tvShow.numberOfEpisodes} Episodes"),
                             Row(
                               children: [
                                 RatingBarIndicator(
-                                  rating: tvShow.voteAverage / 2,
+                                  rating: widget.tvShow.voteAverage / 2,
                                   itemCount: 5,
                                   itemBuilder: (context, index) => Icon(
                                     Icons.star,
@@ -214,7 +228,7 @@ class DetailContent extends StatelessWidget {
                                   ),
                                   itemSize: 24,
                                 ),
-                                Text('${tvShow.voteAverage}')
+                                Text('${widget.tvShow.voteAverage}')
                               ],
                             ),
                             SizedBox(height: 16),
@@ -223,69 +237,63 @@ class DetailContent extends StatelessWidget {
                               style: kHeading6,
                             ),
                             Text(
-                              tvShow.overview,
+                              widget.tvShow.overview,
                             ),
                             SizedBox(height: 16),
                             Text(
                               'Recommendations',
                               style: kHeading6,
                             ),
-                            Consumer<TvShowDetailNotifier>(
-                              builder: (context, data, child) {
-                                if (data.recommendationState ==
-                                    RequestState.Loading) {
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                } else if (data.recommendationState ==
-                                    RequestState.Error) {
-                                  return Text(data.message);
-                                } else if (data.recommendationState ==
-                                    RequestState.Loaded) {
-                                  return Container(
-                                    height: 150,
-                                    child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) {
-                                        final tvShow = recommendations[index];
-                                        return Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: InkWell(
-                                            onTap: () {
-                                              Navigator.pushReplacementNamed(
-                                                context,
-                                                TvShowDetailPage.ROUTE_NAME,
-                                                arguments: tvShow.id,
-                                              );
-                                            },
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(8),
-                                              ),
-                                              child: CachedNetworkImage(
-                                                imageUrl:
-                                                    'https://image.tmdb.org/t/p/w500${tvShow.posterPath}',
-                                                placeholder: (context, url) =>
-                                                    Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
+                            BlocBuilder<TvShowRecommendationListBloc, TvShowRecommendationListState>(
+                                builder: (context, state) {
+                                  if (state is TvShowRecommendationListLoadingState){
+                                    return CircularProgressIndicator();
+                                  } else if (state is TvShowRecommendationListLoadedState){
+                                    return Container(
+                                      height: 150,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, index) {
+                                          final tvShow = state.tvShows[index];
+                                          return Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: InkWell(
+                                              onTap: () {
+                                                Navigator.pushReplacementNamed(
+                                                  context,
+                                                  TvShowDetailPage.ROUTE_NAME,
+                                                  arguments: tvShow.id,
+                                                );
+                                              },
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(8),
                                                 ),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Icon(Icons.error),
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                  'https://image.tmdb.org/t/p/w500${tvShow.posterPath}',
+                                                  placeholder: (context, url) =>
+                                                      Center(
+                                                        child:
+                                                        CircularProgressIndicator(),
+                                                      ),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                      Icon(Icons.error),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        );
-                                      },
-                                      itemCount: recommendations.length,
-                                    ),
-                                  );
-                                } else {
-                                  return Container();
-                                }
-                              },
-                            ),
+                                          );
+                                        },
+                                        itemCount: state.tvShows.length,
+                                      ),
+                                    );
+                                  } else if (state is TvShowRecommendationListErrorState){
+                                    return Text(state.message);
+                                  } else {
+                                    return Container();
+                                  }
+                                }),
                           ],
                         ),
                       ),
@@ -305,6 +313,19 @@ class DetailContent extends StatelessWidget {
             minChildSize: 0.25,
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CircleAvatar(
+            backgroundColor: kRichBlack,
+            foregroundColor: Colors.white,
+            child: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        )
       ],
     );
   }
