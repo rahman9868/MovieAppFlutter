@@ -46,7 +46,9 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<Either<Failure, List<Movie>>> getMovieRecommendations(int id) async {
     try {
+      print('getMovieRecommendations');
       final result = await remoteDataSource.getMovieRecommendations(id);
+      print("getMovieRecommendations $result");
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
       return Left(ServerFailure(''));
