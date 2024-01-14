@@ -9,15 +9,15 @@ import 'watchlist_tv_shows_state.dart';
 
 class WatchlistTvShowsBloc extends Bloc<WatchlistTvShowsEvent, WatchlistTvShowsState> {
   final GetWatchlistTvShows getWatchlistTvShows;
-  final GetWatchListStatusTvShow getWatchListStatus;
-  final SaveWatchlistTvShow saveWatchlist;
-  final RemoveWatchlistTvShow removeWatchlist;
+  final GetWatchListStatusTvShow getWatchListStatusTvShow;
+  final SaveWatchlistTvShow saveWatchlistTvShow;
+  final RemoveWatchlistTvShow removeWatchlistTvShow;
 
   WatchlistTvShowsBloc(
       this.getWatchlistTvShows,
-      this.getWatchListStatus,
-      this.saveWatchlist,
-      this.removeWatchlist
+      this.getWatchListStatusTvShow,
+      this.saveWatchlistTvShow,
+      this.removeWatchlistTvShow
       ) : super(WatchlistTvShowsInitialState()) {
 
     on<FetchWatchlistTvShowsEvent>((event, emit) async {
@@ -38,7 +38,7 @@ class WatchlistTvShowsBloc extends Bloc<WatchlistTvShowsEvent, WatchlistTvShowsS
 
     on<WatchlistTvShowsStatus>((event, emit) async {
 
-      final results = await getWatchListStatus.execute(event.id);
+      final results = await getWatchListStatusTvShow.execute(event.id);
       const isUpdate = true;
       const message = '';
       emit(WatchListTvShowResponse(results, isUpdate,message));
@@ -49,7 +49,7 @@ class WatchlistTvShowsBloc extends Bloc<WatchlistTvShowsEvent, WatchlistTvShowsS
       final tvShow = event.tvShowDetail;
       const isWatchlist = true;
       const isUpdate = true;
-      final result = await saveWatchlist.execute(tvShow);
+      final result = await saveWatchlistTvShow.execute(tvShow);
       result.fold((failure) {
         emit(WatchlistTvShowsErrorState(failure.message));
       }, (success) {
@@ -61,7 +61,7 @@ class WatchlistTvShowsBloc extends Bloc<WatchlistTvShowsEvent, WatchlistTvShowsS
       final tvShow = event.tvShowDetail;
       const isWatchlist = false;
       const isUpdate = true;
-      final result = await removeWatchlist.execute(tvShow);
+      final result = await removeWatchlistTvShow.execute(tvShow);
       result.fold((failure) {
         emit(WatchlistTvShowsErrorState(failure.message));
       }, (success) {
