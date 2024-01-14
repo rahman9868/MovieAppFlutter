@@ -1,20 +1,20 @@
 
-import 'package:ditonton/presentation/bloc/search_event.dart';
-import 'package:ditonton/presentation/bloc/search_state.dart';
+import 'package:ditonton/domain/usecases/search_tv_shows.dart';
+import 'package:ditonton/presentation/bloc/tv_show/search/search_tv_show_event.dart';
+import 'package:ditonton/presentation/bloc/tv_show/search/search_tv_show_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../domain/usecases/search_movies.dart';
 
-class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  final SearchMovies _searchMovies;
+class SearchTvShowBloc extends Bloc<SearchTvShowEvent, SearchTvShowState> {
+  final SearchTvShows _searchTvShows;
 
-  SearchBloc(this._searchMovies) : super(SearchEmpty()){
+  SearchTvShowBloc(this._searchTvShows) : super(SearchEmpty()){
     on<OnQueryChanged>((event, emit) async {
       final query = event.query;
 
       emit(SearchLoading());
-      final result = await _searchMovies.execute(query);
+      final result = await _searchTvShows.execute(query);
 
       result.fold(
             (failure) {

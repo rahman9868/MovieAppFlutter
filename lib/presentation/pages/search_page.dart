@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../bloc/search_bloc.dart';
-import '../bloc/search_event.dart';
-import '../bloc/search_state.dart';
+import '../bloc/movie/search/search_bloc.dart';
+import '../bloc/movie/search/search_event.dart';
+import '../bloc/movie/search/search_state.dart';
 
 class SearchPage extends StatelessWidget {
   static const ROUTE_NAME = '/search';
@@ -25,10 +25,6 @@ class SearchPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
-              onSubmitted: (query) {
-                Provider.of<MovieSearchNotifier>(context, listen: false)
-                    .fetchMovieSearch(query);
-              },
               onChanged: (query) {
                 context.read<SearchBloc>().add(OnQueryChanged(query));
               },

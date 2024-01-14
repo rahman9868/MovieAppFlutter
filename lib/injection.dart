@@ -21,7 +21,8 @@ import 'package:ditonton/domain/usecases/remove_watchlist_tv_show.dart';
 import 'package:ditonton/domain/usecases/save_watchlist.dart';
 import 'package:ditonton/domain/usecases/save_watchlist_tv_show.dart';
 import 'package:ditonton/domain/usecases/search_movies.dart';
-import 'package:ditonton/presentation/bloc/search_bloc.dart';
+import 'package:ditonton/presentation/bloc/movie/search/search_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_show/search/search_tv_show_bloc.dart';
 import 'package:ditonton/presentation/provider/movie_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
 import 'package:ditonton/presentation/provider/movie_search_notifier.dart';
@@ -132,6 +133,11 @@ void init() {
   //bloc
   locator.registerFactory(
         () => SearchBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+        () => SearchTvShowBloc(
       locator(),
     ),
   );
