@@ -1,15 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/presentation/pages/now_playing_tv_shows_page.dart';
 import 'package:ditonton/presentation/pages/popular_tv_shows_page.dart';
 import 'package:ditonton/presentation/pages/search_page_tv_show.dart';
 import 'package:ditonton/presentation/pages/tv_show_detail_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../domain/entities/tv_show/tv_show.dart';
-import '../provider/tv_show_list_notifier.dart';
+import '../bloc/tv_show/list/now_playing_tv_shows_bloc.dart';
+import '../bloc/tv_show/list/popular_tv_shows_bloc.dart';
+import '../bloc/tv_show/list/top_rated_tv_shows_bloc.dart';
+import '../bloc/tv_show/list/tv_show_list_event.dart';
+import '../bloc/tv_show/list/tv_show_list_state.dart';
 import 'top_rated_tv_shows_page.dart';
 
 class HomeTvShowPage extends StatefulWidget {
@@ -23,11 +27,11 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-        () => Provider.of<TvShowListNotifier>(context, listen: false)
-          ..fetchNowPlayingTvShows()
-          ..fetchPopularTvShows()
-          ..fetchTopRatedTvShows());
+    Future.microtask(() {
+      context.read<NowPlayingTvShowsBloc>().add(FetchNowPlayingTvShowsEvent());
+      context.read<PopularTvShowsBloc>().add(FetchPopularTvShowsEvent());
+      context.read<TopRatedTvShowsBloc>().add(FetchTopRatedTvShowsEvent());
+    });
   }
 
   @override
@@ -55,52 +59,76 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
                 onTap: () => Navigator.pushNamed(
                     context, NowPlayingTvShowsPage.ROUTE_NAME),
               ),
-              Consumer<TvShowListNotifier>(builder: (context, data, child) {
-                final state = data.nowPlayingState;
-                if (state == RequestState.Loading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state == RequestState.Loaded) {
-                  return TvShowList(data.nowPlayingTvShows);
-                } else {
-                  return Text('Failed');
-                }
-              }),
+              BlocBuilder<NowPlayingTvShowsBloc, TvShowListState>(
+                builder: (context, state) {
+                  if (state is TvShowListLoadingState) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is TvShowListLoadedState) {
+                    final result = state.tvShows;
+                    return TvShowList(result);
+                  } else if (state is TvShowListErrorState) {
+                    return Expanded(
+                      child: Center(
+                        child: Text(state.message),
+                      ),
+                    );
+                  } else {
+                    return Text('Failed');
+                  }
+                },
+              ),
               _buildSubHeading(
                 title: 'Popular',
                 onTap: () =>
                     Navigator.pushNamed(context, PopularTvShowsPage.ROUTE_NAME),
               ),
-              Consumer<TvShowListNotifier>(builder: (context, data, child) {
-                final state = data.popularTvShowsState;
-                if (state == RequestState.Loading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state == RequestState.Loaded) {
-                  return TvShowList(data.popularTvShows);
-                } else {
-                  return Text('Failed');
-                }
-              }),
+              BlocBuilder<PopularTvShowsBloc, TvShowListState>(
+                builder: (context, state) {
+                  if (state is TvShowListLoadingState) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is TvShowListLoadedState) {
+                    final result = state.tvShows;
+                    return TvShowList(result);
+                  } else if (state is TvShowListErrorState) {
+                    return Expanded(
+                      child: Center(
+                        child: Text(state.message),
+                      ),
+                    );
+                  } else {
+                    return Text('Failed');
+                  }
+                },
+              ),
               _buildSubHeading(
                 title: 'Top Rated',
                 onTap: () => Navigator.pushNamed(
                     context, TopRatedTvShowsPage.ROUTE_NAME),
               ),
-              Consumer<TvShowListNotifier>(builder: (context, data, child) {
-                final state = data.topRatedTvShowsState;
-                if (state == RequestState.Loading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state == RequestState.Loaded) {
-                  return TvShowList(data.topRatedTvShows);
-                } else {
-                  return Text('Failed');
-                }
-              }),
+              BlocBuilder<TopRatedTvShowsBloc, TvShowListState>(
+                builder: (context, state) {
+                  if (state is TvShowListLoadingState) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is TvShowListLoadedState) {
+                    final result = state.tvShows;
+                    return TvShowList(result);
+                  } else if (state is TvShowListErrorState) {
+                    return Expanded(
+                      child: Center(
+                        child: Text(state.message),
+                      ),
+                    );
+                  } else {
+                    return Text('Failed');
+                  }
+                },
+              ),
             ],
           ),
         ),

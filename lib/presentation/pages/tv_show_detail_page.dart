@@ -4,11 +4,15 @@ import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/genre.dart';
 import 'package:ditonton/presentation/widgets/seasons_list_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../../domain/entities/tv_show/tv_show.dart';
 import '../../domain/entities/tv_show/tv_show_detail.dart';
+import '../bloc/tv_show/detail/tv_show_detail_bloc.dart';
+import '../bloc/tv_show/detail/tv_show_detail_event.dart';
+import '../bloc/tv_show/detail/tv_show_detail_state.dart';
 import '../provider/tv_show_detail_notifier.dart';
 
 class TvShowDetailPage extends StatefulWidget {
@@ -32,17 +36,8 @@ class _TvShowDetailPageState extends State<TvShowDetailPage>
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     Future.microtask(() {
-      Provider.of<TvShowDetailNotifier>(context, listen: false)
-          .fetchTvShowDetail(widget.id);
-      Provider.of<TvShowDetailNotifier>(context, listen: false)
-          .loadWatchlistStatus(widget.id);
-    });
 
-    _tabController.addListener(() {
-      if (_tabController.index == 1) {
-        Provider.of<TvShowDetailNotifier>(context, listen: false)
-            .fetchEpisodes(widget.id);
-      }
+      context.read<TvShowDetailBloc>().add(FetchTvShowDetailEvent(widget.id));
     });
   }
 
@@ -76,23 +71,31 @@ class _TvShowDetailPageState extends State<TvShowDetailPage>
   }
 
   Widget _buildDetails() {
-    return Consumer<TvShowDetailNotifier>(
-      builder: (context, provider, child) {
-        if (provider.tvShowState == RequestState.Loading) {
+    return BlocBuilder<TvShowDetailBloc, TvShowDetailState>(
+      builder: (context, state) {
+        if (state is TvShowDetailLoadingState) {
           return Center(
             child: CircularProgressIndicator(),
           );
-        } else if (provider.tvShowState == RequestState.Loaded) {
-          final tvShow = provider.tvShow;
+        } else if (state is TvShowDetailLoadedState) {
+          final tvShow = state.tvShow;
+          final tvShowsRecommendation = state.tvShowRecommendations;
+          final isAddedToWatchlist = state.isAddedToWatchlist;
           return SafeArea(
             child: DetailContent(
               tvShow,
-              provider.tvShowRecommendations,
-              provider.isAddedToWatchlist,
+              tvShowsRecommendation,
+              isAddedToWatchlist,
+            ),
+          );
+        } else if (state is TvShowDetailErrorState) {
+          return Expanded(
+            child: Center(
+              child: Text(state.message),
             ),
           );
         } else {
-          return Text(provider.message);
+          return Text('Failed $state');
         }
       },
     );
@@ -153,38 +156,13 @@ class DetailContent extends StatelessWidget {
                             ElevatedButton(
                               onPressed: () async {
                                 if (!isAddedWatchlist) {
-                                  await Provider.of<TvShowDetailNotifier>(
-                                          context,
-                                          listen: false)
-                                      .addWatchlist(tvShow);
+                                  context
+                                      .read<TvShowDetailBloc>()
+                                      .add(AddWatchlistEvent(tvShow));
                                 } else {
-                                  await Provider.of<TvShowDetailNotifier>(
-                                          context,
-                                          listen: false)
-                                      .removeFromWatchlist(tvShow);
-                                }
-
-                                final message =
-                                    Provider.of<TvShowDetailNotifier>(context,
-                                            listen: false)
-                                        .watchlistMessage;
-
-                                if (message ==
-                                        TvShowDetailNotifier
-                                            .watchlistAddSuccessMessage ||
-                                    message ==
-                                        TvShowDetailNotifier
-                                            .watchlistRemoveSuccessMessage) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text(message)));
-                                } else {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          content: Text(message),
-                                        );
-                                      });
+                                  context
+                                      .read<TvShowDetailBloc>()
+                                      .add(RemoveFromWatchlistEvent(tvShow));
                                 }
                               },
                               child: Row(
@@ -195,6 +173,30 @@ class DetailContent extends StatelessWidget {
                                       : Icon(Icons.add),
                                   Text('Watchlist'),
                                 ],
+                              ),
+                            ),
+                            BlocListener<TvShowDetailBloc, TvShowDetailState>(
+                              listener: (context, state) {
+                                if (state is TvShowDetailLoadedState) {
+                                  final message = state.message;
+                                  if(state.isUpdateWatchlist){
+                                    if(state.isSuccessUpdateWatchlist){
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(content: Text(message)));
+                                    }else {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              content: Text(message),
+                                            );
+                                          });
+                                    }
+                                  }
+                                }
+                              },
+                              child: Container(
+                                color: Colors.transparent,
                               ),
                             ),
                             Text(
@@ -303,19 +305,6 @@ class DetailContent extends StatelessWidget {
             minChildSize: 0.25,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            backgroundColor: kRichBlack,
-            foregroundColor: Colors.white,
-            child: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-        )
       ],
     );
   }

@@ -136,6 +136,30 @@ class DetailContent extends StatelessWidget {
                                   ],
                                 ),
                               ),
+                              BlocListener<MovieDetailBloc, MovieDetailState>(
+                                listener: (context, state) {
+                                  if (state is MovieDetailLoadedState) {
+                                    final message = state.message;
+                                    if(state.isUpdateWatchlist){
+                                      if(state.isSuccessUpdateWatchlist){
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(content: Text(message)));
+                                      }else {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                content: Text(message),
+                                              );
+                                            });
+                                      }
+                                    }
+                                  }
+                                },
+                                child: Container(
+                                  color: Colors.transparent,
+                                ),
+                              ),
                             Text(
                                 _showGenres(movie.genres),
                               ),

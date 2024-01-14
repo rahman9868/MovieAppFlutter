@@ -13,8 +13,18 @@ class MovieDetailLoadedState extends MovieDetailState {
   final MovieDetail movie;
   final List<Movie> movieRecommendations;
   final bool isAddedToWatchlist;
+  final bool isUpdateWatchlist;
+  final bool isSuccessUpdateWatchlist;
+  final String message;
 
-  MovieDetailLoadedState(this.movie, this.movieRecommendations, this.isAddedToWatchlist);
+  MovieDetailLoadedState(
+      this.movie,
+      this.movieRecommendations,
+      this.isAddedToWatchlist,
+      this.isUpdateWatchlist,
+      this.isSuccessUpdateWatchlist,
+      this.message
+      );
 }
 
 class MovieRecommendationsLoadedState extends MovieDetailState {

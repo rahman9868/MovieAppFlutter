@@ -1,5 +1,7 @@
+import 'package:ditonton/domain/entities/movie_detail.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../domain/entities/movie.dart';
 import '../../../../domain/usecases/get_movie_detail.dart';
 import '../../../../domain/usecases/get_movie_recommendations.dart';
 import '../../../../domain/usecases/get_watchlist_status.dart';
@@ -15,6 +17,11 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
   final SaveWatchlist saveWatchlist;
   final RemoveWatchlist removeWatchlist;
 
+
+  MovieDetail? _movieDetail = null;
+  List<Movie> _moviesRecommendation = [];
+  bool _watchListStatus = false;
+
   MovieDetailBloc(
       this.getMovieDetail,
       this.getWatchListStatus,
@@ -27,19 +34,21 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
 
       final result = await getMovieDetail.execute(event.id);
       final recommendations = await getMovieRecommendations.execute(event.id);
-      final watchListStatus = await getWatchListStatus.execute(event.id);
+      _watchListStatus = await getWatchListStatus.execute(event.id);
 
       result.fold(
             (failure) {
           emit(MovieDetailErrorState(failure.message));
         },
             (movie) {
+              _movieDetail = movie;
               recommendations.fold(
                       (failure) {
                     emit(MovieDetailErrorState(failure.message));
                   },
               (movies) {
-                emit(MovieDetailLoadedState(movie, movies, watchListStatus));
+                        _moviesRecommendation = movies;
+                emit(MovieDetailLoadedState(movie, movies, _watchListStatus, false, false, ''));
                 }
               );
         },
@@ -51,10 +60,11 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
 
       results.fold(
             (failure) {
-          emit(UpdateWatchlistErrorState(failure.message));
+              emit(MovieDetailLoadedState(_movieDetail!, _moviesRecommendation, _watchListStatus, true, false, failure.message));
         },
             (message) {
-          emit(UpdateWatchlistSuccessState(message));
+              _watchListStatus = true;
+              emit(MovieDetailLoadedState(_movieDetail!, _moviesRecommendation, _watchListStatus, true, true, message));
         },
       );
     });
@@ -64,10 +74,11 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
 
       results.fold(
             (failure) {
-          emit(UpdateWatchlistErrorState(failure.message));
+              emit(MovieDetailLoadedState(_movieDetail!, _moviesRecommendation, _watchListStatus, true, false, failure.message));
         },
             (message) {
-          emit(UpdateWatchlistSuccessState(message));
+              _watchListStatus = false;
+          emit(MovieDetailLoadedState(_movieDetail!, _moviesRecommendation, _watchListStatus, true, true, message));
         },
       );
     });

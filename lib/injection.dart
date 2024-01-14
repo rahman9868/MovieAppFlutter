@@ -27,6 +27,11 @@ import 'package:ditonton/presentation/bloc/movie/list/popular_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/list/top_rated_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/list/watchlist_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/search/search_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_show/detail/tv_show_detail_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_show/list/now_playing_tv_shows_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_show/list/popular_tv_shows_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_show/list/top_rated_tv_shows_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_show/list/watchlist_tvShows_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/search/search_tv_show_bloc.dart';
 import 'package:ditonton/presentation/provider/movie_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
@@ -173,6 +178,36 @@ void init() {
   locator.registerFactory(
         () => SearchTvShowBloc(
       locator(),
+    ),
+  );
+  locator.registerFactory(
+        () => NowPlayingTvShowsBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+        () => PopularTvShowsBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+        () => TopRatedTvShowsBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+        () => WatchlistTvShowsBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+        () => TvShowDetailBloc(
+        locator(),
+        locator(),
+        locator(),
+        locator(),
+        locator(),
+        locator()
     ),
   );
 

@@ -1,7 +1,11 @@
 import 'package:ditonton/common/state_enum.dart';
+import 'package:ditonton/presentation/bloc/tv_show/list/now_playing_tv_shows_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_show/list/tv_show_list_event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
+import '../bloc/tv_show/list/tv_show_list_state.dart';
 import '../provider/now_playing_tv_show_notifier.dart';
 import '../widgets/tv_show_card_list.dart';
 
@@ -17,8 +21,8 @@ class _NowPlayingTvShowsPageState extends State<NowPlayingTvShowsPage> {
   void initState() {
     super.initState();
     Future.microtask(() =>
-        Provider.of<NowPlayingTvShowsNotifier>(context, listen: false)
-            .fetchNowPlayingTvShows());
+        context.read<NowPlayingTvShowsBloc>().add(FetchNowPlayingTvShowsEvent())
+    );
   }
 
   @override
@@ -29,25 +33,29 @@ class _NowPlayingTvShowsPageState extends State<NowPlayingTvShowsPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<NowPlayingTvShowsNotifier>(
-          builder: (context, data, child) {
-            if (data.state == RequestState.Loading) {
+        child: BlocBuilder<NowPlayingTvShowsBloc, TvShowListState>(
+          builder: (context, state) {
+            if (state is TvShowListLoadingState) {
               return Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (data.state == RequestState.Loaded) {
+            } else if (state is TvShowListLoadedState) {
+              final tvShows = state.tvShows;
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final movie = data.tvShow[index];
-                  return TvShowCard(movie);
+                  final tvShow = tvShows[index];
+                  return TvShowCard(tvShow);
                 },
-                itemCount: data.tvShow.length,
+                itemCount: tvShows.length,
+              );
+            } else if (state is TvShowListErrorState) {
+              return Expanded(
+                child: Center(
+                  child: Text(state.message),
+                ),
               );
             } else {
-              return Center(
-                key: Key('error_message'),
-                child: Text(data.message),
-              );
+              return Text('Failed');
             }
           },
         ),
