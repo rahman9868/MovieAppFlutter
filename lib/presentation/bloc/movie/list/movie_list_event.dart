@@ -12,3 +12,5 @@ class FetchNowPlayingMoviesEvent extends MovieListEvent {}
 class FetchPopularMoviesEvent extends MovieListEvent {}
 
 class FetchTopRatedMoviesEvent extends MovieListEvent {}
+
+class FetchWatchlistMoviesEvent extends MovieListEvent {}
