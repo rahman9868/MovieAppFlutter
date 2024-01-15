@@ -1,7 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:ditonton/domain/usecases/get_watchlist_tv_show_status.dart';
-import 'package:ditonton/domain/usecases/remove_watchlist_tv_show.dart';
-import 'package:ditonton/domain/usecases/save_watchlist_tv_show.dart';
 
 import '../../../../domain/usecases/get_watchlist_tv_show.dart';
 import 'watchlist_tv_shows_event.dart';

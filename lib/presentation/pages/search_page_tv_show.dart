@@ -1,13 +1,10 @@
 import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/presentation/bloc/tv_show/search/search_tv_show_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/search/search_tv_show_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 import '../bloc/tv_show/search/search_tv_show_event.dart';
-import '../provider/tv_show_search_notifier.dart';
 import '../widgets/tv_show_card_list.dart';
 
 class SearchPageTvShow extends StatelessWidget {

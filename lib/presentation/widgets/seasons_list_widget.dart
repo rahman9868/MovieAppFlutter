@@ -4,10 +4,7 @@ import 'package:ditonton/presentation/bloc/tv_show/episode/tv_show_episode_event
 import 'package:ditonton/presentation/bloc/tv_show/episode/tv_show_episode_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
-import '../../common/state_enum.dart';
-import '../provider/tv_show_detail_notifier.dart';
 import 'episodes_list_widget.dart';
 
 class SeasonsList extends StatefulWidget {

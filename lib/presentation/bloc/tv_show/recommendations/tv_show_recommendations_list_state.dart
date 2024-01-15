@@ -1,7 +1,6 @@
 
 import 'package:equatable/equatable.dart';
 
-import '../../../../domain/entities/movie.dart';
 import '../../../../domain/entities/tv_show/tv_show.dart';
 
 abstract class TvShowRecommendationListState extends Equatable {

@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:ditonton/domain/usecases/get_top_rated_movies.dart';
 
 import '../../../../domain/usecases/get_top_rated_tv_shows.dart';
 import 'tv_show_list_event.dart';

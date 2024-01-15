@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:ditonton/common/exception.dart';
-import '../models/tv_show/tv_show_epidsodes_response.dart';
-import '../models/tv_show/tv_show_episode_model.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/tv_show/tv_show_detail_model.dart';
+import '../models/tv_show/tv_show_epidsodes_response.dart';
+import '../models/tv_show/tv_show_episode_model.dart';
 import '../models/tv_show/tv_show_model.dart';
 import '../models/tv_show/tv_show_response.dart';
 

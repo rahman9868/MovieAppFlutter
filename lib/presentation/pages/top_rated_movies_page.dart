@@ -1,7 +1,6 @@
 import 'package:ditonton/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 import '../bloc/movie/list/movie_list_event.dart';
 import '../bloc/movie/list/movie_list_state.dart';

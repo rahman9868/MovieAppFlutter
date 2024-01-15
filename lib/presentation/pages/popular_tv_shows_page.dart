@@ -1,12 +1,9 @@
-import 'package:ditonton/common/state_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 import '../bloc/tv_show/list/popular_tv_shows_bloc.dart';
 import '../bloc/tv_show/list/tv_show_list_event.dart';
 import '../bloc/tv_show/list/tv_show_list_state.dart';
-import '../provider/popular_tv_shows_notifier.dart';
 import '../widgets/tv_show_card_list.dart';
 
 class PopularTvShowsPage extends StatefulWidget {

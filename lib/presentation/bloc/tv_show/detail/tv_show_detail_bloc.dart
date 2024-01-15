@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../domain/entities/tv_show/episode.dart';
-import '../../../../domain/entities/tv_show/tv_show_detail.dart';
 import '../../../../domain/usecases/get_tv_show_detail.dart';
 import '../../../../domain/usecases/get_tv_show_episodes.dart';
 import 'tv_show_detail_event.dart';

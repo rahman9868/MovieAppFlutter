@@ -6,7 +6,6 @@ import 'package:ditonton/presentation/pages/search_page_tv_show.dart';
 import 'package:ditonton/presentation/pages/tv_show_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 import '../../domain/entities/tv_show/tv_show.dart';
 import '../bloc/tv_show/list/now_playing_tv_shows_bloc.dart';

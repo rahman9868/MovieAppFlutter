@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../../domain/entities/tv_show/episode.dart';
-import '../../../../domain/entities/tv_show/tv_show.dart';
 import '../../../../domain/entities/tv_show/tv_show_detail.dart';
 
 abstract class TvShowEpisodeState extends Equatable {

@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/genre.dart';
 import 'package:ditonton/presentation/bloc/tv_show/recommendations/tv_show_recommendations_list_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/recommendations/tv_show_recommendations_list_event.dart';
@@ -10,14 +9,11 @@ import 'package:ditonton/presentation/widgets/seasons_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:provider/provider.dart';
 
-import '../../domain/entities/tv_show/tv_show.dart';
 import '../../domain/entities/tv_show/tv_show_detail.dart';
 import '../bloc/tv_show/detail/tv_show_detail_bloc.dart';
 import '../bloc/tv_show/detail/tv_show_detail_event.dart';
 import '../bloc/tv_show/detail/tv_show_detail_state.dart';
-import '../provider/tv_show_detail_notifier.dart';
 
 class TvShowDetailPage extends StatefulWidget {
   static const ROUTE_NAME = '/tv-show/detail';

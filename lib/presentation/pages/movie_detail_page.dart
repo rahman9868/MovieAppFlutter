@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/genre.dart';
-import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/entities/movie_detail.dart';
 import 'package:ditonton/presentation/bloc/movie/detail/movie_detail_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/detail/movie_detail_event.dart';
@@ -10,14 +8,11 @@ import 'package:ditonton/presentation/bloc/movie/recommendations/movie_recommend
 import 'package:ditonton/presentation/bloc/movie/recommendations/movie_recommendations_list_state.dart';
 import 'package:ditonton/presentation/bloc/movie/recommendations/movies_recommendations_list_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/watchlist/watchlist_movie_status_cubit.dart';
-import 'package:ditonton/presentation/bloc/movie/watchlist/watchlist_movies_bloc.dart';
-import 'package:ditonton/presentation/bloc/movie/watchlist/watchlist_movies_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../bloc/movie/detail/movie_detail_state.dart';
-import '../bloc/movie/watchlist/watchlist_movies_state.dart';
 
 class MovieDetailPage extends StatefulWidget {
   static const ROUTE_NAME = '/detail';
