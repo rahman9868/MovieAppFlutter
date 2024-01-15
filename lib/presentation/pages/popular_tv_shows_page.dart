@@ -49,10 +49,8 @@ class _PopularTvShowsPageState extends State<PopularTvShowsPage> {
                 itemCount: tvShow.length,
               );
             } else if (state is TvShowListErrorState) {
-              return Expanded(
-                child: Center(
+              return Center(
                   child: Text(state.message),
-                ),
               );
             } else {
               return Text('Failed');

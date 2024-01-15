@@ -47,10 +47,8 @@ class _TopRatedTvShowsPageState extends State<TopRatedTvShowsPage> {
                 itemCount: tvShows.length,
               );
             } else if (state is TvShowListErrorState) {
-              return Expanded(
-                child: Center(
+              return Center(
                   child: Text(state.message),
-                ),
               );
             } else {
               return Text('Failed');

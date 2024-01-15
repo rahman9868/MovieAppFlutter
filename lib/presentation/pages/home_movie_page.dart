@@ -104,6 +104,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -120,7 +121,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                     final result = state.movies;
                     return MovieList(result);
                   } else if (state is MovieListErrorState) {
-                    return Expanded(
+                    return Container(
                       child: Center(
                         child: Text(state.message),
                       ),
@@ -145,7 +146,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                     final result = state.movies;
                     return MovieList(result);
                   } else if (state is MovieListErrorState) {
-                    return Expanded(
+                    return Container(
                       child: Center(
                         child: Text(state.message),
                       ),
@@ -170,7 +171,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                     final result = state.movies;
                     return MovieList(result);
                   } else if (state is MovieListErrorState) {
-                    return Expanded(
+                    return Container(
                       child: Center(
                         child: Text(state.message),
                       ),

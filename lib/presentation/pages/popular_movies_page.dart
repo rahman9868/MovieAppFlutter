@@ -47,11 +47,9 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
                 itemCount: movies.length,
               );
             } else if (state is MovieListErrorState) {
-              return Expanded(
-                child: Center(
+              return Center(
                   child: Text(state.message),
-                ),
-              );
+                );
             } else {
               return Text('Failed');
             }

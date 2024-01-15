@@ -49,10 +49,8 @@ class _NowPlayingTvShowsPageState extends State<NowPlayingTvShowsPage> {
                 itemCount: tvShows.length,
               );
             } else if (state is TvShowListErrorState) {
-              return Expanded(
-                child: Center(
-                  child: Text(state.message),
-                ),
+              return Center(
+                  child: Text(state.message)
               );
             } else {
               return Text('Failed');
