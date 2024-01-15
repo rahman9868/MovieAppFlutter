@@ -11,7 +11,6 @@ class TvShowDetailBloc extends Bloc<TvShowDetailEvent, TvShowDetailState> {
   final GetTvShowDetail getTvShowDetail;
   final GetTvShowEpisodes getTvShowEpisodes;
 
-  TvShowDetail? _tvShow = null;
   Map<int, List<Episode>> _episodesMap = {};
   String _episodeFailedMessage = '';
   Map<int, bool> _isExpandedMap = {};
@@ -31,7 +30,6 @@ class TvShowDetailBloc extends Bloc<TvShowDetailEvent, TvShowDetailState> {
           emit(TvShowDetailErrorState(failure.message));
         },
             (tvShow) {
-              _tvShow = tvShow;
               emit(TvShowDetailLoadedState(tvShow, _episodesMap));
         },
       );
@@ -40,14 +38,13 @@ class TvShowDetailBloc extends Bloc<TvShowDetailEvent, TvShowDetailState> {
       emit(
           TvShowEpisodesLoadingState());
 
-      if(_tvShow != null){
         for (int seasonNumber
-        in _tvShow!.seasons.map((season) => season.seasonNumber)) {
+        in event.tvShow.seasons.map((season) => season.seasonNumber)) {
           if (_episodesMap[seasonNumber]?.isNotEmpty == true) continue;
 
           _isExpandedMap[seasonNumber] = false;
           final episodesResult =
-          await getTvShowEpisodes.execute(event.id, seasonNumber);
+          await getTvShowEpisodes.execute(event.tvShow.id, seasonNumber);
           episodesResult.fold(
                 (failure) {
                   _episodeFailedMessage = failure.message;
@@ -58,23 +55,15 @@ class TvShowDetailBloc extends Bloc<TvShowDetailEvent, TvShowDetailState> {
           );
         }
         if(_episodesMap.isNotEmpty){
-          emit(EpisodesTvShowSuccessState(_episodesMap, _tvShow!, _isExpandedMap));
+          emit(EpisodesTvShowSuccessState(_episodesMap, event.tvShow, _isExpandedMap));
         }else {
           emit(EpisodesTvShowErrorState(_episodeFailedMessage));
         }
-      } else {
-        emit(EpisodesTvShowErrorState('Failed'));
-      }
     });
     on<UpdateToggleSeasonExpansion>((event, emit) async {
-      if (_tvShow != null) {
         emit(TvShowEpisodesLoadingState());
         _isExpandedMap[event.seasonNumber] = !_isExpandedMap[event.seasonNumber]!;
-        emit(EpisodesTvShowSuccessState(_episodesMap, _tvShow!, _isExpandedMap));
-        print("Value Toogle ${_isExpandedMap[event.seasonNumber]} ${_isExpandedMap}");
-      }else {
-        print("TvShow Null");
-      }
+        emit(EpisodesTvShowSuccessState(_episodesMap, event.tvShowDetail, _isExpandedMap));
     });
 
   }

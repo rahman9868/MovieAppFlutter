@@ -1,3 +1,5 @@
+import 'package:ditonton/domain/entities/tv_show/tv_show.dart';
+
 import '../../../../domain/entities/tv_show/tv_show_detail.dart';
 
 abstract class TvShowDetailEvent {}
@@ -13,14 +15,15 @@ class FetchTvShowsRecommendationEvent extends TvShowDetailEvent {
   FetchTvShowsRecommendationEvent(this.id);
 }
 class FetchTvShowEpisodesEvent extends TvShowDetailEvent {
-  final int id;
+  final TvShowDetail tvShow;
 
-  FetchTvShowEpisodesEvent(this.id);
+  FetchTvShowEpisodesEvent(this.tvShow);
 }
 class UpdateToggleSeasonExpansion extends TvShowDetailEvent {
+  final TvShowDetail tvShowDetail;
   final int seasonNumber;
 
-  UpdateToggleSeasonExpansion(this.seasonNumber);
+  UpdateToggleSeasonExpansion(this.tvShowDetail,this.seasonNumber);
 }
 
 class AddWatchlistEvent extends TvShowDetailEvent {

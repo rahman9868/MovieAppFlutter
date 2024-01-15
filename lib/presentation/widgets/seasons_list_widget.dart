@@ -1,3 +1,4 @@
+import 'package:ditonton/domain/entities/tv_show/tv_show_detail.dart';
 import 'package:ditonton/presentation/bloc/tv_show/detail/tv_show_detail_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +11,10 @@ import '../provider/tv_show_detail_notifier.dart';
 import 'episodes_list_widget.dart';
 
 class SeasonsList extends StatefulWidget {
+  final TvShowDetail tvShowDetail;
+
+  const SeasonsList({super.key, required this.tvShowDetail});
+
   @override
   _SeasonsListState createState() => _SeasonsListState();
 }
@@ -65,7 +70,7 @@ class _SeasonsListState extends State<SeasonsList> {
                         ],
                       ),
                       onTap: () async {
-                        context.read<TvShowDetailBloc>().add(UpdateToggleSeasonExpansion(season.seasonNumber));
+                        context.read<TvShowDetailBloc>().add(UpdateToggleSeasonExpansion(widget.tvShowDetail, season.seasonNumber));
                       },
                     ),
                     Builder(

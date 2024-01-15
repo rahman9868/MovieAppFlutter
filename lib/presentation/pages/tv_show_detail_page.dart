@@ -35,6 +35,7 @@ class TvShowDetailPage extends StatefulWidget {
 class _TvShowDetailPageState extends State<TvShowDetailPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  late TvShowDetail _tvShowDetail;
   int selectedSeasonNumber = 0;
 
   @override
@@ -51,7 +52,7 @@ class _TvShowDetailPageState extends State<TvShowDetailPage>
       _tabController.addListener(() {
         if (_tabController.index == 1) {
           context.read<TvShowDetailBloc>().add(
-              FetchTvShowEpisodesEvent(widget.id));
+              FetchTvShowEpisodesEvent(_tvShowDetail));
         }
       });
     });
@@ -94,10 +95,10 @@ class _TvShowDetailPageState extends State<TvShowDetailPage>
             child: CircularProgressIndicator(),
           );
         } else if (state is TvShowDetailLoadedState) {
-          final tvShow = state.tvShow;
+          _tvShowDetail = state.tvShow;
           return SafeArea(
             child: DetailContent(
-              tvShow
+              _tvShowDetail
             ),
           );
         } else if (state is TvShowDetailErrorState) {
@@ -114,7 +115,7 @@ class _TvShowDetailPageState extends State<TvShowDetailPage>
   }
 
   Widget _buildEpisodes() {
-    return SeasonsList();
+    return SeasonsList(tvShowDetail: _tvShowDetail,);
   }
 }
 
