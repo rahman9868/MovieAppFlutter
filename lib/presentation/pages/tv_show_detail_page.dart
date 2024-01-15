@@ -5,7 +5,6 @@ import 'package:ditonton/presentation/bloc/tv_show/recommendations/tv_show_recom
 import 'package:ditonton/presentation/bloc/tv_show/recommendations/tv_show_recommendations_list_event.dart';
 import 'package:ditonton/presentation/bloc/tv_show/recommendations/tv_show_recommendations_list_state.dart';
 import 'package:ditonton/presentation/bloc/tv_show/watchlist_status/watchlist_tv_show_status_cubit.dart';
-import 'package:ditonton/presentation/widgets/seasons_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -46,71 +45,25 @@ class _TvShowDetailPageState extends State<TvShowDetailPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Detail TV Show"),
-        ),
-        body: Column(
-          children: [
-            TabBar(
-              controller: _tabController,
-              tabs: [
-                Tab(text: 'Details'),
-                Tab(text: 'Episodes'),
-              ],
-            ),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  _buildDetails(),
-                  _buildEpisodes(),
-                ],
-              ),
-            ),
-          ],
+        body: BlocBuilder<TvShowDetailBloc, TvShowDetailState>(
+          builder: (context, state) {
+            if (state is TvShowDetailLoadingState) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is TvShowDetailLoadedState) {
+              return SafeArea(
+                child: DetailContent(state.tvShow),
+              );
+            } else if (state is TvShowDetailErrorState) {
+              return Center(
+                child: Text(state.message),
+              );
+            } else {
+              return Text('Failed $state');
+            }
+          },
         ));
-  }
-
-  Widget _buildDetails() {
-    return BlocBuilder<TvShowDetailBloc, TvShowDetailState>(
-      builder: (context, state) {
-        if (state is TvShowDetailLoadingState) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (state is TvShowDetailLoadedState) {
-          return SafeArea(
-            child: DetailContent(state.tvShow),
-          );
-        } else if (state is TvShowDetailErrorState) {
-          return Center(
-            child: Text(state.message),
-          );
-        } else {
-          return Text('Failed $state');
-        }
-      },
-    );
-  }
-
-  Widget _buildEpisodes() {
-    return BlocBuilder<TvShowDetailBloc, TvShowDetailState>(
-      builder: (context, state) {
-        if (state is TvShowDetailLoadingState) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (state is TvShowDetailLoadedState) {
-          return SeasonsList(tvShowDetail: state.tvShow);
-        } else if (state is TvShowDetailErrorState) {
-          return Center(
-            child: Text(state.message),
-          );
-        } else {
-          return Text('Failed $state');
-        }
-      },
-    );
   }
 }
 
