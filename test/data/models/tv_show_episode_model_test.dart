@@ -15,8 +15,7 @@ void main() {
       showId: 10,
       stillPath: "StillPath",
       voteAverage: 7.2,
-      voteCount: 5
-  );
+      voteCount: 5);
 
   final tEpisode = Episode(
       airDate: "2023-01-10",
@@ -30,8 +29,7 @@ void main() {
       showId: 10,
       stillPath: "StillPath",
       voteAverage: 7.2,
-      voteCount: 5
-  );
+      voteCount: 5);
 
   test('should be a subclass of Episode entity', () async {
     final result = tEpisodeModel.toEntity();

@@ -24,6 +24,7 @@ class MovieDetailLoadedState extends MovieDetailState {
 
 class MovieRecommendationsLoadedState extends MovieDetailState {
   final List<Movie> movieRecommendations;
+
   MovieRecommendationsLoadedState(this.movieRecommendations);
 }
 

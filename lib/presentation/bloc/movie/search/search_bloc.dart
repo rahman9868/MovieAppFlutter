@@ -1,4 +1,3 @@
-
 import 'package:ditonton/presentation/bloc/movie/search/search_event.dart';
 import 'package:ditonton/presentation/bloc/movie/search/search_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +8,7 @@ import '../../../../domain/usecases/search_movies.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final SearchMovies _searchMovies;
 
-  SearchBloc(this._searchMovies) : super(SearchEmpty()){
+  SearchBloc(this._searchMovies) : super(SearchEmpty()) {
     on<OnQueryChanged>((event, emit) async {
       final query = event.query;
 
@@ -17,10 +16,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       final result = await _searchMovies.execute(query);
 
       result.fold(
-            (failure) {
-              emit(SearchError(failure.message));
-            },
-            (data) {
+        (failure) {
+          emit(SearchError(failure.message));
+        },
+        (data) {
           emit(SearchHasData(data));
         },
       );
@@ -30,5 +29,4 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   EventTransformer<T> debounce<T>(Duration duration) {
     return (events, mapper) => events.debounceTime(duration).flatMap(mapper);
   }
-
 }

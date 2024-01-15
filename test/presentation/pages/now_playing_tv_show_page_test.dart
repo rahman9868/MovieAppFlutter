@@ -1,23 +1,12 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/presentation/bloc/movie/list/movie_list_event.dart';
-import 'package:ditonton/presentation/bloc/movie/list/movie_list_state.dart';
-import 'package:ditonton/presentation/bloc/movie/list/popular_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/list/now_playing_tv_shows_bloc.dart';
-import 'package:ditonton/presentation/bloc/tv_show/list/popular_tv_shows_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/list/tv_show_list_event.dart';
 import 'package:ditonton/presentation/bloc/tv_show/list/tv_show_list_state.dart';
 import 'package:ditonton/presentation/pages/now_playing_tv_shows_page.dart';
-import 'package:ditonton/presentation/pages/popular_movies_page.dart';
-import 'package:ditonton/presentation/pages/popular_tv_shows_page.dart';
-import 'package:ditonton/presentation/provider/popular_movies_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:provider/provider.dart';
 
 import '../../dummy_data/dummy_objects.dart';
 
@@ -61,37 +50,37 @@ void main() {
     });
 
     testWidgets('page should display center progress bar when loading',
-            (WidgetTester tester) async {
-          when(() => mockNowPlayingTvShowBloc.state)
-              .thenReturn(TvShowListLoadingState());
-          await tester.pumpWidget(makeTestableWidget(NowPlayingTvShowsPage()));
+        (WidgetTester tester) async {
+      when(() => mockNowPlayingTvShowBloc.state)
+          .thenReturn(TvShowListLoadingState());
+      await tester.pumpWidget(makeTestableWidget(NowPlayingTvShowsPage()));
 
-          final progressBarFinder = find.byType(CircularProgressIndicator);
-          final centerFinder = find.byType(Center);
+      final progressBarFinder = find.byType(CircularProgressIndicator);
+      final centerFinder = find.byType(Center);
 
-          expect(centerFinder, findsOneWidget);
-          expect(progressBarFinder, findsOneWidget);
-        });
+      expect(centerFinder, findsOneWidget);
+      expect(progressBarFinder, findsOneWidget);
+    });
 
     testWidgets('page should display ListView when data is loaded',
-            (WidgetTester tester) async {
-          when(() => mockNowPlayingTvShowBloc.state)
-              .thenReturn(TvShowListLoadedState(testTvShowList));
+        (WidgetTester tester) async {
+      when(() => mockNowPlayingTvShowBloc.state)
+          .thenReturn(TvShowListLoadedState(testTvShowList));
 
-          await tester.pumpWidget(makeTestableWidget(NowPlayingTvShowsPage()));
+      await tester.pumpWidget(makeTestableWidget(NowPlayingTvShowsPage()));
 
-          final listViewFinder = find.byType(ListView);
-          expect(listViewFinder, findsOneWidget);
-        });
+      final listViewFinder = find.byType(ListView);
+      expect(listViewFinder, findsOneWidget);
+    });
 
     testWidgets('page should display text with message when Error',
-            (WidgetTester tester) async {
-          when(() => mockNowPlayingTvShowBloc.state)
-              .thenReturn(TvShowListErrorState('Error'));
+        (WidgetTester tester) async {
+      when(() => mockNowPlayingTvShowBloc.state)
+          .thenReturn(TvShowListErrorState('Error'));
 
-          await tester.pumpWidget(makeTestableWidget(NowPlayingTvShowsPage()));
+      await tester.pumpWidget(makeTestableWidget(NowPlayingTvShowsPage()));
 
-          expect(find.text('Error'), findsOneWidget);
-        });
+      expect(find.text('Error'), findsOneWidget);
+    });
   });
 }

@@ -167,9 +167,7 @@ final testEpisodesMap = {
   ]
 };
 
-final testIsExpandedMap = {
-  1 : true
-};
+final testIsExpandedMap = {1: true};
 
 final testEpisodesList = [
   Episode(

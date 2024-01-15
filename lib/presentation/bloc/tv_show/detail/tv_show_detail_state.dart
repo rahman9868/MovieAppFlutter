@@ -23,13 +23,12 @@ class TvShowDetailLoadedState extends TvShowDetailState {
   final TvShowDetail tvShow;
   final Map<int, List<Episode>> episodeMap;
 
-  TvShowDetailLoadedState(
-      this.tvShow,
-      this.episodeMap);
+  TvShowDetailLoadedState(this.tvShow, this.episodeMap);
 }
 
 class TvShowRecommendationsLoadedState extends TvShowDetailState {
   final List<TvShow> movieRecommendations;
+
   TvShowRecommendationsLoadedState(this.movieRecommendations);
 }
 
@@ -50,7 +49,8 @@ class EpisodesTvShowSuccessState extends TvShowDetailState {
   final TvShowDetail tvShowDetail;
   final Map<int, bool> isExpandedMap;
 
-  EpisodesTvShowSuccessState(this.episodeMap, this.tvShowDetail, this.isExpandedMap);
+  EpisodesTvShowSuccessState(
+      this.episodeMap, this.tvShowDetail, this.isExpandedMap);
 }
 
 class EpisodesTvShowErrorState extends TvShowDetailState {

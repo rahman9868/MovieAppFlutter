@@ -12,7 +12,6 @@ import 'package:mockito/mockito.dart';
 
 import 'recommendation_tvShows_bloc_test.mocks.dart';
 
-
 @GenerateMocks([GetTvShowRecommendations])
 void main() {
   late TvShowRecommendationListBloc tvShowRecommendationListBloc;
@@ -20,7 +19,8 @@ void main() {
 
   setUp(() {
     mockGetTvShowRecommendations = MockGetTvShowRecommendations();
-    tvShowRecommendationListBloc = TvShowRecommendationListBloc(mockGetTvShowRecommendations);
+    tvShowRecommendationListBloc =
+        TvShowRecommendationListBloc(mockGetTvShowRecommendations);
   });
 
   const tvShowId = 1;
@@ -34,7 +34,7 @@ void main() {
     originalLanguage: "tl",
     originalName: "Dirty Linen",
     overview:
-    "To exact vengeance, a young woman infiltrates the household of an influential family as a housemaid to expose their dirty secrets. However, love will get in the way of her revenge plot.",
+        "To exact vengeance, a young woman infiltrates the household of an influential family as a housemaid to expose their dirty secrets. However, love will get in the way of her revenge plot.",
     popularity: 2797.914,
     posterPath: "/aoAZgnmMzY9vVy9VWnO3U5PZENh.jpg",
     voteAverage: 8.0,
@@ -46,20 +46,28 @@ void main() {
   blocTest<TvShowRecommendationListBloc, TvShowRecommendationListState>(
     'emits [TvShowRecommendationListLoadingState, TvShowRecommendationListLoadedState] when FetchTvShowRecommendationsEvent is added successfully',
     build: () {
-      when(mockGetTvShowRecommendations.execute(tvShowId)).thenAnswer((_) async => Right(tTvShowList));
+      when(mockGetTvShowRecommendations.execute(tvShowId))
+          .thenAnswer((_) async => Right(tTvShowList));
       return tvShowRecommendationListBloc;
     },
     act: (bloc) => bloc.add(FetchTvShowRecommendationsEvent(tvShowId)),
-    expect: () => [TvShowRecommendationListLoadingState(), TvShowRecommendationListLoadedState(tTvShowList)],
+    expect: () => [
+      TvShowRecommendationListLoadingState(),
+      TvShowRecommendationListLoadedState(tTvShowList)
+    ],
   );
 
   blocTest<TvShowRecommendationListBloc, TvShowRecommendationListState>(
     'emits [TvShowListLoadingState, TvShowListErrorState] when FetchNowPlayingTvShowsEvent is added with error',
     build: () {
-      when(mockGetTvShowRecommendations.execute(tvShowId)).thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+      when(mockGetTvShowRecommendations.execute(tvShowId))
+          .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
       return tvShowRecommendationListBloc;
     },
     act: (bloc) => bloc.add(FetchTvShowRecommendationsEvent(tvShowId)),
-    expect: () => [TvShowRecommendationListLoadingState(), TvShowRecommendationListErrorState('Server Failure')],
+    expect: () => [
+      TvShowRecommendationListLoadingState(),
+      TvShowRecommendationListErrorState('Server Failure')
+    ],
   );
 }

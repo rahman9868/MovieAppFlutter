@@ -17,9 +17,9 @@ class _NowPlayingTvShowsPageState extends State<NowPlayingTvShowsPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        context.read<NowPlayingTvShowsBloc>().add(FetchNowPlayingTvShowsEvent())
-    );
+    Future.microtask(() => context
+        .read<NowPlayingTvShowsBloc>()
+        .add(FetchNowPlayingTvShowsEvent()));
   }
 
   @override
@@ -46,9 +46,7 @@ class _NowPlayingTvShowsPageState extends State<NowPlayingTvShowsPage> {
                 itemCount: tvShows.length,
               );
             } else if (state is TvShowListErrorState) {
-              return Center(
-                  child: Text(state.message)
-              );
+              return Center(child: Text(state.message));
             } else {
               return Text('Failed');
             }

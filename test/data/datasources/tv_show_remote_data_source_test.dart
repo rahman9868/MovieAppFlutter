@@ -205,38 +205,35 @@ void main() {
   });
 
   group('get tvShow episodes', () {
-    final tTvShowEpisodeList = TvShowEpisodesResponse.fromJson(json.decode(
-        readJson('dummy_data/tv_show/tv_show_episodes.json')))
+    final tTvShowEpisodeList = TvShowEpisodesResponse.fromJson(
+            json.decode(readJson('dummy_data/tv_show/tv_show_episodes.json')))
         .episodeList;
     final tId = 1;
     final tSeason = 2;
 
     test('should return list of Episode Model when the response code is 200',
-            () async {
-          // arrange
-          when(mockHttpClient
+        () async {
+      // arrange
+      when(mockHttpClient
               .get(Uri.parse('$BASE_URL/tv/$tId/season/$tSeason?$API_KEY')))
-              .thenAnswer((_) async => http.Response(
-              readJson('dummy_data/tv_show/tv_show_episodes.json'),
-              200));
-          // act
-          final result = await dataSource.getEpisodes(tId, tSeason);
-          // assert
-          expect(result, equals(tTvShowEpisodeList));
-
-        });
-
+          .thenAnswer((_) async => http.Response(
+              readJson('dummy_data/tv_show/tv_show_episodes.json'), 200));
+      // act
+      final result = await dataSource.getEpisodes(tId, tSeason);
+      // assert
+      expect(result, equals(tTvShowEpisodeList));
+    });
 
     test('should throw Server Exception when the response code is 404 or other',
-            () async {
-          // arrange
-          when(mockHttpClient
+        () async {
+      // arrange
+      when(mockHttpClient
               .get(Uri.parse('$BASE_URL/tv/$tId/season/$tSeason?$API_KEY')))
-              .thenAnswer((_) async => http.Response('Not Found', 404));
-          // act
-          final call = dataSource.getEpisodes(tId, tSeason);
-          // assert
-          expect(() => call, throwsA(isA<ServerException>()));
-        });
+          .thenAnswer((_) async => http.Response('Not Found', 404));
+      // act
+      final call = dataSource.getEpisodes(tId, tSeason);
+      // assert
+      expect(() => call, throwsA(isA<ServerException>()));
+    });
   });
 }

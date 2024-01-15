@@ -18,8 +18,7 @@ class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
   void initState() {
     super.initState();
     Future.microtask(() =>
-        context.read<TopRatedMoviesBloc>().add(FetchTopRatedMoviesEvent())
-    );
+        context.read<TopRatedMoviesBloc>().add(FetchTopRatedMoviesEvent()));
   }
 
   @override
@@ -30,8 +29,7 @@ class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child:
-        BlocBuilder<TopRatedMoviesBloc, MovieListState>(
+        child: BlocBuilder<TopRatedMoviesBloc, MovieListState>(
           builder: (context, state) {
             if (state is MovieListLoadingState) {
               return Center(
@@ -48,7 +46,7 @@ class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
               );
             } else if (state is MovieListErrorState) {
               return Center(
-                  child: Text(state.message),
+                child: Text(state.message),
               );
             } else {
               return Text('Failed');

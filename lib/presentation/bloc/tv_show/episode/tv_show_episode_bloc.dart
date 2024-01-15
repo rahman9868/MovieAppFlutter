@@ -13,45 +13,45 @@ class TvShowEpisodeBloc extends Bloc<TvShowEpisodeEvent, TvShowEpisodeState> {
   Map<int, bool> _isExpandedMap = {};
 
   TvShowEpisodeBloc(
-      this.getTvShowEpisodes,
-      ) : super(TvShowEpisodeInitialState()) {
+    this.getTvShowEpisodes,
+  ) : super(TvShowEpisodeInitialState()) {
     on<FetchTvShowEpisodesEvent>((event, emit) async {
       print("FetchTvShowEpisodesEvent ${event.tvShowDetail}");
-      emit(
-          TvShowEpisodesLoadingState());
+      emit(TvShowEpisodesLoadingState());
 
-        for (int seasonNumber
-        in event.tvShowDetail.seasons.map((season) => season.seasonNumber)) {
-          if (_episodesMap[seasonNumber]?.isNotEmpty == true) continue;
+      for (int seasonNumber
+          in event.tvShowDetail.seasons.map((season) => season.seasonNumber)) {
+        if (_episodesMap[seasonNumber]?.isNotEmpty == true) continue;
 
-          print("FetchTvShowEpisodesEvent seasonNumber $seasonNumber}");
-          _isExpandedMap[seasonNumber] = false;
-          final episodesResult =
-          await getTvShowEpisodes.execute(event.tvShowDetail.id, seasonNumber);
-          episodesResult.fold(
-                (failure) {
-                  _episodeFailedMessage = failure.message;
-            },
-                (episodes) {
-              _episodesMap[seasonNumber] = episodes;
-            },
-          );
-        }
-      print("FetchTvShowEpisodesEvent Finish Looping ${_episodesMap.isNotEmpty}");
-        if(_episodesMap.isNotEmpty){
-          emit(EpisodesTvShowSuccessState(_episodesMap, event.tvShowDetail, _isExpandedMap));
-        }else {
-          print("FetchTvShowEpisodesEvent EpisodesTvShowErrorState $_episodeFailedMessage}");
-          emit(EpisodesTvShowErrorState(_episodeFailedMessage));
-        }
+        print("FetchTvShowEpisodesEvent seasonNumber $seasonNumber}");
+        _isExpandedMap[seasonNumber] = false;
+        final episodesResult = await getTvShowEpisodes.execute(
+            event.tvShowDetail.id, seasonNumber);
+        episodesResult.fold(
+          (failure) {
+            _episodeFailedMessage = failure.message;
+          },
+          (episodes) {
+            _episodesMap[seasonNumber] = episodes;
+          },
+        );
+      }
+      print(
+          "FetchTvShowEpisodesEvent Finish Looping ${_episodesMap.isNotEmpty}");
+      if (_episodesMap.isNotEmpty) {
+        emit(EpisodesTvShowSuccessState(
+            _episodesMap, event.tvShowDetail, _isExpandedMap));
+      } else {
+        print(
+            "FetchTvShowEpisodesEvent EpisodesTvShowErrorState $_episodeFailedMessage}");
+        emit(EpisodesTvShowErrorState(_episodeFailedMessage));
+      }
     });
     on<UpdateToggleSeasonExpansion>((event, emit) async {
-        emit(TvShowEpisodesLoadingState());
-        _isExpandedMap[event.seasonNumber] = !_isExpandedMap[event.seasonNumber]!;
-        emit(EpisodesTvShowSuccessState(_episodesMap, event.tvShowDetail, _isExpandedMap));
+      emit(TvShowEpisodesLoadingState());
+      _isExpandedMap[event.seasonNumber] = !_isExpandedMap[event.seasonNumber]!;
+      emit(EpisodesTvShowSuccessState(
+          _episodesMap, event.tvShowDetail, _isExpandedMap));
     });
-
   }
-
-
 }

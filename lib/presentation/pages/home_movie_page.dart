@@ -34,7 +34,6 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -12,18 +12,24 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../dummy_data/dummy_objects.dart';
 
-class MockNowPlayingMoviesBloc extends MockBloc<MovieListEvent, MovieListState> implements NowPlayingMoviesBloc {}
-class MockPopularMoviesBloc extends MockBloc<MovieListEvent, MovieListState> implements PopularMoviesBloc {}
-class MockTopRatedMoviesBloc extends MockBloc<MovieListEvent, MovieListState> implements TopRatedMoviesBloc {}
+class MockNowPlayingMoviesBloc extends MockBloc<MovieListEvent, MovieListState>
+    implements NowPlayingMoviesBloc {}
+
+class MockPopularMoviesBloc extends MockBloc<MovieListEvent, MovieListState>
+    implements PopularMoviesBloc {}
+
+class MockTopRatedMoviesBloc extends MockBloc<MovieListEvent, MovieListState>
+    implements TopRatedMoviesBloc {}
 
 class MovieListEventFake extends Fake implements MovieListEvent {}
+
 class MovieListStateFake extends Fake implements MovieListState {}
 
 void main() {
   late MockNowPlayingMoviesBloc mockNowPlayingMoviesBloc;
   late MockPopularMoviesBloc mockPopularMoviesBloc;
   late MockTopRatedMoviesBloc mockTopRatedMoviesBloc;
-  
+
   setUpAll(() {
     registerFallbackValue(MovieListEventFake());
     registerFallbackValue(MovieListStateFake());
@@ -35,15 +41,18 @@ void main() {
     mockTopRatedMoviesBloc = MockTopRatedMoviesBloc();
   });
 
-  testWidgets('renders Now Playing movies when loaded', (WidgetTester tester) async {
+  testWidgets('renders Now Playing movies when loaded',
+      (WidgetTester tester) async {
     // Arrange
-    when(() => mockNowPlayingMoviesBloc.state).thenReturn(MovieListLoadedState([testMovie]));
+    when(() => mockNowPlayingMoviesBloc.state)
+        .thenReturn(MovieListLoadedState([testMovie]));
     // Build our app and trigger a frame.
     await tester.pumpWidget(
       MaterialApp(
         home: MultiBlocProvider(
           providers: [
-            BlocProvider<NowPlayingMoviesBloc>.value(value: mockNowPlayingMoviesBloc),
+            BlocProvider<NowPlayingMoviesBloc>.value(
+                value: mockNowPlayingMoviesBloc),
           ],
           child: HomeMoviePage(),
         ),
@@ -60,20 +69,25 @@ void main() {
 
   // ... Add more tests for other scenarios ...
 
-  testWidgets('renders error message when Now Playing movies load fails', (WidgetTester tester) async {
+  testWidgets('renders error message when Now Playing movies load fails',
+      (WidgetTester tester) async {
     // Arrange
-    when(() => mockNowPlayingMoviesBloc.state).thenReturn(MovieListErrorState('Error message'));
+    when(() => mockNowPlayingMoviesBloc.state)
+        .thenReturn(MovieListErrorState('Error message'));
     when(() => mockPopularMoviesBloc.state).thenReturn(MovieListLoadingState());
-    when(() => mockTopRatedMoviesBloc.state).thenReturn(MovieListLoadingState());
+    when(() => mockTopRatedMoviesBloc.state)
+        .thenReturn(MovieListLoadingState());
 
     // Build our app and trigger a frame.
     await tester.pumpWidget(
       MaterialApp(
         home: MultiBlocProvider(
           providers: [
-            BlocProvider<NowPlayingMoviesBloc>.value(value: mockNowPlayingMoviesBloc),
+            BlocProvider<NowPlayingMoviesBloc>.value(
+                value: mockNowPlayingMoviesBloc),
             BlocProvider<PopularMoviesBloc>.value(value: mockPopularMoviesBloc),
-            BlocProvider<TopRatedMoviesBloc>.value(value: mockTopRatedMoviesBloc),
+            BlocProvider<TopRatedMoviesBloc>.value(
+                value: mockTopRatedMoviesBloc),
           ],
           child: HomeMoviePage(),
         ),

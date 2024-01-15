@@ -17,12 +17,13 @@ class SeasonsList extends StatefulWidget {
 }
 
 class _SeasonsListState extends State<SeasonsList> {
-
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
-          context.read<TvShowEpisodeBloc>().add(FetchTvShowEpisodesEvent(widget.tvShowDetail));
+      context
+          .read<TvShowEpisodeBloc>()
+          .add(FetchTvShowEpisodesEvent(widget.tvShowDetail));
     });
   }
 
@@ -57,22 +58,20 @@ class _SeasonsListState extends State<SeasonsList> {
                           ),
                           if (isExpandedMap[season.seasonNumber] == true)
                             IconButton(
-                              icon: Icon(
-                                  Icons.keyboard_arrow_up
-                              ),
+                              icon: Icon(Icons.keyboard_arrow_up),
                               onPressed: () {},
                             )
                           else
                             IconButton(
-                              icon: Icon(
-                                  Icons.keyboard_arrow_down
-                              ),
+                              icon: Icon(Icons.keyboard_arrow_down),
                               onPressed: () {},
                             )
                         ],
                       ),
                       onTap: () async {
-                        context.read<TvShowEpisodeBloc>().add(UpdateToggleSeasonExpansion(widget.tvShowDetail, season.seasonNumber));
+                        context.read<TvShowEpisodeBloc>().add(
+                            UpdateToggleSeasonExpansion(
+                                widget.tvShowDetail, season.seasonNumber));
                       },
                     ),
                     Builder(
@@ -81,9 +80,7 @@ class _SeasonsListState extends State<SeasonsList> {
                       },
                     ),
                     if (isExpandedMap[season.seasonNumber] == true)
-                      EpisodesList(
-                          episodesMap[season.seasonNumber] ?? []
-                      )
+                      EpisodesList(episodesMap[season.seasonNumber] ?? [])
                     //else
                     //Container(),
                   ],
@@ -92,9 +89,7 @@ class _SeasonsListState extends State<SeasonsList> {
             ),
           );
         } else if (state is EpisodesTvShowErrorState) {
-          return Center(
-              child: Text(state.message)
-          );
+          return Center(child: Text(state.message));
         } else {
           return Text("Failed $state");
         }

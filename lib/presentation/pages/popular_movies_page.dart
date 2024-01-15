@@ -17,9 +17,8 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        context.read<PopularMoviesBloc>().add(FetchPopularMoviesEvent())
-    );
+    Future.microtask(
+        () => context.read<PopularMoviesBloc>().add(FetchPopularMoviesEvent()));
   }
 
   @override
@@ -47,8 +46,8 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
               );
             } else if (state is MovieListErrorState) {
               return Center(
-                  child: Text(state.message),
-                );
+                child: Text(state.message),
+              );
             } else {
               return Text('Failed');
             }

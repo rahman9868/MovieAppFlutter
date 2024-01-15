@@ -15,57 +15,54 @@ class TvShowDetailBloc extends Bloc<TvShowDetailEvent, TvShowDetailState> {
   Map<int, bool> _isExpandedMap = {};
 
   TvShowDetailBloc(
-      this.getTvShowDetail,
-      this.getTvShowEpisodes,
-      ) : super(TvShowDetailInitialState()) {
+    this.getTvShowDetail,
+    this.getTvShowEpisodes,
+  ) : super(TvShowDetailInitialState()) {
     on<FetchTvShowDetailEvent>((event, emit) async {
-      emit(
-          TvShowDetailLoadingState());
+      emit(TvShowDetailLoadingState());
 
       final result = await getTvShowDetail.execute(event.id);
 
       result.fold(
-            (failure) {
+        (failure) {
           emit(TvShowDetailErrorState(failure.message));
         },
-            (tvShow) {
-              emit(TvShowDetailLoadedState(tvShow, _episodesMap));
+        (tvShow) {
+          emit(TvShowDetailLoadedState(tvShow, _episodesMap));
         },
       );
     });
     on<FetchTvShowEpisodesEvent>((event, emit) async {
-      emit(
-          TvShowEpisodesLoadingState());
+      emit(TvShowEpisodesLoadingState());
 
-        for (int seasonNumber
-        in event.tvShow.seasons.map((season) => season.seasonNumber)) {
-          if (_episodesMap[seasonNumber]?.isNotEmpty == true) continue;
+      for (int seasonNumber
+          in event.tvShow.seasons.map((season) => season.seasonNumber)) {
+        if (_episodesMap[seasonNumber]?.isNotEmpty == true) continue;
 
-          _isExpandedMap[seasonNumber] = false;
-          final episodesResult =
-          await getTvShowEpisodes.execute(event.tvShow.id, seasonNumber);
-          episodesResult.fold(
-                (failure) {
-                  _episodeFailedMessage = failure.message;
-            },
-                (episodes) {
-              _episodesMap[seasonNumber] = episodes;
-            },
-          );
-        }
-        if(_episodesMap.isNotEmpty){
-          emit(EpisodesTvShowSuccessState(_episodesMap, event.tvShow, _isExpandedMap));
-        }else {
-          emit(EpisodesTvShowErrorState(_episodeFailedMessage));
-        }
+        _isExpandedMap[seasonNumber] = false;
+        final episodesResult =
+            await getTvShowEpisodes.execute(event.tvShow.id, seasonNumber);
+        episodesResult.fold(
+          (failure) {
+            _episodeFailedMessage = failure.message;
+          },
+          (episodes) {
+            _episodesMap[seasonNumber] = episodes;
+          },
+        );
+      }
+      if (_episodesMap.isNotEmpty) {
+        emit(EpisodesTvShowSuccessState(
+            _episodesMap, event.tvShow, _isExpandedMap));
+      } else {
+        emit(EpisodesTvShowErrorState(_episodeFailedMessage));
+      }
     });
     on<UpdateToggleSeasonExpansion>((event, emit) async {
-        emit(TvShowEpisodesLoadingState());
-        _isExpandedMap[event.seasonNumber] = !_isExpandedMap[event.seasonNumber]!;
-        emit(EpisodesTvShowSuccessState(_episodesMap, event.tvShowDetail, _isExpandedMap));
+      emit(TvShowEpisodesLoadingState());
+      _isExpandedMap[event.seasonNumber] = !_isExpandedMap[event.seasonNumber]!;
+      emit(EpisodesTvShowSuccessState(
+          _episodesMap, event.tvShowDetail, _isExpandedMap));
     });
-
   }
-
-
 }

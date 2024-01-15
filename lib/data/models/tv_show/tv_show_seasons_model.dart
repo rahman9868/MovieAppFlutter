@@ -43,7 +43,6 @@ class SeasonModel {
         overview: this.overview,
         posterPath: this.posterPath,
         seasonNumber: this.seasonNumber,
-        voteAverage: this.voteAverage
-    );
+        voteAverage: this.voteAverage);
   }
 }

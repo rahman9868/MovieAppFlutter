@@ -7,23 +7,21 @@ import 'tv_show_list_state.dart';
 class NowPlayingTvShowsBloc extends Bloc<TvShowListEvent, TvShowListState> {
   final GetNowPlayingTvShows getNowPlayingTvShows;
 
-  NowPlayingTvShowsBloc(this.getNowPlayingTvShows) : super(TvShowListInitialState()) {
+  NowPlayingTvShowsBloc(this.getNowPlayingTvShows)
+      : super(TvShowListInitialState()) {
     on<FetchNowPlayingTvShowsEvent>((event, emit) async {
       emit(TvShowListLoadingState());
 
       final result = await getNowPlayingTvShows.execute();
 
       result.fold(
-            (failure) {
+        (failure) {
           emit(TvShowListErrorState(failure.message));
         },
-            (movies) {
+        (movies) {
           emit(TvShowListLoadedState(movies));
         },
       );
-    }
-    );
+    });
   }
-
 }
-

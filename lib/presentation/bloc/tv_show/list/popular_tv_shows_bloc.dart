@@ -14,15 +14,13 @@ class PopularTvShowsBloc extends Bloc<TvShowListEvent, TvShowListState> {
       final result = await getPopularTvShows.execute();
 
       result.fold(
-            (failure) {
+        (failure) {
           emit(TvShowListErrorState(failure.message));
         },
-            (movies) {
+        (movies) {
           emit(TvShowListLoadedState(movies));
         },
       );
-    }
-    );
+    });
   }
 }
-

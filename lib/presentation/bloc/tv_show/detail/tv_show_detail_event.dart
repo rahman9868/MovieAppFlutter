@@ -7,21 +7,24 @@ class FetchTvShowDetailEvent extends TvShowDetailEvent {
 
   FetchTvShowDetailEvent(this.id);
 }
+
 class FetchTvShowsRecommendationEvent extends TvShowDetailEvent {
   final int id;
 
   FetchTvShowsRecommendationEvent(this.id);
 }
+
 class FetchTvShowEpisodesEvent extends TvShowDetailEvent {
   final TvShowDetail tvShow;
 
   FetchTvShowEpisodesEvent(this.tvShow);
 }
+
 class UpdateToggleSeasonExpansion extends TvShowDetailEvent {
   final TvShowDetail tvShowDetail;
   final int seasonNumber;
 
-  UpdateToggleSeasonExpansion(this.tvShowDetail,this.seasonNumber);
+  UpdateToggleSeasonExpansion(this.tvShowDetail, this.seasonNumber);
 }
 
 class AddWatchlistEvent extends TvShowDetailEvent {

@@ -1,4 +1,3 @@
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:ditonton/common/failure.dart';
@@ -14,9 +13,7 @@ import 'package:mockito/mockito.dart';
 
 import 'movie_detail_bloc_test.mocks.dart';
 
-@GenerateMocks([
-  GetMovieDetail
-])
+@GenerateMocks([GetMovieDetail])
 void main() {
   late MockGetMovieDetail mockGetMovieDetail;
   late MovieDetailBloc movieDetailBloc;
@@ -60,7 +57,6 @@ void main() {
         return FetchMovieDetailEvent(movieId).id;
       },
     );
-
 
     blocTest<MovieDetailBloc, MovieDetailState>(
       'emits Loading and Error states when FetchMovieDetailEvent fails',

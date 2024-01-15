@@ -43,7 +43,8 @@ void main() {
   blocTest<PopularMoviesBloc, MovieListState>(
     'emits [MovieListLoadingState, MovieListLoadedState] when FetchPopularMoviesEvent is added successfully',
     build: () {
-      when(mockGetPopularMovies.execute()).thenAnswer((_) async => Right(tMovieList));
+      when(mockGetPopularMovies.execute())
+          .thenAnswer((_) async => Right(tMovieList));
       return popularMoviesBloc;
     },
     act: (bloc) => bloc.add(FetchPopularMoviesEvent()),
@@ -53,10 +54,12 @@ void main() {
   blocTest<PopularMoviesBloc, MovieListState>(
     'emits [MovieListLoadingState, MovieListErrorState] when FetchPopularMoviesEvent is added with error',
     build: () {
-      when(mockGetPopularMovies.execute()).thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+      when(mockGetPopularMovies.execute())
+          .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
       return popularMoviesBloc;
     },
     act: (bloc) => bloc.add(FetchPopularMoviesEvent()),
-    expect: () => [MovieListLoadingState(), MovieListErrorState('Server Failure')],
+    expect: () =>
+        [MovieListLoadingState(), MovieListErrorState('Server Failure')],
   );
 }

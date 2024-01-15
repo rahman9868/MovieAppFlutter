@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-class Episode extends Equatable  {
-
-  Episode ({
+class Episode extends Equatable {
+  Episode({
     required this.airDate,
     required this.episodeNumber,
     required this.id,
@@ -16,7 +15,6 @@ class Episode extends Equatable  {
     required this.voteAverage,
     required this.voteCount,
   });
-
 
   final String? airDate;
   final int? episodeNumber;
@@ -33,19 +31,17 @@ class Episode extends Equatable  {
 
   @override
   List<Object?> get props => [
-  airDate,
-  episodeNumber,
-  id,
-  name,
-  overview,
-  productionCode,
-  runtime,
-  seasonNumber,
-  showId,
-  stillPath,
-  voteAverage,
-  voteCount,
-  ];
-
-
+        airDate,
+        episodeNumber,
+        id,
+        name,
+        overview,
+        productionCode,
+        runtime,
+        seasonNumber,
+        showId,
+        stillPath,
+        voteAverage,
+        voteCount,
+      ];
 }

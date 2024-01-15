@@ -1,9 +1,5 @@
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
-import 'package:ditonton/domain/entities/tv_show/episode.dart';
-import 'package:ditonton/domain/entities/tv_show/tv_show.dart';
-import 'package:ditonton/domain/entities/tv_show/tv_show_detail.dart';
 import 'package:ditonton/domain/usecases/get_tv_show_detail.dart';
 import 'package:ditonton/domain/usecases/get_tv_show_episodes.dart';
 import 'package:ditonton/presentation/bloc/tv_show/detail/tv_show_detail_bloc.dart';
@@ -59,7 +55,6 @@ void main() {
       },
       act: (bloc) => bloc.add(FetchTvShowDetailEvent(tvShowId)),
       expect: () {
-
         when(mockGetTvShowDetail.execute(tvShowId))
             .thenAnswer((_) async => Right(tvShowDetail));
 
@@ -73,7 +68,7 @@ void main() {
     blocTest<TvShowDetailBloc, TvShowDetailState>(
       'emits TvShowEpisodesLoadingState and EpisodesTvShowSuccessState',
       build: () {
-        when(mockGetTvShowEpisodes.execute(tvShowId,sNumber))
+        when(mockGetTvShowEpisodes.execute(tvShowId, sNumber))
             .thenAnswer((_) async => Right(episodesMap[sNumber]!));
         return tvShowDetailBloc;
       },
@@ -84,10 +79,10 @@ void main() {
 
         return [
           TvShowEpisodesLoadingState(),
-          EpisodesTvShowSuccessState(episodesMap, testTvShowDetail, isExpandedMap),
+          EpisodesTvShowSuccessState(
+              episodesMap, testTvShowDetail, isExpandedMap),
         ];
       },
     );
-
   });
 }

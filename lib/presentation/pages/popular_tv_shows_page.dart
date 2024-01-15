@@ -18,8 +18,7 @@ class _PopularTvShowsPageState extends State<PopularTvShowsPage> {
   void initState() {
     super.initState();
     Future.microtask(() =>
-        context.read<PopularTvShowsBloc>().add(FetchPopularTvShowsEvent())
-    );
+        context.read<PopularTvShowsBloc>().add(FetchPopularTvShowsEvent()));
   }
 
   @override
@@ -47,7 +46,7 @@ class _PopularTvShowsPageState extends State<PopularTvShowsPage> {
               );
             } else if (state is TvShowListErrorState) {
               return Center(
-                  child: Text(state.message),
+                child: Text(state.message),
               );
             } else {
               return Text('Failed');

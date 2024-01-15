@@ -3,9 +3,9 @@ import 'package:dartz/dartz.dart';
 import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/usecases/get_movie_recommendations.dart';
+import 'package:ditonton/presentation/bloc/movie/recommendations/movie_recommendations_list_event.dart';
 import 'package:ditonton/presentation/bloc/movie/recommendations/movie_recommendations_list_state.dart';
 import 'package:ditonton/presentation/bloc/movie/recommendations/movies_recommendations_list_bloc.dart';
-import 'package:ditonton/presentation/bloc/movie/recommendations/movie_recommendations_list_event.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -19,7 +19,8 @@ void main() {
 
   setUp(() {
     mockGetMovieRecommendations = MockGetMovieRecommendations();
-    movieRecommendationListBloc = MovieRecommendationListBloc(mockGetMovieRecommendations);
+    movieRecommendationListBloc =
+        MovieRecommendationListBloc(mockGetMovieRecommendations);
   });
 
   const movieId = 1;
@@ -44,20 +45,28 @@ void main() {
   blocTest<MovieRecommendationListBloc, MovieRecommendationListState>(
     'emits [MovieRecommendationListLoadingState, MovieRecommendationListLoadedState] when FetchMovieRecommendationsEvent is added successfully',
     build: () {
-      when(mockGetMovieRecommendations.execute(movieId)).thenAnswer((_) async => Right(tMovieList));
+      when(mockGetMovieRecommendations.execute(movieId))
+          .thenAnswer((_) async => Right(tMovieList));
       return movieRecommendationListBloc;
     },
     act: (bloc) => bloc.add(FetchMovieRecommendationsEvent(movieId)),
-    expect: () => [MovieRecommendationListLoadingState(), MovieRecommendationListLoadedState(tMovieList)],
+    expect: () => [
+      MovieRecommendationListLoadingState(),
+      MovieRecommendationListLoadedState(tMovieList)
+    ],
   );
 
   blocTest<MovieRecommendationListBloc, MovieRecommendationListState>(
     'emits [MovieListLoadingState, MovieListErrorState] when FetchNowPlayingMoviesEvent is added with error',
     build: () {
-      when(mockGetMovieRecommendations.execute(movieId)).thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+      when(mockGetMovieRecommendations.execute(movieId))
+          .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
       return movieRecommendationListBloc;
     },
     act: (bloc) => bloc.add(FetchMovieRecommendationsEvent(movieId)),
-    expect: () => [MovieRecommendationListLoadingState(), MovieRecommendationListErrorState('Server Failure')],
+    expect: () => [
+      MovieRecommendationListLoadingState(),
+      MovieRecommendationListErrorState('Server Failure')
+    ],
   );
 }

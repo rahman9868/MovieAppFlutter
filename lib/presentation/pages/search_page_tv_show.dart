@@ -38,7 +38,7 @@ class SearchPageTvShow extends StatelessWidget {
               style: kHeading6,
             ),
             BlocBuilder<SearchTvShowBloc, SearchTvShowState>(
-              builder:  (context, state) {
+              builder: (context, state) {
                 if (state is SearchLoading) {
                   return Center(
                     child: CircularProgressIndicator(),

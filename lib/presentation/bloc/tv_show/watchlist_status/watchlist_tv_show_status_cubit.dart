@@ -1,4 +1,3 @@
-
 import 'package:ditonton/domain/entities/tv_show/tv_show_detail.dart';
 import 'package:ditonton/domain/usecases/get_watchlist_tv_show_status.dart';
 import 'package:ditonton/domain/usecases/remove_watchlist_tv_show.dart';
@@ -18,8 +17,8 @@ class WatchlistStatusTvShowCubit extends Cubit<WatchlistStatusTvShowState> {
     required this.getWatchlistTvShowStatus,
     required this.saveWatchlistTvShow,
     required this.removeWatchlistTvShow,
-  }) : super(
-      const WatchlistStatusTvShowState(isAddedWatchlist: false, message: ''));
+  }) : super(const WatchlistStatusTvShowState(
+            isAddedWatchlist: false, message: ''));
 
   void loadWatchlistStatus(int id) async {
     final result = await getWatchlistTvShowStatus.execute(id);
@@ -31,10 +30,10 @@ class WatchlistStatusTvShowCubit extends Cubit<WatchlistStatusTvShowState> {
     final getStatus = await getWatchlistTvShowStatus.execute(tvShowDetail.id);
 
     result.fold(
-          (failure) => emit(WatchlistStatusTvShowState(
+      (failure) => emit(WatchlistStatusTvShowState(
           isAddedWatchlist: getStatus, message: failure.message)),
-          (data) => emit(
-          WatchlistStatusTvShowState(isAddedWatchlist: getStatus, message: data)),
+      (data) => emit(WatchlistStatusTvShowState(
+          isAddedWatchlist: getStatus, message: data)),
     );
   }
 
@@ -43,10 +42,10 @@ class WatchlistStatusTvShowCubit extends Cubit<WatchlistStatusTvShowState> {
     final getStatus = await getWatchlistTvShowStatus.execute(tvShowDetail.id);
 
     result.fold(
-          (failure) => emit(WatchlistStatusTvShowState(
+      (failure) => emit(WatchlistStatusTvShowState(
           isAddedWatchlist: getStatus, message: failure.message)),
-          (data) => emit(
-          WatchlistStatusTvShowState(isAddedWatchlist: getStatus, message: data)),
+      (data) => emit(WatchlistStatusTvShowState(
+          isAddedWatchlist: getStatus, message: data)),
     );
   }
 }

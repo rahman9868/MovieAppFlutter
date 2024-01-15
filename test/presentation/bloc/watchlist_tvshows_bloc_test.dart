@@ -1,12 +1,7 @@
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
-import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/domain/entities/tv_show/tv_show.dart';
 import 'package:ditonton/domain/usecases/get_watchlist_tv_show.dart';
-import 'package:ditonton/domain/usecases/get_watchlist_tv_show_status.dart';
-import 'package:ditonton/domain/usecases/remove_watchlist_tv_show.dart';
-import 'package:ditonton/domain/usecases/save_watchlist_tv_show.dart';
 import 'package:ditonton/presentation/bloc/tv_show/watchlist/watchlist_tv_shows_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/watchlist/watchlist_tv_shows_event.dart';
 import 'package:ditonton/presentation/bloc/tv_show/watchlist/watchlist_tv_shows_state.dart';
@@ -14,22 +9,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../dummy_data/dummy_objects.dart';
 import 'watchlist_tvshows_bloc_test.mocks.dart';
 
-
-@GenerateMocks([
-  GetWatchlistTvShows
-])
+@GenerateMocks([GetWatchlistTvShows])
 void main() {
   late MockGetWatchlistTvShows mockGetWatchlistTvShows;
   late WatchlistTvShowsBloc watchlistTvShowsBloc;
 
   setUp(() {
     mockGetWatchlistTvShows = MockGetWatchlistTvShows();
-    watchlistTvShowsBloc = WatchlistTvShowsBloc(
-        mockGetWatchlistTvShows
-    );
+    watchlistTvShowsBloc = WatchlistTvShowsBloc(mockGetWatchlistTvShows);
   });
 
   group('WatchlistTvShowsBloc', () {
@@ -43,7 +32,7 @@ void main() {
       originalLanguage: "tl",
       originalName: "Dirty Linen",
       overview:
-      "To exact vengeance, a young woman infiltrates the household of an influential family as a housemaid to expose their dirty secrets. However, love will get in the way of her revenge plot.",
+          "To exact vengeance, a young woman infiltrates the household of an influential family as a housemaid to expose their dirty secrets. However, love will get in the way of her revenge plot.",
       popularity: 2797.914,
       posterPath: "/aoAZgnmMzY9vVy9VWnO3U5PZENh.jpg",
       voteAverage: 8.0,
@@ -53,7 +42,8 @@ void main() {
     blocTest<WatchlistTvShowsBloc, WatchlistTvShowsState>(
       'emits Loading and Loaded states when FetchNowWatchlistTvShowsEvent is added',
       build: () {
-        when(mockGetWatchlistTvShows.execute()).thenAnswer((_) async => Right([tvShow]));
+        when(mockGetWatchlistTvShows.execute())
+            .thenAnswer((_) async => Right([tvShow]));
         return watchlistTvShowsBloc;
       },
       act: (bloc) => bloc.add(FetchWatchlistTvShowsEvent()),
@@ -62,6 +52,5 @@ void main() {
         WatchlistTvShowsLoadedState([tvShow]),
       ],
     );
-
   });
 }

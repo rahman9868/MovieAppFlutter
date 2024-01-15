@@ -17,7 +17,6 @@ final TextStyle kHeading5 =
 final TextStyle kHeading6 = GoogleFonts.poppins(
     fontSize: 19, fontWeight: FontWeight.w500, letterSpacing: 0.15);
 
-
 const kColorScheme = ColorScheme(
   primary: kMikadoYellow,
   primaryContainer: kMikadoYellow,

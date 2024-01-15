@@ -7,22 +7,21 @@ import 'tv_show_list_state.dart';
 class TopRatedTvShowsBloc extends Bloc<TvShowListEvent, TvShowListState> {
   final GetTopRatedTvShows getTopRatedTvShows;
 
-  TopRatedTvShowsBloc(this.getTopRatedTvShows) : super(TvShowListInitialState()) {
+  TopRatedTvShowsBloc(this.getTopRatedTvShows)
+      : super(TvShowListInitialState()) {
     on<FetchTopRatedTvShowsEvent>((event, emit) async {
       emit(TvShowListLoadingState());
 
       final result = await getTopRatedTvShows.execute();
 
       result.fold(
-            (failure) {
+        (failure) {
           emit(TvShowListErrorState(failure.message));
         },
-            (movies) {
+        (movies) {
           emit(TvShowListLoadedState(movies));
         },
       );
-    }
-    );
+    });
   }
 }
-

@@ -19,7 +19,8 @@ class EpisodesTvShowSuccessState extends TvShowEpisodeState {
   final TvShowDetail tvShowDetail;
   final Map<int, bool> isExpandedMap;
 
-  EpisodesTvShowSuccessState(this.episodeMap, this.tvShowDetail, this.isExpandedMap);
+  EpisodesTvShowSuccessState(
+      this.episodeMap, this.tvShowDetail, this.isExpandedMap);
 }
 
 class EpisodesTvShowErrorState extends TvShowEpisodeState {

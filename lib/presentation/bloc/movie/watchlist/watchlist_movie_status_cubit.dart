@@ -1,5 +1,3 @@
-
-
 import 'package:ditonton/domain/entities/movie_detail.dart';
 import 'package:ditonton/domain/usecases/get_watchlist_status.dart';
 import 'package:ditonton/domain/usecases/remove_watchlist.dart';
@@ -19,7 +17,8 @@ class WatchlistStatusMovieCubit extends Cubit<WatchlistStatusMovieState> {
     required this.getWatchListStatus,
     required this.saveWatchlist,
     required this.removeWatchlist,
-  }) : super(const WatchlistStatusMovieState(isAddedWatchlist: false, message: ''));
+  }) : super(const WatchlistStatusMovieState(
+            isAddedWatchlist: false, message: ''));
 
   void loadWatchlistStatus(int id) async {
     final result = await getWatchListStatus.execute(id);
@@ -31,13 +30,13 @@ class WatchlistStatusMovieCubit extends Cubit<WatchlistStatusMovieState> {
     final resultBool = await getWatchListStatus.execute(movie.id);
 
     result.fold(
-          (failure) async {
+      (failure) async {
         emit(WatchlistStatusMovieState(
           message: failure.message,
           isAddedWatchlist: resultBool,
         ));
       },
-          (successMessage) async {
+      (successMessage) async {
         emit(WatchlistStatusMovieState(
           message: successMessage,
           isAddedWatchlist: resultBool,
@@ -51,13 +50,13 @@ class WatchlistStatusMovieCubit extends Cubit<WatchlistStatusMovieState> {
     final resultBool = await getWatchListStatus.execute(movie.id);
 
     result.fold(
-          (failure) async {
+      (failure) async {
         emit(WatchlistStatusMovieState(
           message: failure.message,
           isAddedWatchlist: resultBool,
         ));
       },
-          (successMessage) async {
+      (successMessage) async {
         emit(WatchlistStatusMovieState(
           message: successMessage,
           isAddedWatchlist: resultBool,
@@ -79,4 +78,3 @@ class WatchlistStatusMovieState extends Equatable {
   @override
   List<Object> get props => [isAddedWatchlist];
 }
-

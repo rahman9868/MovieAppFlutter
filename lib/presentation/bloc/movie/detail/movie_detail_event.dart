@@ -7,6 +7,7 @@ class FetchMovieDetailEvent extends MovieDetailEvent {
 
   FetchMovieDetailEvent(this.id);
 }
+
 class FetchMoviesRecommendationEvent extends MovieDetailEvent {
   final int id;
 

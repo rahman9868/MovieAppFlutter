@@ -43,7 +43,8 @@ void main() {
   blocTest<NowPlayingMoviesBloc, MovieListState>(
     'emits [MovieListLoadingState, MovieListLoadedState] when FetchNowPlayingMoviesEvent is added successfully',
     build: () {
-      when(mockGetNowPlayingMovies.execute()).thenAnswer((_) async => Right(tMovieList));
+      when(mockGetNowPlayingMovies.execute())
+          .thenAnswer((_) async => Right(tMovieList));
       return popularMoviesBloc;
     },
     act: (bloc) => bloc.add(FetchNowPlayingMoviesEvent()),
@@ -53,10 +54,12 @@ void main() {
   blocTest<NowPlayingMoviesBloc, MovieListState>(
     'emits [MovieListLoadingState, MovieListErrorState] when FetchNowPlayingMoviesEvent is added with error',
     build: () {
-      when(mockGetNowPlayingMovies.execute()).thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+      when(mockGetNowPlayingMovies.execute())
+          .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
       return popularMoviesBloc;
     },
     act: (bloc) => bloc.add(FetchNowPlayingMoviesEvent()),
-    expect: () => [MovieListLoadingState(), MovieListErrorState('Server Failure')],
+    expect: () =>
+        [MovieListLoadingState(), MovieListErrorState('Server Failure')],
   );
 }

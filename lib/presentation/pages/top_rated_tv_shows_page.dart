@@ -18,8 +18,7 @@ class _TopRatedTvShowsPageState extends State<TopRatedTvShowsPage> {
   void initState() {
     super.initState();
     Future.microtask(() =>
-        context.read<TopRatedTvShowsBloc>().add(FetchTopRatedTvShowsEvent())
-    );
+        context.read<TopRatedTvShowsBloc>().add(FetchTopRatedTvShowsEvent()));
   }
 
   @override
@@ -47,7 +46,7 @@ class _TopRatedTvShowsPageState extends State<TopRatedTvShowsPage> {
               );
             } else if (state is TvShowListErrorState) {
               return Center(
-                  child: Text(state.message),
+                child: Text(state.message),
               );
             } else {
               return Text('Failed');

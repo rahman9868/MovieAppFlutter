@@ -12,7 +12,6 @@ import 'package:mockito/mockito.dart';
 
 import 'search_tv_show_block_test.mocks.dart';
 
-
 @GenerateMocks([SearchTvShows])
 void main() {
   late SearchTvShowBloc searchTvShowBloc;
@@ -37,7 +36,7 @@ void main() {
     originalLanguage: "tl",
     originalName: "Dirty Linen",
     overview:
-    "To exact vengeance, a young woman infiltrates the household of an influential family as a housemaid to expose their dirty secrets. However, love will get in the way of her revenge plot.",
+        "To exact vengeance, a young woman infiltrates the household of an influential family as a housemaid to expose their dirty secrets. However, love will get in the way of her revenge plot.",
     popularity: 2797.914,
     posterPath: "/aoAZgnmMzY9vVy9VWnO3U5PZENh.jpg",
     voteAverage: 8.0,
@@ -81,5 +80,4 @@ void main() {
       verify(mockSearchTvShows.execute(tQuery));
     },
   );
-
 }

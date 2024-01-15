@@ -7,23 +7,21 @@ import 'movie_list_state.dart';
 class NowPlayingMoviesBloc extends Bloc<MovieListEvent, MovieListState> {
   final GetNowPlayingMovies getNowPlayingMovies;
 
-  NowPlayingMoviesBloc(this.getNowPlayingMovies) : super(MovieListInitialState()) {
+  NowPlayingMoviesBloc(this.getNowPlayingMovies)
+      : super(MovieListInitialState()) {
     on<FetchNowPlayingMoviesEvent>((event, emit) async {
       emit(MovieListLoadingState());
 
       final result = await getNowPlayingMovies.execute();
 
       result.fold(
-            (failure) {
+        (failure) {
           emit(MovieListErrorState(failure.message));
         },
-            (movies) {
+        (movies) {
           emit(MovieListLoadedState(movies));
         },
       );
-    }
-    );
+    });
   }
-
 }
-

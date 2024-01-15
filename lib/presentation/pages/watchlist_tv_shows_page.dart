@@ -20,8 +20,7 @@ class _WatchlistTvShowsPageState extends State<WatchlistTvShowsPage>
   void initState() {
     super.initState();
     Future.microtask(() =>
-        context.read<WatchlistTvShowsBloc>().add(FetchWatchlistTvShowsEvent())
-    );
+        context.read<WatchlistTvShowsBloc>().add(FetchWatchlistTvShowsEvent()));
   }
 
   @override

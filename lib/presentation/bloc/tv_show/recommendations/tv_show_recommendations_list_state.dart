@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 
 import '../../../../domain/entities/tv_show/tv_show.dart';
@@ -10,11 +9,14 @@ abstract class TvShowRecommendationListState extends Equatable {
   List<Object> get props => [];
 }
 
-class TvShowRecommendationListInitialState extends TvShowRecommendationListState {}
+class TvShowRecommendationListInitialState
+    extends TvShowRecommendationListState {}
 
-class TvShowRecommendationListLoadingState extends TvShowRecommendationListState {}
+class TvShowRecommendationListLoadingState
+    extends TvShowRecommendationListState {}
 
-class TvShowRecommendationListLoadedState extends TvShowRecommendationListState {
+class TvShowRecommendationListLoadedState
+    extends TvShowRecommendationListState {
   final List<TvShow> tvShows;
 
   TvShowRecommendationListLoadedState(this.tvShows);
