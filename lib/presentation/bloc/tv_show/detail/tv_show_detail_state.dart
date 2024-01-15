@@ -48,8 +48,9 @@ class WatchlistStatusLoadedState extends TvShowDetailState {
 class EpisodesTvShowSuccessState extends TvShowDetailState {
   final Map<int, List<Episode>> episodeMap;
   final TvShowDetail tvShowDetail;
+  final Map<int, bool> isExpandedMap;
 
-  EpisodesTvShowSuccessState(this.episodeMap, this.tvShowDetail);
+  EpisodesTvShowSuccessState(this.episodeMap, this.tvShowDetail, this.isExpandedMap);
 }
 
 class EpisodesTvShowErrorState extends TvShowDetailState {

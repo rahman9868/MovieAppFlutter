@@ -14,6 +14,7 @@ class TvShowDetailBloc extends Bloc<TvShowDetailEvent, TvShowDetailState> {
   TvShowDetail? _tvShow = null;
   Map<int, List<Episode>> _episodesMap = {};
   String _episodeFailedMessage = '';
+  Map<int, bool> _isExpandedMap = {};
 
   TvShowDetailBloc(
       this.getTvShowDetail,
@@ -29,28 +30,9 @@ class TvShowDetailBloc extends Bloc<TvShowDetailEvent, TvShowDetailState> {
             (failure) {
           emit(TvShowDetailErrorState(failure.message));
         },
-            (tvShow) async {
+            (tvShow) {
+              _tvShow = tvShow;
               emit(TvShowDetailLoadedState(tvShow, _episodesMap));
-              for (int seasonNumber
-              in tvShow.seasons.map((season) => season.seasonNumber)) {
-                if (_episodesMap[seasonNumber]?.isNotEmpty == true) continue;
-
-                final episodesResult =
-                    await getTvShowEpisodes.execute(event.id, seasonNumber);
-                episodesResult.fold(
-                      (failure) {
-                    _episodeFailedMessage = failure.message;
-                  },
-                      (episodes) {
-                    _episodesMap[seasonNumber] = episodes;
-                  },
-                );
-              }
-              if(_episodesMap.isNotEmpty){
-                emit(TvShowDetailLoadedState(tvShow, _episodesMap));
-              }else {
-                emit(EpisodesTvShowErrorState(_episodeFailedMessage));
-              }
         },
       );
     });
@@ -63,6 +45,7 @@ class TvShowDetailBloc extends Bloc<TvShowDetailEvent, TvShowDetailState> {
         in _tvShow!.seasons.map((season) => season.seasonNumber)) {
           if (_episodesMap[seasonNumber]?.isNotEmpty == true) continue;
 
+          _isExpandedMap[seasonNumber] = false;
           final episodesResult =
           await getTvShowEpisodes.execute(event.id, seasonNumber);
           episodesResult.fold(
@@ -75,7 +58,7 @@ class TvShowDetailBloc extends Bloc<TvShowDetailEvent, TvShowDetailState> {
           );
         }
         if(_episodesMap.isNotEmpty){
-          emit(EpisodesTvShowSuccessState(_episodesMap, _tvShow!));
+          emit(EpisodesTvShowSuccessState(_episodesMap, _tvShow!, _isExpandedMap));
         }else {
           emit(EpisodesTvShowErrorState(_episodeFailedMessage));
         }
@@ -83,25 +66,17 @@ class TvShowDetailBloc extends Bloc<TvShowDetailEvent, TvShowDetailState> {
         emit(EpisodesTvShowErrorState('Failed'));
       }
     });
+    on<UpdateToggleSeasonExpansion>((event, emit) async {
+      if (_tvShow != null) {
+        emit(TvShowEpisodesLoadingState());
+        _isExpandedMap[event.seasonNumber] = !_isExpandedMap[event.seasonNumber]!;
+        emit(EpisodesTvShowSuccessState(_episodesMap, _tvShow!, _isExpandedMap));
+        print("Value Toogle ${_isExpandedMap[event.seasonNumber]} ${_isExpandedMap}");
+      }else {
+        print("TvShow Null");
+      }
+    });
 
-  }
-
-  Map<int, bool> isExpandedMap = {};
-
-  void initializeIsExpandedMap() {
-    if (_tvShow != null) {
-      isExpandedMap = Map.fromIterable(
-        _tvShow!.seasons,
-        key: (season) => season.seasonNumber,
-        value: (_) => false,
-      );
-    }
-  }
-
-  void toggleSeasonExpansion(int seasonNumber) {
-    if (_tvShow != null) {
-      isExpandedMap[seasonNumber] = !isExpandedMap[seasonNumber]!;
-    }
   }
 
 

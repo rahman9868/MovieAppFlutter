@@ -42,10 +42,18 @@ class _TvShowDetailPageState extends State<TvShowDetailPage>
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     Future.microtask(() {
-
       context.read<TvShowDetailBloc>().add(FetchTvShowDetailEvent(widget.id));
-      context.read<TvShowRecommendationListBloc>().add(FetchTvShowRecommendationsEvent(widget.id));
-      context.read<WatchlistTvShowsBloc>().add(WatchlistTvShowsStatus(widget.id));
+      context.read<TvShowRecommendationListBloc>().add(
+          FetchTvShowRecommendationsEvent(widget.id));
+      context.read<WatchlistTvShowsBloc>().add(
+          WatchlistTvShowsStatus(widget.id));
+
+      _tabController.addListener(() {
+        if (_tabController.index == 1) {
+          context.read<TvShowDetailBloc>().add(
+              FetchTvShowEpisodesEvent(widget.id));
+        }
+      });
     });
   }
 

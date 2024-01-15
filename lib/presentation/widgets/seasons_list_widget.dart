@@ -1,3 +1,4 @@
+import 'package:ditonton/presentation/bloc/tv_show/detail/tv_show_detail_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -28,17 +29,15 @@ class _SeasonsListState extends State<SeasonsList> {
           return Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state is TvShowDetailLoadedState) {
+        } else if (state is EpisodesTvShowSuccessState) {
           final episodesMap = state.episodeMap;
-          final tvShowDetail = state.tvShow;
+          final tvShowDetail = state.tvShowDetail;
+          final isExpandedMap = state.isExpandedMap;
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: List.generate(tvShowDetail.seasons.length, (index) {
                 final season = tvShowDetail.seasons[index];
-                /*if (provider.isExpandedMap.isEmpty) {
-                  provider.initializeIsExpandedMap();
-                }*/
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -49,19 +48,24 @@ class _SeasonsListState extends State<SeasonsList> {
                           Text(
                             'Season ${season.seasonNumber}',
                           ),
-                          IconButton(
-                            icon: Icon(
-                              //provider.isExpandedMap[season.seasonNumber] == true
-                              true == true
-                                  ? Icons.keyboard_arrow_up
-                                  : Icons.keyboard_arrow_down,
-                            ),
-                            onPressed: () {},
-                          ),
+                          if (isExpandedMap[season.seasonNumber] == true)
+                            IconButton(
+                              icon: Icon(
+                                  Icons.keyboard_arrow_up
+                              ),
+                              onPressed: () {},
+                            )
+                          else
+                            IconButton(
+                              icon: Icon(
+                                  Icons.keyboard_arrow_down
+                              ),
+                              onPressed: () {},
+                            )
                         ],
                       ),
-                      onTap: () {
-                        //provider.toggleSeasonExpansion(season.seasonNumber);
+                      onTap: () async {
+                        context.read<TvShowDetailBloc>().add(UpdateToggleSeasonExpansion(season.seasonNumber));
                       },
                     ),
                     Builder(
@@ -69,12 +73,12 @@ class _SeasonsListState extends State<SeasonsList> {
                         return Container();
                       },
                     ),
-                    //if (provider.isExpandedMap[season.seasonNumber] == true)
+                    if (isExpandedMap[season.seasonNumber] == true)
                       EpisodesList(
                           episodesMap[season.seasonNumber] ?? []
                       )
                     //else
-                      //Container(),
+                    //Container(),
                   ],
                 );
               }),
@@ -87,7 +91,7 @@ class _SeasonsListState extends State<SeasonsList> {
             ),
           );
         } else {
-          return Text('Failed');
+          return Text("Failed $state");
         }
       },
     );
