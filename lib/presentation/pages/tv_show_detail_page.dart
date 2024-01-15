@@ -174,11 +174,11 @@ class _DetailContentState extends State<DetailContent> {
                                   if (!isAddedWatchlist) {
                                     await context
                                         .read<WatchlistStatusTvShowCubit>()
-                                        .addWatchlistTV(widget.tvShow);
+                                        .addWatchlistTvShow(widget.tvShow);
                                   } else {
                                     await context
                                         .read<WatchlistStatusTvShowCubit>()
-                                        .removeFromWatchlistTV(widget.tvShow);
+                                        .removeFromWatchlistTvShow(widget.tvShow);
                                   }
 
                                   final message = context

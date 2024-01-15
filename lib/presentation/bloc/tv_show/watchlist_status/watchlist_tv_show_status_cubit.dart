@@ -25,7 +25,7 @@ class WatchlistStatusTvShowCubit extends Cubit<WatchlistStatusTvShowState> {
     emit(WatchlistStatusTvShowState(isAddedWatchlist: result, message: ''));
   }
 
-  Future<void> addWatchlistTV(TvShowDetail tvShowDetail) async {
+  Future<void> addWatchlistTvShow(TvShowDetail tvShowDetail) async {
     final result = await saveWatchlistTvShow.execute(tvShowDetail);
     final getStatus = await getWatchlistTvShowStatus.execute(tvShowDetail.id);
 
@@ -37,7 +37,7 @@ class WatchlistStatusTvShowCubit extends Cubit<WatchlistStatusTvShowState> {
     );
   }
 
-  Future<void> removeFromWatchlistTV(TvShowDetail tvShowDetail) async {
+  Future<void> removeFromWatchlistTvShow(TvShowDetail tvShowDetail) async {
     final result = await removeWatchlistTvShow.execute(tvShowDetail);
     final getStatus = await getWatchlistTvShowStatus.execute(tvShowDetail.id);
 

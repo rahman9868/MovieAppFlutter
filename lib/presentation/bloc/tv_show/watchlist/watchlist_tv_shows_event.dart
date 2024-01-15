@@ -1,10 +1,3 @@
-import 'package:equatable/equatable.dart';
-
-abstract class WatchlistTvShowsEvent extends Equatable {
-  const WatchlistTvShowsEvent();
-
-  @override
-  List<Object> get props => [];
-}
+abstract class WatchlistTvShowsEvent {}
 
 class FetchWatchlistTvShowsEvent extends WatchlistTvShowsEvent {}

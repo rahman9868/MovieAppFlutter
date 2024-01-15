@@ -7,7 +7,7 @@ import 'package:ditonton/presentation/bloc/movie/detail/movie_detail_event.dart'
 import 'package:ditonton/presentation/bloc/movie/recommendations/movie_recommendations_list_event.dart';
 import 'package:ditonton/presentation/bloc/movie/recommendations/movie_recommendations_list_state.dart';
 import 'package:ditonton/presentation/bloc/movie/recommendations/movies_recommendations_list_bloc.dart';
-import 'package:ditonton/presentation/bloc/movie/watchlist/watchlist_movie_status_cubit.dart';
+import 'package:ditonton/presentation/bloc/movie/watchlist_status/watchlist_movie_status_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';

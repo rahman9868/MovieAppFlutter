@@ -26,7 +26,4 @@ class WatchlistTvShowsErrorState extends WatchlistTvShowsState {
   final String message;
 
   WatchlistTvShowsErrorState(this.message);
-
-  @override
-  List<Object> get props => [message];
 }

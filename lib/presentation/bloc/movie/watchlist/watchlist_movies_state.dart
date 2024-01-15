@@ -26,7 +26,4 @@ class WatchlistMoviesErrorState extends WatchlistMoviesState {
   final String message;
 
   WatchlistMoviesErrorState(this.message);
-
-  @override
-  List<Object> get props => [message];
 }

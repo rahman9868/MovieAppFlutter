@@ -1,5 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
+import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/domain/usecases/get_tv_show_detail.dart';
 import 'package:ditonton/domain/usecases/get_tv_show_episodes.dart';
 import 'package:ditonton/presentation/bloc/tv_show/detail/tv_show_detail_bloc.dart';
@@ -14,37 +15,22 @@ import 'tv_show_detail_bloc_test.mocks.dart';
 
 @GenerateMocks([
   GetTvShowDetail,
-  GetTvShowEpisodes,
 ])
 void main() {
   late TvShowDetailBloc tvShowDetailBloc;
   late MockGetTvShowDetail mockGetTvShowDetail;
-  late MockGetTvShowEpisodes mockGetTvShowEpisodes;
 
   setUp(() {
     mockGetTvShowDetail = MockGetTvShowDetail();
-    mockGetTvShowEpisodes = MockGetTvShowEpisodes();
 
     tvShowDetailBloc = TvShowDetailBloc(
-      mockGetTvShowDetail,
-      mockGetTvShowEpisodes,
+      mockGetTvShowDetail
     );
   });
 
   group('TvShowDetailBloc', () {
     const tvShowId = 1;
     final tvShowDetail = testTvShowDetail;
-
-    final episodesMap = {
-      1: testEpisodesList,
-    };
-
-    const sNumber = 1;
-
-    final isExpandedMap = {
-      1: true,
-      2: false,
-    };
 
     blocTest<TvShowDetailBloc, TvShowDetailState>(
       'emits TvShowDetailLoadingState and TvShowDetailLoadedState',
@@ -60,29 +46,25 @@ void main() {
 
         return [
           TvShowDetailLoadingState(),
-          TvShowDetailLoadedState(tvShowDetail, episodesMap),
+          TvShowDetailLoadedState(tvShowDetail),
         ];
       },
     );
 
+    
     blocTest<TvShowDetailBloc, TvShowDetailState>(
-      'emits TvShowEpisodesLoadingState and EpisodesTvShowSuccessState',
+      'emits Loading and Error states when FetchTvShowDetailEvent fails',
       build: () {
-        when(mockGetTvShowEpisodes.execute(tvShowId, sNumber))
-            .thenAnswer((_) async => Right(episodesMap[sNumber]!));
+        when(mockGetTvShowDetail.execute(tvShowId))
+            .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
         return tvShowDetailBloc;
       },
-      act: (bloc) => bloc.add(FetchTvShowEpisodesEvent(tvShowDetail)),
-      expect: () {
-        when(mockGetTvShowEpisodes.execute(tvShowId, sNumber))
-            .thenAnswer((_) async => Right(episodesMap[sNumber]!));
-
-        return [
-          TvShowEpisodesLoadingState(),
-          EpisodesTvShowSuccessState(
-              episodesMap, testTvShowDetail, isExpandedMap),
-        ];
-      },
+      act: (bloc) => bloc.add(FetchTvShowDetailEvent(tvShowId)),
+      expect: () => [
+        TvShowDetailLoadingState(),
+        TvShowDetailErrorState('Server Failure'),
+      ],
+      verify: (bloc) => TvShowDetailLoadingState(),
     );
   });
 }

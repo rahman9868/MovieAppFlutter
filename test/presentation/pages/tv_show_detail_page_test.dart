@@ -93,7 +93,7 @@ void main() {
     testWidgets('page should display Detail when data is loaded',
         (WidgetTester tester) async {
       when(() => mockTvShowDetailBloc.state)
-          .thenReturn(TvShowDetailLoadedState(testTvShowDetail, {}));
+          .thenReturn(TvShowDetailLoadedState(testTvShowDetail));
       when(() => mockWatchlistStatusTvShowCubit.state).thenReturn(
           const WatchlistStatusTvShowState(
               isAddedWatchlist: false, message: ''));
@@ -135,7 +135,7 @@ void main() {
       final iconButton = find.byIcon(Icons.add);
 
       when(() => mockTvShowDetailBloc.state)
-          .thenReturn(TvShowDetailLoadedState(testTvShowDetail, {}));
+          .thenReturn(TvShowDetailLoadedState(testTvShowDetail));
       when(() => mockWatchlistStatusTvShowCubit.state).thenReturn(
           const WatchlistStatusTvShowState(
               isAddedWatchlist: false, message: ''));
@@ -156,7 +156,7 @@ void main() {
       final iconButton = find.byIcon(Icons.check);
 
       when(() => mockTvShowDetailBloc.state)
-          .thenReturn(TvShowDetailLoadedState(testTvShowDetail, {}));
+          .thenReturn(TvShowDetailLoadedState(testTvShowDetail));
       when(() => mockWatchlistStatusTvShowCubit.state).thenReturn(
           const WatchlistStatusTvShowState(
               isAddedWatchlist: true, message: ''));

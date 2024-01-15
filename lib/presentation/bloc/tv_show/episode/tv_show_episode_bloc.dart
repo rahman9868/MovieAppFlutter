@@ -48,7 +48,6 @@ class TvShowEpisodeBloc extends Bloc<TvShowEpisodeEvent, TvShowEpisodeState> {
       }
     });
     on<UpdateToggleSeasonExpansion>((event, emit) async {
-      emit(TvShowEpisodesLoadingState());
       _isExpandedMap[event.seasonNumber] = !_isExpandedMap[event.seasonNumber]!;
       emit(EpisodesTvShowSuccessState(
           _episodesMap, event.tvShowDetail, _isExpandedMap));
