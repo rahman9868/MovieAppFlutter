@@ -10,21 +10,3 @@ abstract class WatchlistTvShowsEvent extends Equatable {
 }
 
 class FetchWatchlistTvShowsEvent extends WatchlistTvShowsEvent {}
-
-class WatchlistTvShowsStatus extends WatchlistTvShowsEvent {
-  final int id;
-
-  WatchlistTvShowsStatus(this.id);
-}
-
-class WatchlistTvShowsAdd extends WatchlistTvShowsEvent {
-  final TvShowDetail tvShowDetail;
-
-  WatchlistTvShowsAdd(this.tvShowDetail);
-}
-
-class WatchlistTvShowsRemove extends WatchlistTvShowsEvent {
-  final TvShowDetail tvShowDetail;
-
-  WatchlistTvShowsRemove(this.tvShowDetail);
-}

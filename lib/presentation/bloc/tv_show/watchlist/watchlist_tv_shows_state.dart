@@ -31,23 +31,3 @@ class WatchlistTvShowsErrorState extends WatchlistTvShowsState {
   @override
   List<Object> get props => [message];
 }
-
-class TvShowIsWatchList extends WatchlistTvShowsState {
-  final bool isWatchlist;
-
-  TvShowIsWatchList(this.isWatchlist);
-
-  @override
-  List<Object> get props => [isWatchlist];
-}
-
-class WatchListTvShowResponse extends WatchlistTvShowsState {
-  final bool isWatchlist;
-  final bool isUpdate;
-  final String message;
-
-  WatchListTvShowResponse(this.isWatchlist, this.isUpdate,this.message);
-
-  @override
-  List<Object> get props => [message];
-}

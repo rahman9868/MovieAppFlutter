@@ -9,15 +9,9 @@ import 'watchlist_tv_shows_state.dart';
 
 class WatchlistTvShowsBloc extends Bloc<WatchlistTvShowsEvent, WatchlistTvShowsState> {
   final GetWatchlistTvShows getWatchlistTvShows;
-  final GetWatchListStatusTvShow getWatchListStatusTvShow;
-  final SaveWatchlistTvShow saveWatchlistTvShow;
-  final RemoveWatchlistTvShow removeWatchlistTvShow;
 
   WatchlistTvShowsBloc(
-      this.getWatchlistTvShows,
-      this.getWatchListStatusTvShow,
-      this.saveWatchlistTvShow,
-      this.removeWatchlistTvShow
+      this.getWatchlistTvShows
       ) : super(WatchlistTvShowsInitialState()) {
 
     on<FetchWatchlistTvShowsEvent>((event, emit) async {
@@ -35,39 +29,6 @@ class WatchlistTvShowsBloc extends Bloc<WatchlistTvShowsEvent, WatchlistTvShowsS
       );
     }
     );
-
-    on<WatchlistTvShowsStatus>((event, emit) async {
-
-      final results = await getWatchListStatusTvShow.execute(event.id);
-      const isUpdate = true;
-      const message = '';
-      emit(WatchListTvShowResponse(results, isUpdate,message));
-
-    });
-
-    on<WatchlistTvShowsAdd>((event, emit) async {
-      final tvShow = event.tvShowDetail;
-      const isWatchlist = true;
-      const isUpdate = true;
-      final result = await saveWatchlistTvShow.execute(tvShow);
-      result.fold((failure) {
-        emit(WatchlistTvShowsErrorState(failure.message));
-      }, (success) {
-        emit(WatchListTvShowResponse(isWatchlist, isUpdate,success));
-      });
-    });
-
-    on<WatchlistTvShowsRemove>((event, emit) async {
-      final tvShow = event.tvShowDetail;
-      const isWatchlist = false;
-      const isUpdate = true;
-      final result = await removeWatchlistTvShow.execute(tvShow);
-      result.fold((failure) {
-        emit(WatchlistTvShowsErrorState(failure.message));
-      }, (success) {
-        emit(WatchListTvShowResponse(isWatchlist, isUpdate,success));
-      });
-    });
 
   }
 }

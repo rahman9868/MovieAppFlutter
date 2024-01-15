@@ -20,7 +20,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../dummy_data/dummy_objects.dart';
-import 'movie_detail_page_test.mocks.dart';
 
 class MockMovieDetailBloc
     extends MockBloc<MovieDetailEvent, MovieDetailState>

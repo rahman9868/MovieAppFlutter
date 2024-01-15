@@ -9,21 +9,3 @@ abstract class WatchlistMoviesEvent extends Equatable {
 }
 
 class FetchWatchlistMoviesEvent extends WatchlistMoviesEvent {}
-
-class WatchlistMoviesStatus extends WatchlistMoviesEvent {
-  final int id;
-
-  WatchlistMoviesStatus(this.id);
-}
-
-class WatchlistMoviesAdd extends WatchlistMoviesEvent {
-  final MovieDetail movieDetail;
-
-  WatchlistMoviesAdd(this.movieDetail);
-}
-
-class WatchlistMoviesRemove extends WatchlistMoviesEvent {
-  final MovieDetail movieDetail;
-
-  WatchlistMoviesRemove(this.movieDetail);
-}

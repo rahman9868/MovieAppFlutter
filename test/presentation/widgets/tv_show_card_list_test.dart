@@ -7,7 +7,6 @@ import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 
 import '../../dummy_data/dummy_objects.dart';
-import '../pages/tv_show_detail_page_test.mocks.dart';
 
 void main() {
   testWidgets('TvShowCard widget is rendered', (WidgetTester tester) async {

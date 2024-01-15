@@ -18,7 +18,6 @@ import 'package:mocktail/mocktail.dart';
 import 'package:provider/provider.dart';
 
 import '../../dummy_data/dummy_objects.dart';
-import 'tv_show_detail_page_test.mocks.dart';
 
 class MockTvShowDetailBloc extends MockBloc<TvShowDetailEvent, TvShowDetailState>
     implements TvShowDetailBloc {}

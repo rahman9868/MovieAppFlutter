@@ -17,33 +17,20 @@ import '../../dummy_data/dummy_objects.dart';
 import 'watchlist_movies_bloc_test.mocks.dart';
 
 @GenerateMocks([
-  GetWatchlistMovies,
-  GetWatchListStatus,
-  SaveWatchlist,
-  RemoveWatchlist,
+  GetWatchlistMovies
 ])
 void main() {
   late MockGetWatchlistMovies mockGetWatchlistMovies;
-  late MockGetWatchListStatus mockGetWatchListStatus;
-  late MockSaveWatchlist mockSaveWatchlist;
-  late MockRemoveWatchlist mockRemoveWatchlist;
   late WatchlistMoviesBloc watchlistMoviesBloc;
 
   setUp(() {
     mockGetWatchlistMovies = MockGetWatchlistMovies();
-    mockGetWatchListStatus = MockGetWatchListStatus();
-    mockSaveWatchlist = MockSaveWatchlist();
-    mockRemoveWatchlist = MockRemoveWatchlist();
     watchlistMoviesBloc = WatchlistMoviesBloc(
-        mockGetWatchlistMovies,
-        mockGetWatchListStatus,
-        mockSaveWatchlist,
-        mockRemoveWatchlist
+        mockGetWatchlistMovies
     );
   });
 
   group('WatchlistMoviesBloc', () {
-    const movieId = 1;
     final movie = Movie(
       adult: false,
       backdropPath: 'backdropPath',
@@ -70,66 +57,6 @@ void main() {
       expect: () => [
         WatchlistMoviesLoadingState(),
         WatchlistMoviesLoadedState([movie]),
-      ],
-    );
-
-    blocTest<WatchlistMoviesBloc, WatchlistMoviesState>(
-      'emits MovieIsWatchList state when WatchlistMoviesStatus is added',
-      build: () {
-        when(mockGetWatchListStatus.execute(movieId)).thenAnswer((_) async => true);
-        return watchlistMoviesBloc;
-      },
-      act: (bloc) => bloc.add(WatchlistMoviesStatus(movie.id)),
-      expect: () => [
-        WatchListMovieResponse(true, false, ''),
-      ],
-    );
-
-    blocTest<WatchlistMoviesBloc, WatchlistMoviesState>(
-      'emits WatchlistMoviesErrorState state when WatchlistMoviesAdd fails',
-      build: () {
-        when(mockSaveWatchlist.execute(testMovieDetail)).thenAnswer((_) async => Left(ServerFailure('Error')));
-        return watchlistMoviesBloc;
-      },
-      act: (bloc) => bloc.add(WatchlistMoviesAdd(testMovieDetail)),
-      expect: () => [
-        WatchlistMoviesErrorState('Error'),
-      ],
-    );
-
-    blocTest<WatchlistMoviesBloc, WatchlistMoviesState>(
-      'emits WatchListMovieResponse state when WatchlistMoviesAdd is successful',
-      build: () {
-        when(mockSaveWatchlist.execute(testMovieDetail)).thenAnswer((_) async => Right('Success'));
-        return watchlistMoviesBloc;
-      },
-      act: (bloc) => bloc.add(WatchlistMoviesAdd(testMovieDetail)),
-      expect: () => [
-        WatchListMovieResponse(true, true, 'Success'),
-      ],
-    );
-
-    blocTest<WatchlistMoviesBloc, WatchlistMoviesState>(
-      'emits WatchlistMoviesErrorState state when WatchlistMoviesRemove fails',
-      build: () {
-        when(mockRemoveWatchlist.execute(testMovieDetail)).thenAnswer((_) async => Left(ServerFailure('Error')));
-        return watchlistMoviesBloc;
-      },
-      act: (bloc) => bloc.add(WatchlistMoviesRemove(testMovieDetail)),
-      expect: () => [
-        WatchlistMoviesErrorState('Error'),
-      ],
-    );
-
-    blocTest<WatchlistMoviesBloc, WatchlistMoviesState>(
-      'emits WatchListMovieResponse state when WatchlistMoviesRemove is successful',
-      build: () {
-        when(mockRemoveWatchlist.execute(testMovieDetail)).thenAnswer((_) async => Right('Success'));
-        return watchlistMoviesBloc;
-      },
-      act: (bloc) => bloc.add(WatchlistMoviesRemove(testMovieDetail)),
-      expect: () => [
-        WatchListMovieResponse(false, true, 'Success'),
       ],
     );
   });

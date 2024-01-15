@@ -19,33 +19,20 @@ import 'watchlist_tvshows_bloc_test.mocks.dart';
 
 
 @GenerateMocks([
-  GetWatchlistTvShows,
-  GetWatchListStatusTvShow,
-  SaveWatchlistTvShow,
-  RemoveWatchlistTvShow,
+  GetWatchlistTvShows
 ])
 void main() {
   late MockGetWatchlistTvShows mockGetWatchlistTvShows;
-  late MockGetWatchListStatusTvShow mockGetWatchListStatusTvShow;
-  late MockSaveWatchlistTvShow mockSaveWatchlistTvShow;
-  late MockRemoveWatchlistTvShow mockRemoveWatchlistTvShow;
   late WatchlistTvShowsBloc watchlistTvShowsBloc;
 
   setUp(() {
     mockGetWatchlistTvShows = MockGetWatchlistTvShows();
-    mockGetWatchListStatusTvShow = MockGetWatchListStatusTvShow();
-    mockSaveWatchlistTvShow = MockSaveWatchlistTvShow();
-    mockRemoveWatchlistTvShow = MockRemoveWatchlistTvShow();
     watchlistTvShowsBloc = WatchlistTvShowsBloc(
-        mockGetWatchlistTvShows,
-        mockGetWatchListStatusTvShow,
-        mockSaveWatchlistTvShow,
-        mockRemoveWatchlistTvShow
+        mockGetWatchlistTvShows
     );
   });
 
   group('WatchlistTvShowsBloc', () {
-    const tvShowId = 1;
     final tvShow = TvShow(
       backdropPath: "/mAJ84W6I8I272Da87qplS2Dp9ST.jpg",
       firstAirDate: "2023-01-23",
@@ -76,64 +63,5 @@ void main() {
       ],
     );
 
-    blocTest<WatchlistTvShowsBloc, WatchlistTvShowsState>(
-      'emits TvShowIsWatchList state when WatchlistTvShowsStatus is added',
-      build: () {
-        when(mockGetWatchListStatusTvShow.execute(tvShowId)).thenAnswer((_) async => true);
-        return watchlistTvShowsBloc;
-      },
-      act: (bloc) => bloc.add(WatchlistTvShowsStatus(tvShow.id)),
-      expect: () => [
-        WatchListTvShowResponse(true, false, ''),
-      ],
-    );
-
-    blocTest<WatchlistTvShowsBloc, WatchlistTvShowsState>(
-      'emits WatchlistTvShowsErrorState state when WatchlistTvShowsAdd fails',
-      build: () {
-        when(mockSaveWatchlistTvShow.execute(testTvShowDetail)).thenAnswer((_) async => Left(ServerFailure('Error')));
-        return watchlistTvShowsBloc;
-      },
-      act: (bloc) => bloc.add(WatchlistTvShowsAdd(testTvShowDetail)),
-      expect: () => [
-        WatchlistTvShowsErrorState('Error'),
-      ],
-    );
-
-    blocTest<WatchlistTvShowsBloc, WatchlistTvShowsState>(
-      'emits WatchListTvShowResponse state when WatchlistTvShowsAdd is successful',
-      build: () {
-        when(mockSaveWatchlistTvShow.execute(testTvShowDetail)).thenAnswer((_) async => Right('Success'));
-        return watchlistTvShowsBloc;
-      },
-      act: (bloc) => bloc.add(WatchlistTvShowsAdd(testTvShowDetail)),
-      expect: () => [
-        WatchListTvShowResponse(true, true, 'Success'),
-      ],
-    );
-
-    blocTest<WatchlistTvShowsBloc, WatchlistTvShowsState>(
-      'emits WatchlistTvShowsErrorState state when WatchlistTvShowsRemove fails',
-      build: () {
-        when(mockRemoveWatchlistTvShow.execute(testTvShowDetail)).thenAnswer((_) async => Left(ServerFailure('Error')));
-        return watchlistTvShowsBloc;
-      },
-      act: (bloc) => bloc.add(WatchlistTvShowsRemove(testTvShowDetail)),
-      expect: () => [
-        WatchlistTvShowsErrorState('Error'),
-      ],
-    );
-
-    blocTest<WatchlistTvShowsBloc, WatchlistTvShowsState>(
-      'emits WatchListTvShowResponse state when WatchlistTvShowsRemove is successful',
-      build: () {
-        when(mockRemoveWatchlistTvShow.execute(testTvShowDetail)).thenAnswer((_) async => Right('Success'));
-        return watchlistTvShowsBloc;
-      },
-      act: (bloc) => bloc.add(WatchlistTvShowsRemove(testTvShowDetail)),
-      expect: () => [
-        WatchListTvShowResponse(false, true, 'Success'),
-      ],
-    );
   });
 }

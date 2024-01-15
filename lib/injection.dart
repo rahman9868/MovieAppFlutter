@@ -168,10 +168,7 @@ void init() {
   );
   locator.registerFactory(
         () => WatchlistMoviesBloc(
-          locator(),
-          locator(),
-          locator(),
-          locator(),
+          locator()
     ),
   );
   locator.registerFactory(
@@ -214,9 +211,6 @@ void init() {
   locator.registerFactory(
         () => WatchlistTvShowsBloc(
       locator(),
-          locator(),
-          locator(),
-          locator(),
     ),
   );
   locator.registerFactory(
