@@ -95,10 +95,8 @@ class _SeasonsListState extends State<SeasonsList> {
             ),
           );
         } else if (state is EpisodesTvShowErrorState) {
-          return Expanded(
-            child: Center(
-              child: Text(state.message),
-            ),
+          return Center(
+              child: Text(state.message)
           );
         } else {
           return Text("Failed $state");

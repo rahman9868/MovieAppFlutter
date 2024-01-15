@@ -10,21 +10,13 @@ import '../../dummy_data/dummy_objects.dart';
 
 void main() {
   testWidgets('TvShowCard widget is rendered', (WidgetTester tester) async {
-    final MockTvShowDetailNotifier mockNotifier = MockTvShowDetailNotifier();
-
-    when(mockNotifier.tvShowState).thenReturn(RequestState.Loaded);
-    when(mockNotifier.episodeState).thenReturn(RequestState.Loaded);
-    when(mockNotifier.tvShow).thenReturn(testTvShowDetail);
 
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          body: ChangeNotifierProvider<TvShowDetailNotifier>(
-            create: (_) => mockNotifier,
-            child: TvShowCard(testTvShow),
+          body: TvShowCard(testTvShow),
           ),
         ),
-      ),
     );
 
     expect(find.byType(TvShowCard), findsOneWidget);

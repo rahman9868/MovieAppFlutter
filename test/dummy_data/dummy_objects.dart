@@ -167,6 +167,10 @@ final testEpisodesMap = {
   ]
 };
 
+final testIsExpandedMap = {
+  1 : true
+};
+
 final testEpisodesList = [
   Episode(
       airDate: "2023-01-10",
