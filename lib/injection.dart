@@ -30,11 +30,13 @@ import 'package:ditonton/presentation/bloc/movie/search/search_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/watchlist/watchlist_movie_status_cubit.dart';
 import 'package:ditonton/presentation/bloc/movie/watchlist/watchlist_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/detail/tv_show_detail_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_show/episode/tv_show_episode_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/list/now_playing_tv_shows_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/list/popular_tv_shows_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/list/top_rated_tv_shows_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/recommendations/tv_show_recommendations_list_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/search/search_tv_show_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_show/watchlist_status/watchlist_tv_show_status_cubit.dart';
 import 'package:ditonton/presentation/provider/movie_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
 import 'package:ditonton/presentation/provider/movie_search_notifier.dart';
@@ -142,13 +144,6 @@ void init() {
       getWatchlistTvShows: locator(),
     ),
   );
-  locator.registerFactory(
-        () => WatchlistStatusMovieCubit(
-      getWatchListStatus: locator(),
-      removeWatchlist: locator(),
-      saveWatchlist: locator(),
-    ),
-  );
 
   //bloc
   locator.registerFactory(
@@ -177,6 +172,13 @@ void init() {
           locator(),
           locator(),
           locator(),
+    ),
+  );
+  locator.registerFactory(
+        () => WatchlistStatusMovieCubit(
+      getWatchListStatus: locator(),
+      removeWatchlist: locator(),
+      saveWatchlist: locator(),
     ),
   );
   locator.registerFactory(
@@ -224,8 +226,20 @@ void init() {
     ),
   );
   locator.registerFactory(
+        () => TvShowEpisodeBloc(
+        locator()
+    ),
+  );
+  locator.registerFactory(
         () => TvShowRecommendationListBloc(
         locator()
+    ),
+  );
+  locator.registerFactory(
+        () => WatchlistStatusTvShowCubit(
+      getWatchlistTvShowStatus: locator(),
+      saveWatchlistTvShow: locator(),
+      removeWatchlistTvShow: locator(),
     ),
   );
 

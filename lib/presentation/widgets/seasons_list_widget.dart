@@ -1,12 +1,12 @@
 import 'package:ditonton/domain/entities/tv_show/tv_show_detail.dart';
-import 'package:ditonton/presentation/bloc/tv_show/detail/tv_show_detail_event.dart';
+import 'package:ditonton/presentation/bloc/tv_show/episode/tv_show_episode_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_show/episode/tv_show_episode_event.dart';
+import 'package:ditonton/presentation/bloc/tv_show/episode/tv_show_episode_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/state_enum.dart';
-import '../bloc/tv_show/detail/tv_show_detail_bloc.dart';
-import '../bloc/tv_show/detail/tv_show_detail_state.dart';
 import '../provider/tv_show_detail_notifier.dart';
 import 'episodes_list_widget.dart';
 
@@ -24,12 +24,17 @@ class _SeasonsListState extends State<SeasonsList> {
   @override
   void initState() {
     super.initState();
+    Future.microtask(() {
+          context.read<TvShowEpisodeBloc>().add(FetchTvShowEpisodesEvent(widget.tvShowDetail));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TvShowDetailBloc, TvShowDetailState>(
+    print("Rebuild Episode List");
+    return BlocBuilder<TvShowEpisodeBloc, TvShowEpisodeState>(
       builder: (context, state) {
+        print("State Epiosde $state");
         if (state is TvShowEpisodesLoadingState) {
           return Center(
             child: CircularProgressIndicator(),
@@ -70,7 +75,7 @@ class _SeasonsListState extends State<SeasonsList> {
                         ],
                       ),
                       onTap: () async {
-                        context.read<TvShowDetailBloc>().add(UpdateToggleSeasonExpansion(widget.tvShowDetail, season.seasonNumber));
+                        context.read<TvShowEpisodeBloc>().add(UpdateToggleSeasonExpansion(widget.tvShowDetail, season.seasonNumber));
                       },
                     ),
                     Builder(
@@ -89,7 +94,7 @@ class _SeasonsListState extends State<SeasonsList> {
               }),
             ),
           );
-        } else if (state is TvShowDetailErrorState) {
+        } else if (state is EpisodesTvShowErrorState) {
           return Expanded(
             child: Center(
               child: Text(state.message),

@@ -10,11 +10,13 @@ import 'package:ditonton/presentation/bloc/movie/search/search_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/watchlist/watchlist_movie_status_cubit.dart';
 import 'package:ditonton/presentation/bloc/movie/watchlist/watchlist_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/detail/tv_show_detail_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_show/episode/tv_show_episode_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/list/now_playing_tv_shows_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/list/popular_tv_shows_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/list/top_rated_tv_shows_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/recommendations/tv_show_recommendations_list_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_show/search/search_tv_show_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_show/watchlist_status/watchlist_tv_show_status_cubit.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/home_movie_page.dart';
 import 'package:ditonton/presentation/pages/home_tv_show_page.dart';
@@ -93,10 +95,16 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<WatchlistTvShowsBloc>(),
         ),
         BlocProvider(
+          create: (_) => di.locator<WatchlistStatusTvShowCubit>(),
+        ),
+        BlocProvider(
           create: (_) => di.locator<TvShowRecommendationListBloc>(),
         ),
         BlocProvider(
           create: (_) => di.locator<TvShowDetailBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TvShowEpisodeBloc>(),
         ),
       ],
       child: MaterialApp(
