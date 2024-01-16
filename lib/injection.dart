@@ -39,6 +39,7 @@ import 'package:ditonton/presentation/bloc/tv_show/watchlist_status/watchlist_tv
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
+import 'common/http_ssl_pining.dart';
 import 'domain/usecases/get_now_playing_tv_shows.dart';
 import 'domain/usecases/get_popular_tv_shows.dart';
 import 'domain/usecases/get_top_rated_tv_shows.dart';
@@ -183,5 +184,5 @@ void init() {
   locator.registerLazySingleton<DatabaseHelper>(() => DatabaseHelper());
 
   // external
-  locator.registerLazySingleton(() => http.Client());
+  locator.registerLazySingleton(() => CustomHttpClient.client);
 }

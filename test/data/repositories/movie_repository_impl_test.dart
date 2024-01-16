@@ -410,4 +410,36 @@ void main() {
       expect(resultList, [testWatchlistMovie]);
     });
   });
+
+  group("Certificate Invalid", (() {
+    test("top rated certificate invalid", () async {
+      // arrange
+      when(mockRemoteDataSource.getTopRatedMovies())
+          .thenThrow(const TlsException());
+      // act
+      final result = await repository.getTopRatedMovies();
+      // assert
+      expect(result, Left(SSLFailure('CERTIFICATE_VERIFY_FAILED')));
+    });
+
+    test("popular certificate invalid", () async {
+      // arrange
+      when(mockRemoteDataSource.getPopularMovies())
+          .thenThrow(const TlsException());
+      // act
+      final result = await repository.getPopularMovies();
+      // assert
+      expect(result, Left(SSLFailure('CERTIFICATE_VERIFY_FAILED')));
+    });
+
+    test("airing today certificate invalid", () async {
+      // arrange
+      when(mockRemoteDataSource.getNowPlayingMovies())
+          .thenThrow(const TlsException());
+      // act
+      final result = await repository.getNowPlayingMovies();
+      // assert
+      expect(result, Left(SSLFailure('CERTIFICATE_VERIFY_FAILED')));
+    });
+  }));
 }

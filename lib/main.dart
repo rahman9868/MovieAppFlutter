@@ -1,4 +1,5 @@
 import 'package:ditonton/common/constants.dart';
+import 'package:ditonton/common/http_ssl_pining.dart';
 import 'package:ditonton/common/utils.dart';
 import 'package:ditonton/injection.dart' as di;
 import 'package:ditonton/presentation/bloc/movie/detail/movie_detail_bloc.dart';
@@ -37,7 +38,9 @@ import 'package:provider/provider.dart';
 
 import 'presentation/bloc/tv_show/watchlist/watchlist_tv_shows_bloc.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CustomHttpClient.init();
   di.init();
   runApp(MyApp());
 }
