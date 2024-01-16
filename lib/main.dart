@@ -1,7 +1,10 @@
 import 'package:core/common/constants.dart';
 import 'package:core/common/http_ssl_pining.dart';
 import 'package:core/common/utils.dart';
+import 'package:ditonton/firebase_options.dart';
 import 'package:ditonton/injection.dart' as di;
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +16,9 @@ import 'package:about/about.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await CustomHttpClient.init();
   di.init();
   runApp(MyApp());
@@ -112,6 +118,7 @@ class MyApp extends StatelessWidget {
                 settings: settings,
               );
             case WatchlistTvShowsPage.ROUTE_NAME:
+              FirebaseCrashlytics.instance.crash();
               return MaterialPageRoute(builder: (_) => WatchlistTvShowsPage());
             case SearchPageTvShow.ROUTE_NAME:
               return CupertinoPageRoute(builder: (_) => SearchPageTvShow());

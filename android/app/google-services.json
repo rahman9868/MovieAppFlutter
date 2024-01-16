@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "654709968501",
+    "project_id": "moviesapp-7c73a",
+    "storage_bucket": "moviesapp-7c73a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654709968501:android:3374b9455b101fecc0f23c",
+        "android_client_info": {
+          "package_name": "com.dicoding.ditonton"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApVwHOGcGO_biMKi64Hy3J3axRh90mG6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
