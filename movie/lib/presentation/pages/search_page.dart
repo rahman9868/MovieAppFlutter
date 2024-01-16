@@ -39,9 +39,7 @@ class SearchPage extends StatelessWidget {
             BlocBuilder<SearchBloc, SearchState>(
               builder: (context, state) {
                 if (state is SearchLoading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return const CircularProgressIndicator();
                 } else if (state is SearchHasData) {
                   final result = state.result;
                   return Expanded(
@@ -56,9 +54,7 @@ class SearchPage extends StatelessWidget {
                   );
                 } else if (state is SearchError) {
                   return Expanded(
-                    child: Center(
-                      child: Text(state.message),
-                    ),
+                    child:Text(state.message),
                   );
                 } else {
                   return Expanded(

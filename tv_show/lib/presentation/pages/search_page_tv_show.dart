@@ -40,9 +40,7 @@ class SearchPageTvShow extends StatelessWidget {
             BlocBuilder<SearchTvShowBloc, SearchTvShowState>(
               builder: (context, state) {
                 if (state is SearchLoading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return CircularProgressIndicator();
                 } else if (state is SearchHasData) {
                   final result = state.result;
                   return Expanded(
@@ -56,10 +54,8 @@ class SearchPageTvShow extends StatelessWidget {
                     ),
                   );
                 } else if (state is SearchError) {
-                  return Expanded(
-                    child: Center(
-                      child: Text(state.message),
-                    ),
+                  return Center(
+                      child: Text(state.message)
                   );
                 } else {
                   return Expanded(
