@@ -118,7 +118,6 @@ class MyApp extends StatelessWidget {
                 settings: settings,
               );
             case WatchlistTvShowsPage.ROUTE_NAME:
-              FirebaseCrashlytics.instance.crash();
               return MaterialPageRoute(builder: (_) => WatchlistTvShowsPage());
             case SearchPageTvShow.ROUTE_NAME:
               return CupertinoPageRoute(builder: (_) => SearchPageTvShow());
