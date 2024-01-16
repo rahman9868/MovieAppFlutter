@@ -58,10 +58,8 @@ class _WatchlistTvShowsPageState extends State<WatchlistTvShowsPage>
                 itemCount: tvShows.length,
               );
             } else if (state is WatchlistTvShowsErrorState) {
-              return Expanded(
-                child: Center(
+              return Center(
                   child: Text(state.message),
-                ),
               );
             } else {
               return Text('Failed');

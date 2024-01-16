@@ -56,10 +56,8 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
                 itemCount: movies.length,
               );
             } else if (state is WatchlistMoviesErrorState) {
-              return Expanded(
-                child: Center(
+              return Center(
                   child: Text(state.message),
-                ),
               );
             } else {
               return Text('Failed');
